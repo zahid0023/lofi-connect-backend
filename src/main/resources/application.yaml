@@ -1,0 +1,39 @@
+gohighlevel:
+  client-id: 689b932c1e999f049e317c33-me8xkopq
+  client-secret: 85aa301a-2002-455f-a477-5cffe54dedd7
+  redirect-uri: http://localhost:8080/api/v1/authorization/redirect
+  base-url: https://marketplace.gohighlevel.com
+  code-url: oauth/chooselocation
+  token-url: https://services.leadconnectorhq.com/oauth/token
+  scopes:
+    - contacts.readonly
+    - contacts.write
+    - forms.readonly
+    - forms.write
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/lofi_connect_db
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update   # use validate / update / create / create-drop as per need
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+  jackson:
+    time-zone: UTC
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+
+
