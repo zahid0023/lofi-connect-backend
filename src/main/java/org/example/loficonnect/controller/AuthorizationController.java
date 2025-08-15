@@ -29,10 +29,8 @@ public class AuthorizationController {
 
     @GetMapping("/redirect")
     public ResponseEntity<?> handleRedirect(@RequestParam("code") String code) {
-        log.info("Redirecting user to redirect URL with code: {}", code);
         Map<String, Object> apiResponse = authorizationService.exchangeCodeForToken(code);
-        log.info("Response: {}", apiResponse);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(authorizationService.generateAndSaveAppKey(apiResponse));
     }
 
 }

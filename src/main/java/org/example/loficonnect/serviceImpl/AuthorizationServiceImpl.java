@@ -2,12 +2,21 @@ package org.example.loficonnect.serviceImpl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.config.GoHighLevelProperties;
+import org.example.loficonnect.dto.response.AppKeyResponse;
 import org.example.loficonnect.feignclients.GoHighLevelOAuth2Client;
+import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
+import org.example.loficonnect.model.entity.LofiConnectAppKeyEntity;
+import org.example.loficonnect.repository.GoHighLevelTokenRepository;
+import org.example.loficonnect.repository.LofiConnectAppKeyRepository;
 import org.example.loficonnect.service.AuthorizationService;
+import org.example.loficonnect.service.SecretKeyService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -15,10 +24,20 @@ import java.util.Map;
 public class AuthorizationServiceImpl implements AuthorizationService {
     private final GoHighLevelProperties props;
     private final GoHighLevelOAuth2Client oAuth2Client;
+    private final GoHighLevelTokenRepository goHighLevelTokenRepository;
+    private final LofiConnectAppKeyRepository lofiConnectAppKeyRepository;
+    private final SecretKeyService secretKeyService;
 
-    public AuthorizationServiceImpl(GoHighLevelProperties props, GoHighLevelOAuth2Client oauth2Client) {
+    public AuthorizationServiceImpl(GoHighLevelProperties props,
+                                    GoHighLevelOAuth2Client oauth2Client,
+                                    GoHighLevelTokenRepository goHighLevelTokenRepository,
+                                    LofiConnectAppKeyRepository lofiConnectAppKeyRepository,
+                                    SecretKeyService secretKeyService) {
         this.props = props;
         this.oAuth2Client = oauth2Client;
+        this.goHighLevelTokenRepository = goHighLevelTokenRepository;
+        this.lofiConnectAppKeyRepository = lofiConnectAppKeyRepository;
+        this.secretKeyService = secretKeyService;
     }
 
     @Override
@@ -47,5 +66,31 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         formData.add("redirect_uri", props.getRedirectUri());
 
         return oAuth2Client.getAccessToken(formData);
+    }
+
+    @Override
+    @Transactional
+    public AppKeyResponse generateAndSaveAppKey(Map<String, Object> parameters) {
+        String appKey = secretKeyService.generateSecretKey();
+        LofiConnectAppKeyEntity lofiConnectAppKeyEntity = saveAppKey(appKey, parameters.get("locationId").toString());
+        saveGoHighLevelTokens(lofiConnectAppKeyEntity, parameters);
+        return new AppKeyResponse(appKey);
+    }
+
+    private LofiConnectAppKeyEntity saveAppKey(String appKey, String locationId) {
+        // Find and deactivate all active app keys for this location
+        List<LofiConnectAppKeyEntity> appKeyEntities = lofiConnectAppKeyRepository.findAllActiveForLocationId(locationId).stream()
+                .peek(appKeyEntity -> appKeyEntity.setIsActive(false))
+                .toList();
+
+        lofiConnectAppKeyRepository.saveAll(appKeyEntities);
+
+        LofiConnectAppKeyEntity lofiConnectAppKeyEntity = LofiConnectAppKeyEntity.from(appKey);
+        return lofiConnectAppKeyRepository.save(lofiConnectAppKeyEntity);
+    }
+
+    private void saveGoHighLevelTokens(LofiConnectAppKeyEntity lofiConnectAppKeyEntity, Map<String, Object> parameters) {
+        GoHighLevelTokenEntity goHighLevelTokenEntity = GoHighLevelTokenEntity.from(lofiConnectAppKeyEntity, parameters);
+        goHighLevelTokenRepository.save(goHighLevelTokenEntity);
     }
 }

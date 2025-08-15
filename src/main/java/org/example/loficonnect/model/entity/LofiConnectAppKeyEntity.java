@@ -3,6 +3,7 @@ package org.example.loficonnect.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.loficonnect.config.AuthContext;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -41,11 +42,34 @@ public class LofiConnectAppKeyEntity {
     @Column(name = "is_active")
     private Boolean isActive;
 
-    @ColumnDefault("true")
-    @Column(name = "is_sub_account", nullable = false)
-    private Boolean isSubAccount = false;
-
-    @OneToMany(mappedBy = "appKey")
+    @OneToMany(mappedBy = "appKeyEntity")
     private Set<GoHighLevelTokenEntity> goHighLevelTokens = new LinkedHashSet<>();
+
+    @ColumnDefault("1")
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
+
+    @PrePersist
+    protected void onCreate() {
+        createdBy = "root";
+        updatedBy = "root";
+        createdAt = Instant.now();
+        updatedAt = Instant.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedBy = "root";
+        updatedAt = Instant.now();
+    }
+
+
+    public static LofiConnectAppKeyEntity from(String appKey) {
+        LofiConnectAppKeyEntity entity = new LofiConnectAppKeyEntity();
+        entity.setAppKey(appKey);
+        entity.setIsActive(true);
+        entity.setUserId(AuthContext.getUserId());
+        return entity;
+    }
 
 }
