@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
-@FeignClient(name = "gohighlevel-oauth2", url = "${gohighlevel.token-url}")
+@FeignClient(name = "gohighlevelOAuth2", url = "${gohighlevel.token-url}")
 public interface GoHighLevelOAuth2Client {
 
     @PostMapping(consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)

@@ -1,5 +1,6 @@
 package org.example.loficonnect.serviceImpl;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.config.GoHighLevelProperties;
 import org.example.loficonnect.dto.response.AppKeyResponse;
@@ -16,6 +17,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
@@ -92,5 +95,29 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private void saveGoHighLevelTokens(LofiConnectAppKeyEntity lofiConnectAppKeyEntity, Map<String, Object> parameters) {
         GoHighLevelTokenEntity goHighLevelTokenEntity = GoHighLevelTokenEntity.from(lofiConnectAppKeyEntity, parameters);
         goHighLevelTokenRepository.save(goHighLevelTokenEntity);
+    }
+
+    @Override
+    public String getAccessToken(String appKey) {
+        LofiConnectAppKeyEntity appKeyEntity = lofiConnectAppKeyRepository.findByAppKey(appKey).orElseThrow(() -> new EntityNotFoundException("App key not found"));
+        GoHighLevelTokenEntity goHighLevelTokenEntity = goHighLevelTokenRepository.findFirstByAppKeyEntity(appKeyEntity).orElseThrow(() -> new EntityNotFoundException("Active token not found"));
+        goHighLevelTokenEntity = isAccessTokenValid(goHighLevelTokenEntity) ? goHighLevelTokenEntity : null;
+        log.info("Access token: {}", goHighLevelTokenEntity.getAccessToken());
+        return "Bearer " + goHighLevelTokenEntity.getAccessToken();
+    }
+
+
+    private boolean isAccessTokenValid(GoHighLevelTokenEntity token) {
+        Instant createdAt = token.getCreatedAt();
+
+        if (createdAt == null) {
+            return false; // no creation time → invalid
+        }
+
+        // calculate how long ago the token was created
+        Duration age = Duration.between(createdAt, Instant.now());
+
+        // valid if token is less than 23 hours 50 minutes old
+        return age.toMinutes() < (23 * 60 + 50);
     }
 }

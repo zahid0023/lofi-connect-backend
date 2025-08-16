@@ -1,6 +1,7 @@
 package org.example.loficonnect.service;
 
 import org.example.loficonnect.dto.response.AppKeyResponse;
+import org.example.loficonnect.model.entity.LofiConnectAppKeyEntity;
 
 import java.util.Map;
 
@@ -10,4 +11,6 @@ public interface AuthorizationService {
     Map<String, Object> exchangeCodeForToken(String code);
 
     AppKeyResponse generateAndSaveAppKey(Map<String, Object> parameters);
+
+    String getAccessToken(String appKey);
 }

@@ -3,7 +3,6 @@ package org.example.loficonnect.model.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.loficonnect.config.AuthContext;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
@@ -68,7 +67,7 @@ public class LofiConnectAppKeyEntity {
         LofiConnectAppKeyEntity entity = new LofiConnectAppKeyEntity();
         entity.setAppKey(appKey);
         entity.setIsActive(true);
-        entity.setUserId(AuthContext.getUserId());
+        entity.setUserId(1L);
         return entity;
     }
 

@@ -10,6 +10,8 @@ gohighlevel:
     - contacts.write
     - forms.readonly
     - forms.write
+    - calendars.write
+    - calendars.readonly
 
 spring:
   datasource:
@@ -24,8 +26,6 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        format_sql: true
-    show-sql: true
 
   jackson:
     time-zone: UTC
