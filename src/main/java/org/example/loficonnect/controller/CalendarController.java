@@ -1,14 +1,20 @@
 package org.example.loficonnect.controller;
 
 import org.example.loficonnect.config.AppKey;
-import org.example.loficonnect.dto.request.calendar.CalendarRequest;
+import org.example.loficonnect.dto.request.calendar.CalendarCreateRequest;
+import org.example.loficonnect.dto.request.calendar.CalendarUpdateRequest;
 import org.example.loficonnect.service.CalendarService;
+import org.example.loficonnect.util.DateTimeUtil;
+import org.example.loficonnect.util.MapUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -21,7 +27,54 @@ public class CalendarController {
 
     @AppKey
     @PostMapping("/calendars")
-    public ResponseEntity<?> createCalendar(@RequestBody CalendarRequest calendarRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(calendarService.createCalendar(calendarRequest));
+    public ResponseEntity<?> createCalendar(@RequestBody CalendarCreateRequest calendarCreateRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(calendarService.createCalendar(calendarCreateRequest));
+    }
+
+    @AppKey
+    @GetMapping("/calendars")
+    public ResponseEntity<?> getCalendars(
+            @RequestParam(value = "group-id", required = false) String groupId,
+            @RequestParam("location-id") String locationId
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        MapUtil.putIfNotNull(queryParams, "groupId", groupId);
+        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.getCalendars(queryParams));
+    }
+
+    @AppKey
+    @GetMapping("/calendars/{calendar-id}")
+    public ResponseEntity<?> getCalendar(@PathVariable("calendar-id") String calendarId) {
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.getCalendar(calendarId));
+    }
+
+    @AppKey
+    @PutMapping("/calendars/{calendar-id}")
+    public ResponseEntity<?> updateCalendar(@PathVariable("calendar-id") String calendarId, @RequestBody CalendarUpdateRequest calendarUpdateRequest) {
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.updateCalendar(calendarId, calendarUpdateRequest));
+    }
+
+    @AppKey
+    @DeleteMapping("/calendars/{calendar-id}")
+    public ResponseEntity<?> deleteCalendar(@PathVariable("calendar-id") String calendarId) {
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.deleteCalendar(calendarId));
+    }
+
+    @AppKey
+    @GetMapping("/calendars/{calendar-id}/free-slots")
+    public ResponseEntity<?> getFreeSlots(@PathVariable("calendar-id") String calendarId,
+                                          @RequestParam(value = "time-zone", required = false, defaultValue = "America/New_York") String timeZone,
+                                          @RequestParam(value = "user-id", required = false) String userId,
+                                          @RequestParam("start-date") LocalDate startDate,
+                                          @RequestParam("start-time") LocalTime startTime,
+                                          @RequestParam("end-date") LocalDate endDate,
+                                          @RequestParam("end-time") LocalTime endTime) {
+        Map<String, Object> queryParams = new HashMap<>();
+        MapUtil.putIfNotNull(queryParams, "timezone", timeZone);
+        MapUtil.putIfNotNull(queryParams, "user-id", userId);
+        MapUtil.putIfNotNull(queryParams, "startDate", DateTimeUtil.toEpochMillis(LocalDateTime.of(startDate, startTime), timeZone));
+        MapUtil.putIfNotNull(queryParams, "endDate", DateTimeUtil.toEpochMillis(LocalDateTime.of(endDate, endTime), timeZone));
+        return ResponseEntity.status(HttpStatus.OK).body(calendarService.getFreeSlots(calendarId, queryParams));
     }
 }

@@ -9,29 +9,24 @@ import java.util.List;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CalendarRequest {
-    private Boolean isActive;
-    private String locationId;
     private String groupId;
-    private List<NotificationRequest> notifications;
     private List<TeamMemberRequest> teamMembers;
     private String eventType;
     private String name;
     private String description;
     private String slug;
     private String widgetSlug;
-    private String calendarType;
     private String widgetType;
     private String eventTitle;
     private String eventColor;
     private List<LocationConfigurationRequest> locationConfigurations;
     private Integer slotDuration;
     private String slotDurationUnit;
+    private String preBufferUnit;
     private Integer slotInterval;
     private String slotIntervalUnit;
     private Integer slotBuffer;
-    private String slotBufferUnit;
     private Integer preBuffer;
-    private String preBufferUnit;
     private Integer appointmentPerSlot;
     private Integer appointmentPerDay;
     private Integer allowBookingAfter;

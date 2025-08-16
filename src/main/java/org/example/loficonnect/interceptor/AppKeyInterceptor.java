@@ -19,6 +19,9 @@ public class AppKeyInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response,
                              Object handler) throws Exception {
+        AppKeyContext.clearAppKeyHolder();
+        VersionContext.clearVersionHolder();
+
         if (handler instanceof HandlerMethod method) {
             // Check if method has @AppKey
             if (method.hasMethodAnnotation(AppKey.class)) {

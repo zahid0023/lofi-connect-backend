@@ -5,9 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,14 +43,39 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(body);
     }
 
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<Map<String, Object>> handleTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String paramName = ex.getName();
+        String message;
+
+        if (ex.getRequiredType() != null) {
+            Class<?> requiredType = ex.getRequiredType();
+
+            if (LocalDate.class.isAssignableFrom(requiredType)) {
+                message = String.format("Invalid value for parameter '%s'. Expected Format: yyyy-MM-dd", paramName);
+            } else if (LocalTime.class.isAssignableFrom(requiredType)) {
+                message = String.format("Invalid value for parameter '%s'. Expected Format: HH:mm:ss", paramName);
+            } else {
+                message = String.format("Invalid value for parameter '%s'. Expected type: %s", paramName, requiredType.getSimpleName());
+            }
+        } else {
+            message = String.format("Invalid value for parameter '%s'.", paramName);
+        }
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("timestamp", Instant.now().toString());
+        body.put("statusCode", HttpStatus.BAD_REQUEST.value());
+        body.put("message", message);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(body);
+    }
 
     // Optional: handle other exceptions globally
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex) {
         Map<String, Object> body = Map.of(
                 "timestamp", Instant.now().toString(),
-                "status", HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "error", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                "statusCode", HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "message", ex.getMessage()
         );
 

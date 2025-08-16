@@ -2,7 +2,7 @@ package org.example.loficonnect.dto.mapper;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
-import org.example.loficonnect.dto.request.calendar.*;
+import org.example.loficonnect.dto.request.calendar.CalendarRequest;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,179 +10,150 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@JsonInclude(JsonInclude.Include.NON_EMPTY) // Skip null or empty fields
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class GoHighLevelCalendarRequest {
 
-    private Boolean isActive;
-    private List<Notification> notifications;
-    private String locationId;
-    private String groupId;
-    private List<TeamMember> teamMembers;
-    private String eventType;
-    private String name;
-    private String description;
-    private String slug;
-    private String widgetSlug;
-    private String calendarType;
-    private String widgetType;
-    private String eventTitle;
-    private String eventColor;
-    private List<LocationConfiguration> locationConfigurations;
-    private Integer slotDuration;
-    private String slotDurationUnit;
-    private Integer slotInterval;
-    private String slotIntervalUnit;
-    private Integer slotBuffer;
-    private String slotBufferUnit;
-    private Integer preBuffer;
-    private String preBufferUnit;
-    private Integer appointmentPerSlot;
-    private Integer appointmentPerDay;
-    private Integer allowBookingAfter;
-    private String allowBookingAfterUnit;
-    private Integer allowBookingFor;
-    private String allowBookingForUnit;
-    private List<OpenHours> openHours;
-    private Boolean enableRecurring;
-    private Recurring recurring;
-    private String formId;
-    private Boolean stickyContact;
-    private Boolean isLivePaymentMode;
-    private Boolean autoConfirm;
-    private Boolean shouldSendAlertEmailsToAssignedMember;
-    private String alertEmail;
-    private Boolean googleInvitationEmails;
-    private Boolean allowReschedule;
-    private Boolean allowCancellation;
-    private Boolean shouldAssignContactToTeamMember;
-    private Boolean shouldSkipAssigningContactForExisting;
-    private String notes;
-    private String pixelId;
-    private String formSubmitType;
-    private String formSubmitRedirectURL;
-    private String formSubmitThanksMessage;
-    private Integer availabilityType;
-    private List<Availability> availabilities;
-    private String guestType;
-    private String consentLabel;
-    private String calendarCoverImage;
-    private LookBusyConfig lookBusyConfig;
+    protected Boolean isActive;
+    protected String groupId;
+    protected List<TeamMember> teamMembers;
+    protected String eventType;
+    protected String name;
+    protected String description;
+    protected String slug;
+    protected String widgetSlug;
+    protected String widgetType;
+    protected String eventTitle;
+    protected String eventColor;
+    protected List<LocationConfiguration> locationConfigurations;
+    protected Integer slotDuration;
+    protected String slotDurationUnit;
+    protected Integer slotInterval;
+    protected String slotIntervalUnit;
+    protected Integer slotBuffer;
+    protected String slotBufferUnit;
+    protected Integer preBuffer;
+    protected String preBufferUnit;
+    protected Integer appointmentPerSlot;
+    protected Integer appointmentPerDay;
+    protected Integer allowBookingAfter;
+    protected String allowBookingAfterUnit;
+    protected Integer allowBookingFor;
+    protected String allowBookingForUnit;
+    protected List<OpenHours> openHours;
+    protected Boolean enableRecurring;
+    protected Recurring recurring;
+    protected String formId;
+    protected Boolean stickyContact;
+    protected Boolean isLivePaymentMode;
+    protected Boolean autoConfirm;
+    protected Boolean shouldSendAlertEmailsToAssignedMember;
+    protected String alertEmail;
+    protected Boolean googleInvitationEmails;
+    protected Boolean allowReschedule;
+    protected Boolean allowCancellation;
+    protected Boolean shouldAssignContactToTeamMember;
+    protected Boolean shouldSkipAssigningContactForExisting;
+    protected String notes;
+    protected String pixelId;
+    protected String formSubmitType;
+    protected String formSubmitRedirectURL;
+    protected String formSubmitThanksMessage;
+    protected Integer availabilityType;
+    protected List<Availability> availabilities;
+    protected String guestType;
+    protected String consentLabel;
+    protected String calendarCoverImage;
+    protected LookBusyConfig lookBusyConfig;
 
-    public static GoHighLevelCalendarRequest fromCalendarRequest(CalendarRequest calendarRequest) {
-        GoHighLevelCalendarRequest goHighLevelRequest = new GoHighLevelCalendarRequest();
+    public static GoHighLevelCalendarRequest fromRequest(final CalendarRequest request) {
+        if (request == null) return null;
 
-        goHighLevelRequest.setIsActive(calendarRequest.getIsActive());
+        GoHighLevelCalendarRequest ghlRequest = new GoHighLevelCalendarRequest();
 
-        goHighLevelRequest.setNotifications(calendarRequest.getNotifications() != null
-                ? calendarRequest.getNotifications().stream()
-                .map(Notification::fromNotificationRequest)
-                .collect(Collectors.toList()) : null);
+        ghlRequest.setGroupId(request.getGroupId());
 
-        goHighLevelRequest.setLocationId(calendarRequest.getLocationId());
-        goHighLevelRequest.setGroupId(calendarRequest.getGroupId());
-
-        goHighLevelRequest.setTeamMembers(calendarRequest.getTeamMembers() != null
-                ? calendarRequest.getTeamMembers().stream()
-                .map(TeamMember::fromTeamMemberRequest)
-                .collect(Collectors.toList()) : null);
-
-        goHighLevelRequest.setEventType(calendarRequest.getEventType());
-        goHighLevelRequest.setName(calendarRequest.getName());
-        goHighLevelRequest.setDescription(calendarRequest.getDescription());
-        goHighLevelRequest.setSlug(calendarRequest.getSlug());
-        goHighLevelRequest.setWidgetSlug(calendarRequest.getWidgetSlug());
-        goHighLevelRequest.setCalendarType(calendarRequest.getCalendarType());
-        goHighLevelRequest.setWidgetType(calendarRequest.getWidgetType());
-        goHighLevelRequest.setEventTitle(calendarRequest.getEventTitle());
-        goHighLevelRequest.setEventColor(calendarRequest.getEventColor());
-
-        goHighLevelRequest.setLocationConfigurations(calendarRequest.getLocationConfigurations() != null
-                ? calendarRequest.getLocationConfigurations().stream()
-                .map(LocationConfiguration::fromLocationConfigurationRequest)
-                .collect(Collectors.toList()) : null);
-
-        goHighLevelRequest.setSlotDuration(calendarRequest.getSlotDuration());
-        goHighLevelRequest.setSlotDurationUnit(calendarRequest.getSlotDurationUnit());
-        goHighLevelRequest.setSlotInterval(calendarRequest.getSlotInterval());
-        goHighLevelRequest.setSlotIntervalUnit(calendarRequest.getSlotIntervalUnit());
-        goHighLevelRequest.setSlotBuffer(calendarRequest.getSlotBuffer());
-        goHighLevelRequest.setSlotBufferUnit(calendarRequest.getSlotBufferUnit());
-        goHighLevelRequest.setPreBuffer(calendarRequest.getPreBuffer());
-        goHighLevelRequest.setPreBufferUnit(calendarRequest.getPreBufferUnit());
-
-        goHighLevelRequest.setAppointmentPerSlot(calendarRequest.getAppointmentPerSlot());
-        goHighLevelRequest.setAppointmentPerDay(calendarRequest.getAppointmentPerDay());
-
-        goHighLevelRequest.setAllowBookingAfter(calendarRequest.getAllowBookingAfter());
-        goHighLevelRequest.setAllowBookingAfterUnit(calendarRequest.getAllowBookingAfterUnit());
-        goHighLevelRequest.setAllowBookingFor(calendarRequest.getAllowBookingFor());
-        goHighLevelRequest.setAllowBookingForUnit(calendarRequest.getAllowBookingForUnit());
-
-        goHighLevelRequest.setOpenHours(calendarRequest.getOpenHours() != null
-                ? calendarRequest.getOpenHours().stream()
-                .map(GoHighLevelCalendarRequest.OpenHours::fromOpenHoursRequest)
+        ghlRequest.setTeamMembers(request.getTeamMembers() != null
+                ? request.getTeamMembers().stream()
+                .map(GoHighLevelCalendarRequest.TeamMember::fromTeamMemberRequest)
                 .collect(Collectors.toList())
                 : null);
 
-        goHighLevelRequest.setEnableRecurring(calendarRequest.getEnableRecurring());
+        ghlRequest.setEventType(request.getEventType());
+        ghlRequest.setName(request.getName());
+        ghlRequest.setDescription(request.getDescription());
+        ghlRequest.setSlug(request.getSlug());
+        ghlRequest.setWidgetSlug(request.getWidgetSlug());
+        ghlRequest.setWidgetType(request.getWidgetType());
+        ghlRequest.setEventTitle(request.getEventTitle());
+        ghlRequest.setEventColor(request.getEventColor());
 
-        goHighLevelRequest.setRecurring(calendarRequest.getRecurring() != null
-                ? Recurring.fromRecurringRequest(calendarRequest.getRecurring()) : null);
+        ghlRequest.setLocationConfigurations(request.getLocationConfigurations() != null
+                ? request.getLocationConfigurations().stream()
+                .map(GoHighLevelCalendarRequest.LocationConfiguration::fromLocationConfigurationRequest)
+                .collect(Collectors.toList())
+                : null);
 
-        goHighLevelRequest.setFormId(calendarRequest.getFormId());
-        goHighLevelRequest.setStickyContact(calendarRequest.getStickyContact());
-        goHighLevelRequest.setIsLivePaymentMode(calendarRequest.getIsLivePaymentMode());
-        goHighLevelRequest.setAutoConfirm(calendarRequest.getAutoConfirm());
-        goHighLevelRequest.setShouldSendAlertEmailsToAssignedMember(calendarRequest.getShouldSendAlertEmailsToAssignedMember());
-        goHighLevelRequest.setAlertEmail(calendarRequest.getAlertEmail());
-        goHighLevelRequest.setGoogleInvitationEmails(calendarRequest.getGoogleInvitationEmails());
-        goHighLevelRequest.setAllowReschedule(calendarRequest.getAllowReschedule());
-        goHighLevelRequest.setAllowCancellation(calendarRequest.getAllowCancellation());
-        goHighLevelRequest.setShouldAssignContactToTeamMember(calendarRequest.getShouldAssignContactToTeamMember());
-        goHighLevelRequest.setShouldSkipAssigningContactForExisting(calendarRequest.getShouldSkipAssigningContactForExisting());
-        goHighLevelRequest.setNotes(calendarRequest.getNotes());
-        goHighLevelRequest.setPixelId(calendarRequest.getPixelId());
-        goHighLevelRequest.setFormSubmitType(calendarRequest.getFormSubmitType());
-        goHighLevelRequest.setFormSubmitRedirectURL(calendarRequest.getFormSubmitRedirectURL());
-        goHighLevelRequest.setFormSubmitThanksMessage(calendarRequest.getFormSubmitThanksMessage());
-        goHighLevelRequest.setAvailabilityType(calendarRequest.getAvailabilityType());
+        ghlRequest.setSlotDuration(request.getSlotDuration());
+        ghlRequest.setSlotDurationUnit(request.getSlotDurationUnit());
+        ghlRequest.setSlotInterval(request.getSlotInterval());
+        ghlRequest.setSlotIntervalUnit(request.getSlotIntervalUnit());
+        ghlRequest.setSlotBuffer(request.getSlotBuffer());
+        ghlRequest.setPreBuffer(request.getPreBuffer());
+        ghlRequest.setPreBufferUnit(request.getPreBufferUnit());
+        ghlRequest.setAppointmentPerSlot(request.getAppointmentPerSlot());
+        ghlRequest.setAppointmentPerDay(request.getAppointmentPerDay());
+        ghlRequest.setAllowBookingAfter(request.getAllowBookingAfter());
+        ghlRequest.setAllowBookingAfterUnit(request.getAllowBookingAfterUnit());
+        ghlRequest.setAllowBookingFor(request.getAllowBookingFor());
+        ghlRequest.setAllowBookingForUnit(request.getAllowBookingForUnit());
 
-        goHighLevelRequest.setAvailabilities(calendarRequest.getAvailabilities() != null
-                ? calendarRequest.getAvailabilities().stream()
-                .map(Availability::fromAvailabilityRequest)
-                .collect(Collectors.toList()) : null);
+        ghlRequest.setOpenHours(request.getOpenHours() != null
+                ? request.getOpenHours().stream()
+                .map(GoHighLevelCalendarUpdateRequest.OpenHours::fromOpenHoursRequest)
+                .collect(Collectors.toList())
+                : null);
 
-        goHighLevelRequest.setGuestType(calendarRequest.getGuestType());
-        goHighLevelRequest.setConsentLabel(calendarRequest.getConsentLabel());
-        goHighLevelRequest.setCalendarCoverImage(calendarRequest.getCalendarCoverImage());
-        goHighLevelRequest.setLookBusyConfig(calendarRequest.getLookBusyConfig() != null
-                ? LookBusyConfig.fromLookBusyConfigRequest(calendarRequest.getLookBusyConfig()) : null);
+        ghlRequest.setEnableRecurring(request.getEnableRecurring());
+        ghlRequest.setRecurring(request.getRecurring() != null
+                ? GoHighLevelCalendarRequest.Recurring.fromRecurringRequest(request.getRecurring())
+                : null);
 
-        return goHighLevelRequest;
+        ghlRequest.setFormId(request.getFormId());
+        ghlRequest.setStickyContact(request.getStickyContact());
+        ghlRequest.setIsLivePaymentMode(request.getIsLivePaymentMode());
+        ghlRequest.setAutoConfirm(request.getAutoConfirm());
+        ghlRequest.setShouldSendAlertEmailsToAssignedMember(request.getShouldSendAlertEmailsToAssignedMember());
+        ghlRequest.setAlertEmail(request.getAlertEmail());
+        ghlRequest.setGoogleInvitationEmails(request.getGoogleInvitationEmails());
+        ghlRequest.setAllowReschedule(request.getAllowReschedule());
+        ghlRequest.setAllowCancellation(request.getAllowCancellation());
+        ghlRequest.setShouldAssignContactToTeamMember(request.getShouldAssignContactToTeamMember());
+        ghlRequest.setShouldSkipAssigningContactForExisting(request.getShouldSkipAssigningContactForExisting());
+        ghlRequest.setNotes(request.getNotes());
+        ghlRequest.setPixelId(request.getPixelId());
+        ghlRequest.setFormSubmitType(request.getFormSubmitType());
+        ghlRequest.setFormSubmitRedirectURL(request.getFormSubmitRedirectURL());
+        ghlRequest.setFormSubmitThanksMessage(request.getFormSubmitThanksMessage());
+        ghlRequest.setAvailabilityType(request.getAvailabilityType());
+
+        ghlRequest.setAvailabilities(request.getAvailabilities() != null
+                ? request.getAvailabilities().stream()
+                .map(GoHighLevelCalendarRequest.Availability::fromAvailabilityRequest)
+                .collect(Collectors.toList())
+                : null);
+
+        ghlRequest.setGuestType(request.getGuestType());
+        ghlRequest.setConsentLabel(request.getConsentLabel());
+        ghlRequest.setCalendarCoverImage(request.getCalendarCoverImage());
+        ghlRequest.setLookBusyConfig(request.getLookBusyConfig() != null
+                ? GoHighLevelCalendarRequest.LookBusyConfig.fromLookBusyConfigRequest(request.getLookBusyConfig())
+                : null);
+
+        return ghlRequest;
     }
 
-    // Nested classes for all DTOs
 
-    @Data
-    public static class Notification {
-        private String type;
-        private Boolean shouldSendToContact;
-        private Boolean shouldSendToGuest;
-        private Boolean shouldSendToUser;
-        private Boolean shouldSendToSelectedUsers;
-        private String selectedUsers;
-
-        public static Notification fromNotificationRequest(NotificationRequest request) {
-            Notification notification = new Notification();
-            notification.setType(request.getType());
-            notification.setShouldSendToContact(request.getShouldSendToContact());
-            notification.setShouldSendToGuest(request.getShouldSendToGuest());
-            notification.setShouldSendToUser(request.getShouldSendToUser());
-            notification.setShouldSendToSelectedUsers(request.getShouldSendToSelectedUsers());
-            notification.setSelectedUsers(request.getSelectedUsers());
-            return notification;
-        }
-    }
+    // ---------------- Inner Classes ----------------
 
     @Data
     public static class TeamMember {
@@ -191,7 +162,7 @@ public class GoHighLevelCalendarRequest {
         private Boolean isPrimary;
         private List<LocationConfiguration> locationConfigurations;
 
-        public static TeamMember fromTeamMemberRequest(TeamMemberRequest request) {
+        public static TeamMember fromTeamMemberRequest(org.example.loficonnect.dto.request.calendar.TeamMemberRequest request) {
             TeamMember teamMember = new TeamMember();
             teamMember.setUserId(request.getUserId());
             teamMember.setPriority(request.getPriority());
@@ -209,7 +180,7 @@ public class GoHighLevelCalendarRequest {
         private String kind;
         private String location;
 
-        public static LocationConfiguration fromLocationConfigurationRequest(LocationConfigurationRequest request) {
+        public static LocationConfiguration fromLocationConfigurationRequest(org.example.loficonnect.dto.request.calendar.LocationConfigurationRequest request) {
             LocationConfiguration locationConfiguration = new LocationConfiguration();
             locationConfiguration.setKind(request.getKind());
             locationConfiguration.setLocation(request.getLocation());
@@ -222,7 +193,7 @@ public class GoHighLevelCalendarRequest {
         private List<Integer> daysOfTheWeek;
         private List<OpenHour> hours;
 
-        public static OpenHours fromOpenHoursRequest(OpenHoursRequest request) {
+        public static OpenHours fromOpenHoursRequest(org.example.loficonnect.dto.request.calendar.OpenHoursRequest request) {
             OpenHours openHours = new OpenHours();
             openHours.setDaysOfTheWeek(request.getDaysOfTheWeek());
             openHours.setHours(request.getOpenHours() != null
@@ -240,7 +211,7 @@ public class GoHighLevelCalendarRequest {
             private int closeHour;
             private int closeMinute;
 
-            public static OpenHour fromOpenHourRequest(OpenHourRequest request) {
+            public static OpenHour fromOpenHourRequest(org.example.loficonnect.dto.request.calendar.OpenHourRequest request) {
                 OpenHour openHour = new OpenHour();
                 openHour.setOpenHour(request.getOpenHour());
                 openHour.setOpenMinute(request.getOpenMinute());
@@ -251,7 +222,6 @@ public class GoHighLevelCalendarRequest {
         }
     }
 
-
     @Data
     public static class Recurring {
         private String freq;
@@ -259,7 +229,7 @@ public class GoHighLevelCalendarRequest {
         private String bookingOption;
         private String bookingOverlapDefaultStatus;
 
-        public static Recurring fromRecurringRequest(RecurringRequest request) {
+        public static Recurring fromRecurringRequest(org.example.loficonnect.dto.request.calendar.RecurringRequest request) {
             Recurring recurring = new Recurring();
             recurring.setFreq(request.getFreq());
             recurring.setCount(request.getCount());
@@ -275,7 +245,7 @@ public class GoHighLevelCalendarRequest {
         private List<AvailabilityHour> hours;
         private Boolean deleted;
 
-        public static Availability fromAvailabilityRequest(AvailabilityRequest request) {
+        public static Availability fromAvailabilityRequest(org.example.loficonnect.dto.request.calendar.AvailabilityRequest request) {
             Availability availability = new Availability();
             availability.setDeleted(request.getDeleted());
             if (request.getDate() != null) {
@@ -296,7 +266,7 @@ public class GoHighLevelCalendarRequest {
         private Integer closeHour;
         private Integer closeMinute;
 
-        public static AvailabilityHour fromAvailabilityHourRequest(AvailabilityHourRequest request) {
+        public static AvailabilityHour fromAvailabilityHourRequest(org.example.loficonnect.dto.request.calendar.AvailabilityHourRequest request) {
             AvailabilityHour availabilityHour = new AvailabilityHour();
             availabilityHour.setOpenHour(request.getOpenHour());
             availabilityHour.setOpenMinute(request.getOpenMinute());
@@ -311,11 +281,65 @@ public class GoHighLevelCalendarRequest {
         private Boolean enabled;
         private Integer lookBusyPercentage;
 
-        public static LookBusyConfig fromLookBusyConfigRequest(LookBusyConfigRequest request) {
+        public static LookBusyConfig fromLookBusyConfigRequest(org.example.loficonnect.dto.request.calendar.LookBusyConfigRequest request) {
             LookBusyConfig config = new LookBusyConfig();
             config.setEnabled(request.getEnabled());
             config.setLookBusyPercentage(request.getLookBusyPercentage());
             return config;
         }
     }
+
+    public void copyTo(GoHighLevelCalendarRequest target) {
+        target.setGroupId(this.getGroupId());
+        target.setTeamMembers(this.getTeamMembers());
+        target.setEventType(this.getEventType());
+        target.setName(this.getName());
+        target.setDescription(this.getDescription());
+        target.setSlug(this.getSlug());
+        target.setWidgetSlug(this.getWidgetSlug());
+        target.setWidgetType(this.getWidgetType());
+        target.setEventTitle(this.getEventTitle());
+        target.setEventColor(this.getEventColor());
+        target.setLocationConfigurations(this.getLocationConfigurations());
+        target.setSlotDuration(this.getSlotDuration());
+        target.setSlotDurationUnit(this.getSlotDurationUnit());
+        target.setSlotInterval(this.getSlotInterval());
+        target.setSlotIntervalUnit(this.getSlotIntervalUnit());
+        target.setSlotBuffer(this.getSlotBuffer());
+        target.setSlotBufferUnit(this.getSlotBufferUnit());
+        target.setPreBuffer(this.getPreBuffer());
+        target.setPreBufferUnit(this.getPreBufferUnit());
+        target.setAppointmentPerSlot(this.getAppointmentPerSlot());
+        target.setAppointmentPerDay(this.getAppointmentPerDay());
+        target.setAllowBookingAfter(this.getAllowBookingAfter());
+        target.setAllowBookingAfterUnit(this.getAllowBookingAfterUnit());
+        target.setAllowBookingFor(this.getAllowBookingFor());
+        target.setAllowBookingForUnit(this.getAllowBookingForUnit());
+        target.setOpenHours(this.getOpenHours());
+        target.setEnableRecurring(this.getEnableRecurring());
+        target.setRecurring(this.getRecurring());
+        target.setFormId(this.getFormId());
+        target.setStickyContact(this.getStickyContact());
+        target.setIsLivePaymentMode(this.getIsLivePaymentMode());
+        target.setAutoConfirm(this.getAutoConfirm());
+        target.setShouldSendAlertEmailsToAssignedMember(this.getShouldSendAlertEmailsToAssignedMember());
+        target.setAlertEmail(this.getAlertEmail());
+        target.setGoogleInvitationEmails(this.getGoogleInvitationEmails());
+        target.setAllowReschedule(this.getAllowReschedule());
+        target.setAllowCancellation(this.getAllowCancellation());
+        target.setShouldAssignContactToTeamMember(this.getShouldAssignContactToTeamMember());
+        target.setShouldSkipAssigningContactForExisting(this.getShouldSkipAssigningContactForExisting());
+        target.setNotes(this.getNotes());
+        target.setPixelId(this.getPixelId());
+        target.setFormSubmitType(this.getFormSubmitType());
+        target.setFormSubmitRedirectURL(this.getFormSubmitRedirectURL());
+        target.setFormSubmitThanksMessage(this.getFormSubmitThanksMessage());
+        target.setAvailabilityType(this.getAvailabilityType());
+        target.setAvailabilities(this.getAvailabilities());
+        target.setGuestType(this.getGuestType());
+        target.setConsentLabel(this.getConsentLabel());
+        target.setCalendarCoverImage(this.getCalendarCoverImage());
+        target.setLookBusyConfig(this.getLookBusyConfig());
+    }
+
 }
