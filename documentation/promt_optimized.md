@@ -203,6 +203,7 @@ Controller Method:
 - checks if the params are not null and populates the map and sends as arguments to service method
 
 Example:
+
 - feign client method
   @GetMapping(
   value = "/calendars/events",
@@ -244,8 +245,10 @@ Example:
   MapUtil.putIfNotNull(queryParams, "calendarId", calendarId);
   MapUtil.putIfNotNull(queryParams, "groupId", groupId);
   MapUtil.putIfNotNull(queryParams, "userId", userId);
-  MapUtil.putIfNotNull(queryParams, "startTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(startDate, startTime), timeZone));
-  MapUtil.putIfNotNull(queryParams, "endTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(endDate, endTime), timeZone));
+  MapUtil.putIfNotNull(queryParams, "startTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(startDate, startTime),
+  timeZone));
+  MapUtil.putIfNotNull(queryParams, "endTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(endDate, endTime),
+  timeZone));
   MapUtil.putIfNotNull(queryParams, "locationId", locationId);
 
         return ResponseEntity.ok(calendarEventService.getCalendarEvents(queryParams));
@@ -254,8 +257,8 @@ Example:
 notes:
 
 - path variable and query parameters format:
-    - @PathVariable("appointment-id") String appointmentId
-    - @RequestParam("appointment-id") String appointmentId
+    - @PathVariable("appointment-id") String appointmentId there will be - in bracket
+    - @RequestParam("appointment-id") String appointmentId there will be - in bracket
 
 - go high level has inconsistent date-time format. sometimes its epoch milis. sometimes it string.we want to give our
   users a consistent date-time format.
@@ -268,5 +271,7 @@ notes:
 - response type from any method except for controller method will be type JsonNode
 
 - response type from controller method will be ResponseEntity<?>
+- name: *.client i will give the feign client name
+- i want the methods in the classes for service, serviceImpl, feignClient, controller not the class definitions
 
 wait for curl command.
