@@ -1,4 +1,4 @@
-package org.example.loficonnect.dto.mapper;
+package org.example.loficonnect.dto.mapper.calendar;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;

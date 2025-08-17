@@ -2,8 +2,8 @@ package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.example.loficonnect.config.FeignLoggingConfig;
-import org.example.loficonnect.dto.mapper.GoHighLevelCalendarCreateRequest;
-import org.example.loficonnect.dto.mapper.GoHighLevelCalendarUpdateRequest;
+import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarCreateRequest;
+import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarUpdateRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

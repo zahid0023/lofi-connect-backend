@@ -1,4 +1,4 @@
-package org.example.loficonnect.dto.mapper;
+package org.example.loficonnect.dto.mapper.calendar;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

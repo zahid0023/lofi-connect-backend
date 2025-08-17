@@ -12,6 +12,8 @@ gohighlevel:
     - forms.write
     - calendars.write
     - calendars.readonly
+    - calendars/events.readonly
+    - calendars/events.write
 
 spring:
   datasource:

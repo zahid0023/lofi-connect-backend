@@ -2,8 +2,8 @@ package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
-import org.example.loficonnect.dto.mapper.GoHighLevelCalendarCreateRequest;
-import org.example.loficonnect.dto.mapper.GoHighLevelCalendarUpdateRequest;
+import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarCreateRequest;
+import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarUpdateRequest;
 import org.example.loficonnect.dto.request.calendar.CalendarCreateRequest;
 import org.example.loficonnect.dto.request.calendar.CalendarUpdateRequest;
 import org.example.loficonnect.feignclients.CalendarClient;
