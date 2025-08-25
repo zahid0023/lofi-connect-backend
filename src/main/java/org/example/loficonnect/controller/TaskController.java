@@ -73,6 +73,4 @@ public class TaskController {
     ) {
         return ResponseEntity.ok(taskService.updateTaskCompleted(contactId, taskId, request));
     }
-
-
 }
