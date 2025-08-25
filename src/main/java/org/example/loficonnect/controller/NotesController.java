@@ -1,0 +1,73 @@
+package org.example.loficonnect.controller;
+
+import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.dto.request.notes.ContactNoteCreateRequest;
+import org.example.loficonnect.dto.request.notes.ContactNoteUpdateRequest;
+import org.example.loficonnect.service.NotesService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/v1/")
+public class NotesController {
+    private final NotesService notesService;
+
+    public NotesController(NotesService notesService) {
+        this.notesService = notesService;
+    }
+
+    @AppKey
+    @GetMapping("/contacts/{contactId}/notes")
+    public ResponseEntity<?> getContactNotes(
+            @PathVariable("contactId") String contactId
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        return ResponseEntity.ok(notesService.getContactNotes(contactId, queryParams));
+    }
+
+    @AppKey
+    @PostMapping("/contacts/{contactId}/notes")
+    public ResponseEntity<?> createContactNote(
+            @PathVariable("contactId") String contactId,
+            @RequestBody ContactNoteCreateRequest request
+    ) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(notesService.createContactNote(contactId, request));
+    }
+
+    @AppKey
+    @GetMapping("/contacts/{contactId}/notes/{id}")
+    public ResponseEntity<?> getContactNoteById(
+            @PathVariable("contactId") String contactId,
+            @PathVariable("id") String noteId
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        return ResponseEntity.ok(notesService.getContactNoteById(contactId, noteId, queryParams));
+    }
+
+    @AppKey
+    @PutMapping("/contacts/{contactId}/notes/{id}")
+    public ResponseEntity<?> updateContactNote(
+            @PathVariable("contactId") String contactId,
+            @PathVariable("id") String noteId,
+            @RequestBody ContactNoteUpdateRequest request
+    ) {
+        return ResponseEntity.ok(notesService.updateContactNote(contactId, noteId, request));
+    }
+
+    @AppKey
+    @DeleteMapping("/contacts/{contactId}/notes/{id}")
+    public ResponseEntity<?> deleteContactNote(
+            @PathVariable("contactId") String contactId,
+            @PathVariable("id") String noteId
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        return ResponseEntity.ok(notesService.deleteContactNote(contactId, noteId, queryParams));
+    }
+
+
+}
