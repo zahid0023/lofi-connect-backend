@@ -17,4 +17,8 @@ public class DateTimeUtil {
         ZonedDateTime zonedDateTime = localDateTime.atZone(ZoneId.of(timezone));
         return zonedDateTime.toInstant().toEpochMilli();
     }
+
+    public static ZonedDateTime toZonedDateTime(LocalDateTime localDateTime, String timezone) {
+        return localDateTime.atZone(ZoneId.of(timezone));
+    }
 }

@@ -15,7 +15,7 @@ DTOs
     - variable name as camelCase
 - ghl request dto will be
     - annotated with @Data
-    - variable name is exactly as in curl
+      - variable name is exactly as in curl
 - a mapper method in ghl request dto which will map the fields from the request dto
 
 Feign Client Method
@@ -24,7 +24,6 @@ Feign Client Method
 - it will take @RequestBody ghl dto
 
 Service Method
-
 - It will be called by my controller method
 - It will take request dto as argument and convert it to ght dto using the mapper method in ghl dto
 
