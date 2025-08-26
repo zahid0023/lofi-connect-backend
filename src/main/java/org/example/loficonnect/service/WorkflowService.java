@@ -8,6 +8,4 @@ public interface WorkflowService {
     JsonNode addContactToWorkflow(String contactId, String workflowId, ContactWorkflowAddRequest request);
 
     JsonNode deleteContactFromWorkflow(String contactId, String workflowId, ContactWorkflowDeleteRequest request);
-
-
 }
