@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "workFlowClient", url = "https://services.leadconnectorhq.com", configuration = FeignLoggingConfig.class)
+@FeignClient(name = "workflowClient", url = "https://services.leadconnectorhq.com", configuration = FeignLoggingConfig.class)
 public interface WorkflowClient {
     @PostMapping(
             value = "/contacts/{contactId}/workflow/{workflowId}",
@@ -31,8 +31,8 @@ public interface WorkflowClient {
     JsonNode deleteContactFromWorkflow(
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Version") String version,
-            @PathVariable("contact-id") String contactId,
-            @PathVariable("workflow-id") String workflowId,
+            @PathVariable String contactId,
+            @PathVariable String workflowId,
             @RequestBody GoHighLevelContactWorkflowDeleteRequest request
     );
 

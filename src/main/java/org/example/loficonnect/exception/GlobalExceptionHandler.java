@@ -1,6 +1,7 @@
 package org.example.loficonnect.exception;
 
 import feign.FeignException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(FeignException.class)
@@ -24,15 +26,25 @@ public class GlobalExceptionHandler {
 
         try {
             if (ex.content() != null && ex.content().length > 0) {
-                // Convert byte[] to String
                 String body = new String(ex.content(), StandardCharsets.UTF_8);
-                // Try parsing JSON
                 Map<String, Object> map = new com.fasterxml.jackson.databind.ObjectMapper().readValue(body, Map.class);
-                message = map.getOrDefault("message", message).toString();
-                status = (int) map.getOrDefault("statusCode", status);
+
+                // Check for GoHighLevel specific error
+                String error = (String) map.get("error");
+                String errorDescription = (String) map.get("error_description");
+
+                if ("invalid_grant".equals(error) && errorDescription != null) {
+                    message = "Authentication failed: Refresh token is invalid or expired. "
+                              + "Please re-authorize the app to generate a new token.";
+                    status = HttpStatus.UNAUTHORIZED.value();
+                } else {
+                    message = map.getOrDefault("message", message).toString();
+                    status = (int) map.getOrDefault("statusCode", status);
+                }
             }
         } catch (Exception e) {
             // fallback if parsing fails
+            log.warn("Failed to parse Feign exception body: {}", e.getMessage());
         }
 
         Map<String, Object> body = new HashMap<>();

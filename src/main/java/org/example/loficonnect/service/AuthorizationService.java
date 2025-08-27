@@ -13,4 +13,6 @@ public interface AuthorizationService {
     AppKeyResponse generateAndSaveAppKey(Map<String, Object> parameters);
 
     String getAccessToken(String appKey);
+
+    Map<String, Object> refreshAccessToken(String refreshToken);
 }

@@ -25,6 +25,10 @@ import java.util.Map;
 @Service
 @Slf4j
 public class AuthorizationServiceImpl implements AuthorizationService {
+    private static final String GRANT_TYPE_AUTH_CODE = "authorization_code";
+    private static final String GRANT_TYPE_REFRESH = "refresh_token";
+    private static final long TOKEN_VALIDITY_MINUTES = (23 * 60) + 50; // 23h 50m
+
     private final GoHighLevelProperties props;
     private final GoHighLevelOAuth2Client oAuth2Client;
     private final GoHighLevelTokenRepository goHighLevelTokenRepository;
@@ -61,63 +65,71 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     public Map<String, Object> exchangeCodeForToken(String code) {
-        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
-        formData.add("client_id", props.getClientId());
-        formData.add("client_secret", props.getClientSecret());
-        formData.add("grant_type", "authorization_code");
-        formData.add("code", code);
-        formData.add("redirect_uri", props.getRedirectUri());
-
-        return oAuth2Client.getAccessToken(formData);
+        return oAuth2Client.getAccessToken(buildTokenRequest(GRANT_TYPE_AUTH_CODE,
+                Map.of("code", code)));
     }
 
     @Override
     @Transactional
     public AppKeyResponse generateAndSaveAppKey(Map<String, Object> parameters) {
-        String appKey = secretKeyService.generateSecretKey();
-        LofiConnectAppKeyEntity lofiConnectAppKeyEntity = saveAppKey(appKey, parameters.get("locationId").toString());
-        saveGoHighLevelTokens(lofiConnectAppKeyEntity, parameters);
+        final String appKey = secretKeyService.generateSecretKey();
+        final String locationId = parameters.get("locationId").toString();
+
+        // deactivate old keys
+        deactivateOldKeys(locationId);
+
+        // create new app key + tokens
+        LofiConnectAppKeyEntity savedAppKey = lofiConnectAppKeyRepository.save(LofiConnectAppKeyEntity.from(appKey));
+        goHighLevelTokenRepository.save(GoHighLevelTokenEntity.from(savedAppKey, parameters));
+
         return new AppKeyResponse(appKey);
-    }
-
-    private LofiConnectAppKeyEntity saveAppKey(String appKey, String locationId) {
-        // Find and deactivate all active app keys for this location
-        List<LofiConnectAppKeyEntity> appKeyEntities = lofiConnectAppKeyRepository.findAllActiveForLocationId(locationId).stream()
-                .peek(appKeyEntity -> appKeyEntity.setIsActive(false))
-                .toList();
-
-        lofiConnectAppKeyRepository.saveAll(appKeyEntities);
-
-        LofiConnectAppKeyEntity lofiConnectAppKeyEntity = LofiConnectAppKeyEntity.from(appKey);
-        return lofiConnectAppKeyRepository.save(lofiConnectAppKeyEntity);
-    }
-
-    private void saveGoHighLevelTokens(LofiConnectAppKeyEntity lofiConnectAppKeyEntity, Map<String, Object> parameters) {
-        GoHighLevelTokenEntity goHighLevelTokenEntity = GoHighLevelTokenEntity.from(lofiConnectAppKeyEntity, parameters);
-        goHighLevelTokenRepository.save(goHighLevelTokenEntity);
     }
 
     @Override
     public String getAccessToken(String appKey) {
         LofiConnectAppKeyEntity appKeyEntity = lofiConnectAppKeyRepository.findByAppKey(appKey).orElseThrow(() -> new EntityNotFoundException("App key not found"));
+
         GoHighLevelTokenEntity goHighLevelTokenEntity = goHighLevelTokenRepository.findFirstByAppKeyEntity(appKeyEntity).orElseThrow(() -> new EntityNotFoundException("Active token not found"));
-        goHighLevelTokenEntity = isAccessTokenValid(goHighLevelTokenEntity) ? goHighLevelTokenEntity : null;
+
+        if (!isAccessTokenValid(goHighLevelTokenEntity)) {
+            Map<String, Object> tokenMap = refreshAccessToken(goHighLevelTokenEntity.getRefreshToken());
+            log.info("Refreshed access token for appKey {}: {}", appKey, tokenMap);
+        }
+
         log.info("Access token: {}", goHighLevelTokenEntity.getAccessToken());
+
         return "Bearer " + goHighLevelTokenEntity.getAccessToken();
     }
 
+    @Override
+    public Map<String, Object> refreshAccessToken(String refreshToken) {
+        return oAuth2Client.getAccessToken(buildTokenRequest(GRANT_TYPE_REFRESH,
+                Map.of("refresh_token", refreshToken)));
+    }
+
+    // -------------------- Private Helpers --------------------
+
+    private MultiValueMap<String, String> buildTokenRequest(String grantType, Map<String, String> extraParams) {
+        MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+        formData.add("client_id", props.getClientId());
+        formData.add("client_secret", props.getClientSecret());
+        formData.add("grant_type", grantType);
+        formData.add("redirect_uri", props.getRedirectUri());
+
+        extraParams.forEach(formData::add);
+        return formData;
+    }
+
+    private void deactivateOldKeys(String locationId) {
+        List<LofiConnectAppKeyEntity> activeKeys = lofiConnectAppKeyRepository.findAllActiveForLocationId(locationId);
+        activeKeys.forEach(k -> k.setIsActive(false));
+        lofiConnectAppKeyRepository.saveAll(activeKeys);
+    }
 
     private boolean isAccessTokenValid(GoHighLevelTokenEntity token) {
         Instant createdAt = token.getCreatedAt();
+        if (createdAt == null) return false;
 
-        if (createdAt == null) {
-            return false; // no creation time → invalid
-        }
-
-        // calculate how long ago the token was created
-        Duration age = Duration.between(createdAt, Instant.now());
-
-        // valid if token is less than 23 hours 50 minutes old
-        return age.toMinutes() < (23 * 60 + 50);
+        return Duration.between(createdAt, Instant.now()).toMinutes() < TOKEN_VALIDITY_MINUTES;
     }
 }
