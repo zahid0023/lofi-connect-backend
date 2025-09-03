@@ -40,5 +40,24 @@ public class SearchController {
         return ResponseEntity.ok(searchService.getDuplicateContacts(queryParams));
     }
 
+    @AppKey
+    @GetMapping("/locations/search")
+    public ResponseEntity<?> searchLocations(
+            @RequestParam(value = "companyId", required = false) String companyId,
+            @RequestParam(value = "email", required = false) String email,
+            @RequestParam(value = "limit", required = false, defaultValue = "10") String limit,
+            @RequestParam(value = "order", required = false, defaultValue = "asc") String order,
+            @RequestParam(value = "skip", required = false, defaultValue = "0") String skip
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        MapUtil.putIfNotNull(queryParams, "companyId", companyId);
+        MapUtil.putIfNotNull(queryParams, "email", email);
+        MapUtil.putIfNotNull(queryParams, "limit", limit);
+        MapUtil.putIfNotNull(queryParams, "order", order);
+        MapUtil.putIfNotNull(queryParams, "skip", skip);
+
+        return ResponseEntity.ok(searchService.searchLocations(queryParams));
+    }
+
 
 }

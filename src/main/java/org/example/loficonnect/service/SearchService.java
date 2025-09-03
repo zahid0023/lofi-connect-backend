@@ -10,6 +10,8 @@ public interface SearchService {
 
     JsonNode getDuplicateContacts(Map<String, Object> queryParams);
 
+    JsonNode searchLocations(Map<String, Object> queryParams);
+
 
 
 }

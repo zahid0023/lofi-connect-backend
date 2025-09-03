@@ -40,4 +40,12 @@ public class SearchServiceImpl implements SearchService {
         return searchClient.getDuplicateContacts(accessKey, version, queryParams);
     }
 
+    @Override
+    public JsonNode searchLocations(Map<String, Object> queryParams) {
+        String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
+        String version = VersionContext.getVersion();
+        return searchClient.searchLocations(accessKey, version, queryParams);
+    }
+
+
 }
