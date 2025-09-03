@@ -2,6 +2,7 @@ package org.example.loficonnect.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.example.loficonnect.dto.request.search.ContactSearchRequest;
+import org.example.loficonnect.dto.request.search.TaskSearchRequest;
 
 import java.util.Map;
 
@@ -12,6 +13,7 @@ public interface SearchService {
 
     JsonNode searchLocations(Map<String, Object> queryParams);
 
+    JsonNode searchTasks(String locationId, TaskSearchRequest request);
 
 
 }

@@ -2,6 +2,7 @@ package org.example.loficonnect.controller;
 
 import org.example.loficonnect.config.AppKey;
 import org.example.loficonnect.dto.request.search.ContactSearchRequest;
+import org.example.loficonnect.dto.request.search.TaskSearchRequest;
 import org.example.loficonnect.service.SearchService;
 import org.example.loficonnect.util.MapUtil;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +58,15 @@ public class SearchController {
         MapUtil.putIfNotNull(queryParams, "skip", skip);
 
         return ResponseEntity.ok(searchService.searchLocations(queryParams));
+    }
+
+    @AppKey
+    @PostMapping("/locations/{location-id}/tasks/search")
+    public ResponseEntity<?> searchTasks(
+            @PathVariable("location-id") String locationId,
+            @RequestBody TaskSearchRequest request
+    ) {
+        return ResponseEntity.ok(searchService.searchTasks(locationId, request));
     }
 
 
