@@ -80,23 +80,32 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
         // create new app key + tokens
         LofiConnectAppKeyEntity savedAppKey = lofiConnectAppKeyRepository.save(LofiConnectAppKeyEntity.from(appKey));
-        goHighLevelTokenRepository.save(GoHighLevelTokenEntity.from(savedAppKey, parameters));
+        saveGoHighLevelTokenEntity(savedAppKey, parameters);
 
         return new AppKeyResponse(appKey);
     }
 
+    private GoHighLevelTokenEntity saveGoHighLevelTokenEntity(LofiConnectAppKeyEntity savedAppKey, Map<String, Object> parameters) {
+        return goHighLevelTokenRepository.save(GoHighLevelTokenEntity.from(savedAppKey, parameters));
+    }
+
+    @Transactional
     @Override
     public String getAccessToken(String appKey) {
         LofiConnectAppKeyEntity appKeyEntity = lofiConnectAppKeyRepository.findByAppKey(appKey).orElseThrow(() -> new EntityNotFoundException("App key not found"));
 
-        GoHighLevelTokenEntity goHighLevelTokenEntity = goHighLevelTokenRepository.findFirstByAppKeyEntity(appKeyEntity).orElseThrow(() -> new EntityNotFoundException("Active token not found"));
+        GoHighLevelTokenEntity goHighLevelTokenEntity = goHighLevelTokenRepository.findFirstByAppKeyEntityAndIsActive(appKeyEntity, true).orElseThrow(() -> new EntityNotFoundException("Active token not found"));
 
         if (!isAccessTokenValid(goHighLevelTokenEntity)) {
-            Map<String, Object> tokenMap = refreshAccessToken(goHighLevelTokenEntity.getRefreshToken());
-            log.info("Refreshed access token for appKey {}: {}", appKey, tokenMap);
+            log.info("Access token is not valid");
+            log.info("Access token is generating from refresh token");
+            log.info(appKey);
+            Map<String, Object> parameters = refreshAccessToken(goHighLevelTokenEntity.getRefreshToken());
+            goHighLevelTokenEntity.setIsActive(false);
+            goHighLevelTokenRepository.save(goHighLevelTokenEntity);
+            goHighLevelTokenEntity = saveGoHighLevelTokenEntity(appKeyEntity, parameters);
+            log.info("Refreshed access token for appKey {}: {}", appKey, parameters);
         }
-
-        log.info("Access token: {}", goHighLevelTokenEntity.getAccessToken());
 
         return "Bearer " + goHighLevelTokenEntity.getAccessToken();
     }

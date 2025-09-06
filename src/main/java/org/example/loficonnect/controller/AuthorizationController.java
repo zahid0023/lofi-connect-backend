@@ -33,4 +33,9 @@ public class AuthorizationController {
         return ResponseEntity.ok(authorizationService.generateAndSaveAppKey(apiResponse));
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<?> ping() {
+        return ResponseEntity.ok().build();
+    }
+
 }

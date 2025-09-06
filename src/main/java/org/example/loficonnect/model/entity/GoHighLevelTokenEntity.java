@@ -1,6 +1,7 @@
 package org.example.loficonnect.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -63,6 +64,11 @@ public class GoHighLevelTokenEntity {
 
     @Column(name = "user_type", nullable = false)
     private String userType;
+
+    @NotNull
+    @ColumnDefault("false")
+    @Column(name = "is_active", nullable = false)
+    private Boolean isActive = true;
 
     @PrePersist
     protected void onCreate() {
