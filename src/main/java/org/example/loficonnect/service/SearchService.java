@@ -15,5 +15,8 @@ public interface SearchService {
 
     JsonNode searchTasks(String locationId, TaskSearchRequest request);
 
+    JsonNode searchConversations(Map<String, Object> queryParams);
+
+
 
 }

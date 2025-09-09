@@ -57,6 +57,12 @@ public class SearchServiceImpl implements SearchService {
         return searchClient.searchTasks(accessKey, version, locationId, ghlRequest);
     }
 
+    @Override
+    public JsonNode searchConversations(Map<String, Object> queryParams) {
+        String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
+        String version = VersionContext.getVersion();
+        return searchClient.searchConversations(accessKey, version, queryParams);
+    }
 
 
 }

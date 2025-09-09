@@ -69,5 +69,52 @@ public class SearchController {
         return ResponseEntity.ok(searchService.searchTasks(locationId, request));
     }
 
+    @AppKey
+    @GetMapping("/conversations/search")
+    public ResponseEntity<?> searchConversations(
+            @RequestParam(value = "assigned-to", required = false) String assignedTo,
+            @RequestParam(value = "contact-id", required = false) String contactId,
+            @RequestParam(value = "followers", required = false) String followers,
+            @RequestParam(value = "id", required = false) String id,
+            @RequestParam(value = "last-message-action", required = false) String lastMessageAction,
+            @RequestParam(value = "last-message-direction", required = false) String lastMessageDirection,
+            @RequestParam(value = "last-message-type", required = false) String lastMessageType,
+            @RequestParam(value = "limit", required = false) Integer limit,
+            @RequestParam(value = "mentions", required = false) String mentions,
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "score-profile", required = false) String scoreProfile,
+            @RequestParam(value = "score-profile-max", required = false) Integer scoreProfileMax,
+            @RequestParam(value = "score-profile-min", required = false) Integer scoreProfileMin,
+            @RequestParam(value = "sort", required = false) String sort,
+            @RequestParam(value = "sort-by", required = false) String sortBy,
+            @RequestParam(value = "sort-score-profile", required = false) String sortScoreProfile,
+            @RequestParam(value = "start-after-date", required = false) String startAfterDate,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "location-id") String locationId
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        MapUtil.putIfNotNull(queryParams, "assignedTo", assignedTo);
+        MapUtil.putIfNotNull(queryParams, "contactId", contactId);
+        MapUtil.putIfNotNull(queryParams, "followers", followers);
+        MapUtil.putIfNotNull(queryParams, "id", id);
+        MapUtil.putIfNotNull(queryParams, "lastMessageAction", lastMessageAction);
+        MapUtil.putIfNotNull(queryParams, "lastMessageDirection", lastMessageDirection);
+        MapUtil.putIfNotNull(queryParams, "lastMessageType", lastMessageType);
+        MapUtil.putIfNotNull(queryParams, "limit", limit);
+        MapUtil.putIfNotNull(queryParams, "mentions", mentions);
+        MapUtil.putIfNotNull(queryParams, "query", query);
+        MapUtil.putIfNotNull(queryParams, "scoreProfile", scoreProfile);
+        MapUtil.putIfNotNull(queryParams, "scoreProfileMax", scoreProfileMax);
+        MapUtil.putIfNotNull(queryParams, "scoreProfileMin", scoreProfileMin);
+        MapUtil.putIfNotNull(queryParams, "sort", sort);
+        MapUtil.putIfNotNull(queryParams, "sortBy", sortBy);
+        MapUtil.putIfNotNull(queryParams, "sortScoreProfile", sortScoreProfile);
+        MapUtil.putIfNotNull(queryParams, "startAfterDate", startAfterDate);
+        MapUtil.putIfNotNull(queryParams, "status", status);
+        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
+
+        return ResponseEntity.ok(searchService.searchConversations(queryParams));
+    }
+
 
 }

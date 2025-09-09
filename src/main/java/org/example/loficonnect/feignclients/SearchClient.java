@@ -55,5 +55,15 @@ public interface SearchClient {
             @RequestBody GoHighLevelTaskSearchRequest request
     );
 
+    @GetMapping(
+            value = "/conversations/search",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    JsonNode searchConversations(
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader("Version") String version,
+            @RequestParam Map<String, Object> queryParams
+    );
+
 
 }
