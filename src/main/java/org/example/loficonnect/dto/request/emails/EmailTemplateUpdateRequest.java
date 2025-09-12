@@ -9,7 +9,7 @@ import java.util.Map;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class EmailTemplateUpdateRequest {
+public class EmailTemplateUpdateRequest {   
 
     private String locationId;
     private String templateId;

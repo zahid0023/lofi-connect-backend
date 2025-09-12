@@ -35,7 +35,7 @@ public class ContactController {
     @AppKey
     @DeleteMapping("/contacts/{contact-id}")
     public ResponseEntity<?> deleteContact(@PathVariable("contact-id") String contactId) {
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(contactService.deleteContact(contactId));
     }
 
     @AppKey
