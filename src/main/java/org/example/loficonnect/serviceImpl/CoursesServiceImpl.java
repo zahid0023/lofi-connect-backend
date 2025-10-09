@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.feignclients.CoursesClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CoursesService;
@@ -8,16 +9,15 @@ import org.example.loficonnect.dto.request.courses.ImportCourseRequest;
 import org.example.loficonnect.dto.mapper.courses.GoHighLevelImportCourseRequest;
 import org.example.loficonnect.util.AppKeyContext;
 import org.example.loficonnect.util.VersionContext;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class CoursesServiceImpl implements CoursesService {
 
     private final CoursesClient coursesClient;
     private final AuthorizationService authorizationService;
 
-    @Autowired
     public CoursesServiceImpl(CoursesClient coursesClient, AuthorizationService authorizationService) {
         this.coursesClient = coursesClient;
         this.authorizationService = authorizationService;
