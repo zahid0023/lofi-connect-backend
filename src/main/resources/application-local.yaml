@@ -17,9 +17,9 @@ gohighlevel:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/lofi_connect_db
+    url: jdbc:postgresql://localhost:5432/lofi_connect_database_1
     username: postgres
-    password: 1234
+    password: vG4mXp9Jq2LsTzAK4
     driver-class-name: org.postgresql.Driver
 
   jpa:
