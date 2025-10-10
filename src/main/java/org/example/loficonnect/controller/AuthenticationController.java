@@ -1,5 +1,6 @@
 package org.example.loficonnect.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.request.authentication.UserLoginRequest;
 import org.example.loficonnect.dto.request.authentication.UserRegisterRequest;
 import org.example.loficonnect.dto.response.TokenResponse;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/authorization")
+@Slf4j
 public class AuthenticationController {
     private final AutheticationService autheticationService;
     private final AuthenticationManager authenticationManager;
