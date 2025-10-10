@@ -7,6 +7,7 @@ import org.example.loficonnect.exception.PasswordMismatchException;
 import org.example.loficonnect.model.entity.UserEntity;
 import org.example.loficonnect.repository.UserRepository;
 import org.example.loficonnect.service.AutheticationService;
+import org.example.loficonnect.service.JwtService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class AutheticationServiceImpl implements AutheticationService {
+public class AuthenticationServiceImpl implements AutheticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
