@@ -1,0 +1,52 @@
+package org.example.loficonnect.controller;
+
+import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.service.UserSearchService;
+import org.example.loficonnect.util.MapUtil;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/v1/users/search")
+public class UserSearchController {
+
+    private final UserSearchService userSearchService;
+
+    public UserSearchController(UserSearchService userSearchService) {
+        this.userSearchService = userSearchService;
+    }
+
+    @AppKey
+    @GetMapping
+    public ResponseEntity<?> searchUsers(
+            @RequestParam("company-id") String companyId,
+            @RequestParam(value = "location-id", required = false) String locationId,
+            @RequestParam(value = "enabled2waySync", required = false) Boolean enabled2waySync,
+            @RequestParam(value = "ids", required = false) String ids,
+            @RequestParam(value = "limit", required = false) String limit,
+            @RequestParam(value = "skip", required = false) String skip,
+            @RequestParam(value = "query", required = false) String query,
+            @RequestParam(value = "role", required = false) String role,
+            @RequestParam(value = "sort", required = false) String sort,
+            @RequestParam(value = "sortDirection", required = false) String sortDirection,
+            @RequestParam(value = "type", required = false) String type
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        MapUtil.putIfNotNull(queryParams, "companyId", companyId);
+        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
+        MapUtil.putIfNotNull(queryParams, "enabled2waySync", enabled2waySync);
+        MapUtil.putIfNotNull(queryParams, "ids", ids);
+        MapUtil.putIfNotNull(queryParams, "limit", limit);
+        MapUtil.putIfNotNull(queryParams, "skip", skip);
+        MapUtil.putIfNotNull(queryParams, "query", query);
+        MapUtil.putIfNotNull(queryParams, "role", role);
+        MapUtil.putIfNotNull(queryParams, "sort", sort);
+        MapUtil.putIfNotNull(queryParams, "sortDirection", sortDirection);
+        MapUtil.putIfNotNull(queryParams, "type", type);
+
+        return ResponseEntity.ok(userSearchService.searchUsers(queryParams));
+    }
+}
