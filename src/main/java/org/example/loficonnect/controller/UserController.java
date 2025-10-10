@@ -20,7 +20,7 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
 
     public UserController(UserService userService, AuthenticationManager authenticationManager) {
-        this.userService = userService;
+        this.userService = userService; 
         this.authenticationManager = authenticationManager;
     }
 
