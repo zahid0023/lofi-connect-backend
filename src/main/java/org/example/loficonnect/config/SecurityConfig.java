@@ -26,6 +26,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/authorization/register",
                                 "/api/v1/authorization/login",
+                                "/api/v1/**",
                                 // ✅ Swagger & API docs (Spring Boot 3 / OpenAPI 3)
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
