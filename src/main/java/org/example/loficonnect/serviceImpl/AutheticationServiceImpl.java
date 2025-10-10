@@ -1,12 +1,12 @@
 package org.example.loficonnect.serviceImpl;
 
 import lombok.RequiredArgsConstructor;
-import org.example.loficonnect.dto.request.users.UserRegisterRequest;
+import org.example.loficonnect.dto.request.authentication.UserRegisterRequest;
 import org.example.loficonnect.dto.response.SuccessResponse;
 import org.example.loficonnect.exception.PasswordMismatchException;
 import org.example.loficonnect.model.entity.UserEntity;
 import org.example.loficonnect.repository.UserRepository;
-import org.example.loficonnect.service.UserService;
+import org.example.loficonnect.service.AutheticationService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class AutheticationServiceImpl implements AutheticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
