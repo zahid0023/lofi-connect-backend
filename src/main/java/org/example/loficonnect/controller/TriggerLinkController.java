@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/trigger")
 public class TriggerLinkController {
 
     private final TriggerLinkService triggerLinkService;
