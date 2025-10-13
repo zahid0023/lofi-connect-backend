@@ -34,10 +34,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public JsonNode createTask(String contactId, TaskCreateRequest request, String timeZone) {
+    public JsonNode createTask(String contactId, TaskCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelTaskCreateRequest ghlRequest = GoHighLevelTaskCreateRequest.fromRequest(request, timeZone);
+        GoHighLevelTaskCreateRequest ghlRequest = GoHighLevelTaskCreateRequest.fromRequest(request, request.getTimeZone());
         return taskClient.createTask(accessKey, version, contactId, ghlRequest);
     }
 

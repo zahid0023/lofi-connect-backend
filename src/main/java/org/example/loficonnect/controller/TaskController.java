@@ -28,11 +28,10 @@ public class TaskController {
     @PostMapping("/contacts/{contact-id}/tasks")
     public ResponseEntity<?> createTask(
             @PathVariable("contact-id") String contactId,
-            @RequestParam(value = "timeZone", defaultValue = "UTC") String timeZone,
             @RequestBody TaskCreateRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(taskService.createTask(contactId, request, timeZone));
+                .body(taskService.createTask(contactId, request));
     }
 
     @AppKey

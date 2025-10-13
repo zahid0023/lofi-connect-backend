@@ -8,7 +8,7 @@ import org.example.loficonnect.dto.request.task.TaskUpdateRequest;
 public interface TaskService {
     JsonNode getContactTasks(String contactId);
 
-    JsonNode createTask(String contactId, TaskCreateRequest request, String timeZone);
+    JsonNode createTask(String contactId, TaskCreateRequest request);
 
     JsonNode getContactTask(String contactId, String taskId);
 
