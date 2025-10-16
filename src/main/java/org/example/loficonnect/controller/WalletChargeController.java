@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/marketplace")
+@RequestMapping("/api/v1/ghl")
 public class WalletChargeController {
 
     private final WalletChargesService walletChargesService;
@@ -24,14 +24,14 @@ public class WalletChargeController {
     }
 
     @AppKey
-    @PostMapping("/billing/charges")
+    @PostMapping("/marketplace/billing/charges")
     public ResponseEntity<?> createWalletCharge(@RequestBody WalletChargeCreateRequest request) {
         JsonNode response = walletChargesService.createWalletCharge(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @AppKey
-    @GetMapping("/billing/charges")
+    @GetMapping("/marketplace/billing/charges")
     public ResponseEntity<?> getWalletCharges(
             @RequestParam(value = "end-date", required = false) LocalDate endDate,
             @RequestParam(value = "event-id", required = false) String eventId,
@@ -56,20 +56,20 @@ public class WalletChargeController {
     }
 
     @AppKey
-    @DeleteMapping("/billing/charges/{charge-id}")
+    @DeleteMapping("/marketplace/billing/charges/{charge-id}")
     public ResponseEntity<?> deleteWalletCharge(@PathVariable("charge-id") String chargeId) {
         JsonNode response = walletChargesService.deleteWalletCharge(chargeId);
         return ResponseEntity.ok(response);
     }
 
     @AppKey
-    @GetMapping("/billing/charges/{charge-id}")
+    @GetMapping("/marketplace/billing/charges/{charge-id}")
     public ResponseEntity<?> getWalletCharge(@PathVariable("charge-id") String chargeId) {
         return ResponseEntity.ok(walletChargesService.getWalletCharge(chargeId));
     }
 
     @AppKey
-    @GetMapping("/billing/charges/has-funds")
+    @GetMapping("/marketplace/billing/charges/has-funds")
     public ResponseEntity<?> hasSufficientFunds() {
         return ResponseEntity.ok(walletChargesService.hasSufficientFunds());
     }

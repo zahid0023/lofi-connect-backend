@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/surveys")
+@RequestMapping("/api/v1/ghl")
 public class SurveyController {
 
     private final SurveyService surveyService;
@@ -20,7 +20,7 @@ public class SurveyController {
     }
 
     @AppKey
-    @GetMapping("/submissions")
+    @GetMapping("/surveys/submissions")
     public ResponseEntity<?> getSurveySubmissions(
         @RequestParam("location-id") String locationId,
         @RequestParam(value = "survey-id", required = false) String surveyId,
@@ -43,7 +43,7 @@ public class SurveyController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/surveys")
     public ResponseEntity<?> getSurveys(
             @RequestParam("location-id") String locationId,
             @RequestParam(value = "limit", required = false) Integer limit,

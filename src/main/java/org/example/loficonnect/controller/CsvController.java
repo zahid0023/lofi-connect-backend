@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/csv")
+@RequestMapping("/api/v1/ghl")
 public class CsvController {
 
     private final CsvService csvService;
@@ -25,7 +25,7 @@ public class CsvController {
     }
 
     @AppKey
-    @PostMapping("/{location-id}")
+    @PostMapping("/csv/{location-id}")
     public ResponseEntity<?> uploadCsv(
         @PathVariable("location-id") String locationId,
         @RequestPart("file") MultipartFile file
@@ -36,7 +36,7 @@ public class CsvController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}")
+    @GetMapping("/csv/{location-id}")
     public ResponseEntity<?> getCsvUploadStatus(
             @PathVariable("location-id") String locationId,
             @RequestParam(value = "include-users", required = false) String includeUsers,
@@ -54,7 +54,7 @@ public class CsvController {
     }
 
     @AppKey
-    @PostMapping("/{location-id}/set-accounts")
+    @PostMapping("/csv/{location-id}/set-accounts")
     public ResponseEntity<?> setAccounts(
             @PathVariable("location-id") String locationId,
             @RequestBody CsvSetAccountsRequest request
@@ -63,7 +63,7 @@ public class CsvController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}/{id}")
+    @GetMapping("/csv/{location-id}/{id}")
     public ResponseEntity<?> getCsvPost(
             @PathVariable("location-id") String locationId,
             @PathVariable("id") String id,
@@ -78,7 +78,7 @@ public class CsvController {
     }
 
     @AppKey
-    @PatchMapping("/{location-id}/{id}")
+    @PatchMapping("/csv/{location-id}/{id}")
     public ResponseEntity<?> finalizeCsv(
             @PathVariable("location-id") String locationId,
             @PathVariable("id") String id,
@@ -88,7 +88,7 @@ public class CsvController {
     }
 
     @AppKey
-    @DeleteMapping("/{location-id}/{id}")
+    @DeleteMapping("/csv/{location-id}/{id}")
     public ResponseEntity<?> deleteCsv(
             @PathVariable("location-id") String locationId,
             @PathVariable("id") String id
@@ -97,7 +97,7 @@ public class CsvController {
     }
 
     @AppKey
-    @DeleteMapping("/{location-id}/{csv-id}/post/{post-id}")
+    @DeleteMapping("/csv/{location-id}/{csv-id}/post/{post-id}")
     public ResponseEntity<?> deleteCsvPost(
             @PathVariable("location-id") String locationId,
             @PathVariable("csv-id") String csvId,

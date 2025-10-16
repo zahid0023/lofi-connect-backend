@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/coupons")
+@RequestMapping("/api/v1/ghl")
 public class CouponController {
 
     private final CouponService couponService;
@@ -23,7 +23,7 @@ public class CouponController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/coupons")
     public ResponseEntity<?> getCoupons(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -44,19 +44,19 @@ public class CouponController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/coupons")
     public ResponseEntity<?> createCoupon(@RequestBody CouponCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(couponService.createCoupon(request));
     }
 
     @AppKey
-    @PutMapping
+    @PutMapping("/coupons")
     public ResponseEntity<?> updateCoupon(@RequestBody CouponUpdateRequest request) {
         return ResponseEntity.ok(couponService.updateCoupon(request));
     }
 
     @AppKey
-    @DeleteMapping
+    @DeleteMapping("/coupons")
     public ResponseEntity<?> deleteCoupon(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -66,7 +66,7 @@ public class CouponController {
     }
 
     @AppKey
-    @GetMapping("/details")
+    @GetMapping("/coupons/details")
     public ResponseEntity<?> getCouponDetails(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,

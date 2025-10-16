@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/opportunities")
+@RequestMapping("/api/v1/ghl")
 public class OpportunityFollowerController {
 
     private final OpportunityFollowerService opportunityFollowerService;
@@ -20,7 +20,7 @@ public class OpportunityFollowerController {
     }
 
     @AppKey
-    @PostMapping("/{id}/followers")
+    @PostMapping("/opportunities/{id}/followers")
     public ResponseEntity<?> addFollowers(
         @PathVariable("id") String opportunityId,
         @RequestBody OpportunityFollowerRequest request
@@ -30,7 +30,7 @@ public class OpportunityFollowerController {
     }
 
     @AppKey
-    @DeleteMapping("/{id}/followers")
+    @DeleteMapping("/opportunities/{id}/followers")
     public ResponseEntity<?> removeFollowers(
             @PathVariable("id") String opportunityId,
             @RequestBody Map<String, Object> requestBody

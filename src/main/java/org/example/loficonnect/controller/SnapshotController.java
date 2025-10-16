@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/snapshots")
+@RequestMapping("/api/v1/ghl")
 public class SnapshotController {
 
     private final SnapshotService snapshotService;
@@ -22,7 +22,7 @@ public class SnapshotController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/snapshots")
     public ResponseEntity<?> getSnapshots(@RequestParam("company-id") String companyId) {
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "companyId", companyId);
@@ -32,13 +32,13 @@ public class SnapshotController {
 
 
     @AppKey
-    @PostMapping("/share")
+    @PostMapping("/snapshots/share")
     public ResponseEntity<?> createSnapshotShareLink(@RequestBody SnapshotShareLinkCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(snapshotService.createSnapshotShareLink(request));
     }
 
     @AppKey
-    @GetMapping("/status/{snapshot-id}")
+    @GetMapping("/snapshots/status/{snapshot-id}")
     public ResponseEntity<?> getSnapshotPushStatus(
             @PathVariable("snapshot-id") String snapshotId,
             @RequestParam("company-id") String companyId,
@@ -58,7 +58,7 @@ public class SnapshotController {
     }
 
     @AppKey
-    @GetMapping("/status/{snapshot-id}/location/{location-id}")
+    @GetMapping("/snapshots/status/{snapshot-id}/location/{location-id}")
     public ResponseEntity<?> getLastSnapshotPush(
             @PathVariable("snapshot-id") String snapshotId,
             @PathVariable("location-id") String locationId,

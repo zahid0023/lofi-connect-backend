@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/reviews")
+@RequestMapping("/api/v1/ghl")
 public class ReviewController {
 
     private final ReviewService reviewService;
@@ -25,7 +25,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/reviews")
     public ResponseEntity<?> getReviews(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -56,7 +56,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @GetMapping("/count")
+    @GetMapping("/reviews/count")
     public ResponseEntity<?> getReviewCount(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -79,7 +79,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @PutMapping("/{review-id}")
+    @PutMapping("/reviews/{review-id}")
     public ResponseEntity<?> updateReview(
             @PathVariable("review-id") String reviewId,
             @RequestBody ReviewUpdateRequest request
@@ -88,7 +88,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @DeleteMapping("/{review-id}")
+    @DeleteMapping("/reviews/{review-id}")
     public ResponseEntity<?> deleteReview(
             @PathVariable("review-id") String reviewId,
             @RequestParam("alt-id") String altId,
@@ -104,7 +104,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @PostMapping("/bulk-update")
+    @PostMapping("/reviews/bulk-update")
     public ResponseEntity<?> bulkUpdateReviews(@RequestBody ReviewBulkUpdateRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(reviewService.bulkUpdateReviews(request));

@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/blogs")
+@RequestMapping("/api/v1/ghl")
 public class BlogController {
 
     private final BlogService blogService;
@@ -24,7 +24,7 @@ public class BlogController {
     }
 
     @AppKey
-    @GetMapping("/posts/url-slug-exists")
+    @GetMapping("/blogs/posts/url-slug-exists")
     public ResponseEntity<?> checkUrlSlug(
             @RequestParam(value = "post-id", required = false) String postId,
             @RequestParam(value = "location-id") String locationId,
@@ -40,7 +40,7 @@ public class BlogController {
     }
 
     @AppKey
-    @PutMapping("/posts/{post-id}")
+    @PutMapping("/blogs/posts/{post-id}")
     public ResponseEntity<?> updateBlogPost(
             @PathVariable("post-id") String postId,
             @RequestBody BlogPostUpdateRequest request
@@ -50,13 +50,13 @@ public class BlogController {
     }
 
     @AppKey
-    @PostMapping("/posts")
+    @PostMapping("/blogs/posts")
     public ResponseEntity<?> createBlogPost(@RequestBody BlogPostCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(blogService.createBlogPost(request));
     }
 
     @AppKey
-    @GetMapping("/authors")
+    @GetMapping("/blogs/authors")
     public ResponseEntity<?> getAuthors(
             @RequestParam("limit") Integer limit,
             @RequestParam("location-id") String locationId,
@@ -70,7 +70,7 @@ public class BlogController {
     }
 
     @AppKey
-    @GetMapping("/categories")
+    @GetMapping("/blogs/categories")
     public ResponseEntity<?> getCategories(
             @RequestParam("limit") Integer limit,
             @RequestParam("location-id") String locationId,
@@ -84,7 +84,7 @@ public class BlogController {
     }
 
     @AppKey
-    @GetMapping("/posts/all")
+    @GetMapping("/blogs/posts/all")
     public ResponseEntity<?> getBlogPostsByBlogId(
             @RequestParam(value = "search-term", required = false) String searchTerm,
             @RequestParam(value = "status", required = false) String status, // PUBLISHED|SCHEDULED|ARCHIVED|DRAFT
@@ -104,7 +104,7 @@ public class BlogController {
     }
 
     @AppKey
-    @GetMapping("/site/all")
+    @GetMapping("/blogs/site/all")
     public ResponseEntity<?> getBlogsByLocation(
             @RequestParam(value = "search-term", required = false) String searchTerm,
             @RequestParam("limit") Integer limit,

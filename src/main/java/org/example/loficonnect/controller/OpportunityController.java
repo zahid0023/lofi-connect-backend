@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/opportunities")
+@RequestMapping("/api/v1/ghl")
 public class OpportunityController {
 
     private final OpportunityService opportunityService;
@@ -22,19 +22,19 @@ public class OpportunityController {
     }
 
     @AppKey
-    @GetMapping("/{id}")
+    @GetMapping("/opportunities/{id}")
     public ResponseEntity<?> getOpportunityById(@PathVariable("id") String opportunityId) {
         return ResponseEntity.ok(opportunityService.getOpportunityById(opportunityId));
     }
 
     @AppKey
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/opportunities/{id}")
     public ResponseEntity<?> deleteOpportunityById(@PathVariable("id") String opportunityId) {
         return ResponseEntity.ok(opportunityService.deleteOpportunityById(opportunityId));
     }
 
     @AppKey
-    @PutMapping("/{id}")
+    @PutMapping("/opportunities/{id}")
     public ResponseEntity<?> updateOpportunityById(
             @PathVariable("id") String id,
             @RequestBody OpportunityUpdateRequest request
@@ -43,7 +43,7 @@ public class OpportunityController {
     }
 
     @AppKey
-    @PutMapping("/{id}/status")
+    @PutMapping("/opportunities/{id}/status")
     public ResponseEntity<?> updateOpportunityStatus(
             @PathVariable("id") String id,
             @RequestBody OpportunityStatusUpdateRequest request
@@ -52,13 +52,13 @@ public class OpportunityController {
     }
 
     @AppKey
-    @PostMapping("/upsert")
+    @PostMapping("/opportunities/upsert")
     public ResponseEntity<?> upsertOpportunity(@RequestBody OpportunityUpsertRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(opportunityService.upsertOpportunity(request));
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/opportunities")
     public ResponseEntity<?> createOpportunity(@RequestBody OpportunityCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(opportunityService.createOpportunity(request));
     }

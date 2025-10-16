@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/oauth/instagram")
+@RequestMapping("/api/v1/ghl")
 public class OauthInstagramController {
 
     private final OauthInstagramService oauthInstagramService;
@@ -21,7 +21,7 @@ public class OauthInstagramController {
     }
 
     @AppKey
-    @GetMapping("/start")
+    @GetMapping("/oauth/instagram/start")
     public ResponseEntity<?> startOauthInstagram(
         @RequestParam("location-id") String locationId,
         @RequestParam("user-id") String userId,
@@ -38,7 +38,7 @@ public class OauthInstagramController {
     }
 
     @AppKey
-    @GetMapping("/locations/{location-id}/accounts/{account-id}/instagram/accounts")
+    @GetMapping("/oauth/instagram/locations/{location-id}/accounts/{account-id}/instagram/accounts")
     public ResponseEntity<?> getInstagramProfessionalAccounts(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId
@@ -47,7 +47,7 @@ public class OauthInstagramController {
     }
 
     @AppKey
-    @PostMapping("/locations/{location-id}/accounts/{account-id}/instagram/attach")
+    @PostMapping("/oauth/instagram/locations/{location-id}/accounts/{account-id}/instagram/attach")
     public ResponseEntity<?> attachInstagramAccount(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId,

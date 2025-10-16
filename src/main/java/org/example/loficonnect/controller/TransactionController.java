@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/transactions")
+@RequestMapping("/api/v1/ghl")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -20,7 +20,7 @@ public class TransactionController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/transactions")
     public ResponseEntity<?> getTransactions(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -57,7 +57,7 @@ public class TransactionController {
     }
 
     @AppKey
-    @GetMapping("/{transaction-id}")
+    @GetMapping("/transactions/{transaction-id}")
     public ResponseEntity<?> getTransactionById(
             @PathVariable("transaction-id") String transactionId,
             @RequestParam("alt-id") String altId,

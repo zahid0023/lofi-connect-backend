@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/custom-menu-links")
+@RequestMapping("/api/v1/ghl")
 public class CustomMenuLinkController {
 
     private final CustomMenuLinkService customMenuLinkService;
@@ -23,19 +23,19 @@ public class CustomMenuLinkController {
     }
 
     @AppKey
-    @GetMapping("/{custom-menu-id}")
+    @GetMapping("/custom-menu-links/{custom-menu-id}")
     public ResponseEntity<?> getCustomMenuLink(@PathVariable("custom-menu-id") String customMenuId) {
         return ResponseEntity.ok(customMenuLinkService.getCustomMenuLink(customMenuId));
     }
 
     @AppKey
-    @DeleteMapping("/{custom-menu-id}")
+    @DeleteMapping("/custom-menu-links/{custom-menu-id}")
     public ResponseEntity<?> deleteCustomMenuLink(@PathVariable("custom-menu-id") String customMenuId) {
         return ResponseEntity.ok(customMenuLinkService.deleteCustomMenuLink(customMenuId));
     }
 
     @AppKey
-    @PutMapping("/{custom-menu-id}")
+    @PutMapping("/custom-menu-links/{custom-menu-id}")
     public ResponseEntity<?> updateCustomMenuLink(
             @PathVariable("custom-menu-id") String customMenuId,
             @RequestBody CustomMenuLinkUpdateRequest request
@@ -44,7 +44,7 @@ public class CustomMenuLinkController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/custom-menu-links")
     public ResponseEntity<?> getCustomMenuLinks(
             @RequestParam(value = "limit", required = false) Integer limit,
             @RequestParam(value = "location-id", required = false) String locationId,
@@ -63,7 +63,7 @@ public class CustomMenuLinkController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/custom-menu-links")
     public ResponseEntity<?> createCustomMenuLink(@RequestBody CustomMenuLinkCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customMenuLinkService.createCustomMenuLink(request));
     }

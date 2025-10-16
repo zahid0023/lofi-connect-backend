@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/oauth/tiktok")
+@RequestMapping("/api/v1/ghl")
 public class OauthtiktokController {
 
     private final OauthtiktokService oauthtiktokService;
@@ -22,7 +22,7 @@ public class OauthtiktokController {
     }
 
     @AppKey
-    @GetMapping("/start")
+    @GetMapping("/oauth/tiktok/start")
     public ResponseEntity<?> startOAuth(
         @RequestParam("location-id") String locationId,
         @RequestParam("user-id") String userId,
@@ -39,7 +39,7 @@ public class OauthtiktokController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}/accounts/{account-id}")
+    @GetMapping("/oauth/tiktok/{location-id}/accounts/{account-id}")
     public ResponseEntity<?> getTiktokProfile(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId
@@ -48,7 +48,7 @@ public class OauthtiktokController {
     }
 
     @AppKey
-    @PostMapping("/{location-id}/accounts/{account-id}")
+    @PostMapping("/oauth/tiktok/{location-id}/accounts/{account-id}")
     public ResponseEntity<?> attachTiktokProfile(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId,
@@ -58,7 +58,7 @@ public class OauthtiktokController {
     }
 
     @AppKey
-    @GetMapping("/tiktok-business/start")
+    @GetMapping("/oauth/tiktok/tiktok-business/start")
     public ResponseEntity<?> startTiktokBusinessOAuth(
             @RequestParam("location-id") String locationId,
             @RequestParam("user-id") String userId,
@@ -75,7 +75,7 @@ public class OauthtiktokController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}/tiktok-business/accounts/{account-id}")
+    @GetMapping("/oauth/tiktok/{location-id}/tiktok-business/accounts/{account-id}")
     public ResponseEntity<?> getTiktokBusinessProfile(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId

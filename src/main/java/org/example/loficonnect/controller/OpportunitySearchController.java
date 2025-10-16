@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/opportunities/search")
+@RequestMapping("/api/v1/ghl")
 public class OpportunitySearchController {
 
     private final OpportunitySearchService opportunitySearchService;
@@ -20,7 +20,7 @@ public class OpportunitySearchController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/opportunities/search")
     public ResponseEntity<?> searchOpportunities(
         @RequestParam("location-id") String locationId,
         @RequestParam(value = "assigned-to", required = false) String assignedTo,

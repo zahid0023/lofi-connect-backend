@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/shipping-zone")
+@RequestMapping("/api/v1/ghl")
 public class ShippingZoneRateController {
 
     private final ShippingZoneRateService shippingZoneRateService;
@@ -23,7 +23,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @PostMapping("/{shipping-zone-id}/shipping-rate")
+    @PostMapping("/shipping-zone/{shipping-zone-id}/shipping-rate")
     public ResponseEntity<?> createShippingZoneRate(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @RequestBody ShippingZoneRateCreateRequest request) {
@@ -32,7 +32,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @GetMapping("/{shipping-zone-id}/shipping-rate")
+    @GetMapping("/shipping-zone/{shipping-zone-id}/shipping-rate")
     public ResponseEntity<?> listShippingZoneRates(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @RequestParam(value = "limit", required = false, defaultValue = "0") Integer limit,
@@ -49,7 +49,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @GetMapping("/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
+    @GetMapping("/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
     public ResponseEntity<?> getShippingZoneRateById(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @PathVariable("shipping-rate-id") String shippingRateId,
@@ -63,7 +63,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @PutMapping("/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
+    @PutMapping("/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
     public ResponseEntity<?> updateShippingZoneRate(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @PathVariable("shipping-rate-id") String shippingRateId,
@@ -73,7 +73,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @DeleteMapping("/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
+    @DeleteMapping("/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
     public ResponseEntity<?> deleteShippingZoneRate(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @PathVariable("shipping-rate-id") String shippingRateId,

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/authorization")
+@RequestMapping("/api/v1/ghl")
 @Slf4j
 public class AuthenticationController {
     private final AutheticationService autheticationService;
@@ -30,12 +30,12 @@ public class AuthenticationController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/authorization/register")
     public ResponseEntity<?> registerUser(@RequestBody UserRegisterRequest userRegisterRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(autheticationService.registerUser(userRegisterRequest));
     }
 
-    @PostMapping("/login")
+    @PostMapping("/authorization/login")
     public ResponseEntity<?> loginUser(@RequestBody UserLoginRequest userLoginRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userLoginRequest.getEmail(), userLoginRequest.getPassword()));
         String token = jwtService.generateToken(authentication);

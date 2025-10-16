@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/shipping-carriers")
+@RequestMapping("/api/v1/ghl")
 public class ShippingCarrierController {
 
     private final ShippingCarrierService shippingCarrierService;
@@ -23,13 +23,13 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/shipping-carriers")
     public ResponseEntity<?> createShippingCarrier(@RequestBody ShippingCarrierCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(shippingCarrierService.createShippingCarrier(request));
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/shipping-carriers")
     public ResponseEntity<?> listShippingCarriers(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType
@@ -42,7 +42,7 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @GetMapping("/{shipping-carrier-id}")
+    @GetMapping("/shipping-carriers/{shipping-carrier-id}")
     public ResponseEntity<?> getShippingCarrier(
             @PathVariable("shipping-carrier-id") String shippingCarrierId,
             @RequestParam("alt-id") String altId,
@@ -56,7 +56,7 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @PutMapping("/{shipping-carrier-id}")
+    @PutMapping("/shipping-carriers/{shipping-carrier-id}")
     public ResponseEntity<?> updateShippingCarrier(
             @PathVariable("shipping-carrier-id") String shippingCarrierId,
             @RequestBody ShippingCarrierUpdateRequest request
@@ -65,7 +65,7 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @DeleteMapping("/{shipping-carrier-id}")
+    @DeleteMapping("/shipping-carriers/{shipping-carrier-id}")
     public ResponseEntity<?> deleteShippingCarrier(
             @PathVariable("shipping-carrier-id") String shippingCarrierId,
             @RequestParam("alt-id") String altId,

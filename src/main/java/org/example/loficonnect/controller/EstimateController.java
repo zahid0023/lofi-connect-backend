@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/estimate")
+@RequestMapping("/api/v1/ghl")
 public class EstimateController {
 
     private final EstimateService estimateService;
@@ -19,14 +19,14 @@ public class EstimateController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/estimate")
     public ResponseEntity<?> createEstimate(@RequestBody EstimateCreateRequest request) {
         JsonNode response = estimateService.createEstimate(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @AppKey
-    @PutMapping("/{estimateId}")
+    @PutMapping("/estimate/{estimateId}")
     public ResponseEntity<?> updateEstimate(
             @PathVariable String estimateId,
             @RequestBody EstimateUpdateRequest request
@@ -36,7 +36,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @DeleteMapping("/{estimateId}")
+    @DeleteMapping("/estimate/{estimateId}")
     public ResponseEntity<?> deleteEstimate(
             @PathVariable String estimateId
     ) {
@@ -45,7 +45,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @GetMapping("/generate-number")
+    @GetMapping("/estimate/generate-number")
     public ResponseEntity<?> generateEstimateNumber(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType
@@ -55,7 +55,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @PostMapping("/{estimateId}/send")
+    @PostMapping("/estimate/{estimateId}/send")
     public ResponseEntity<?> sendEstimate(
             @PathVariable String estimateId,
             @RequestBody EstimateSendRequest request
@@ -65,7 +65,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @PostMapping("/{estimateId}/invoice")
+    @PostMapping("/estimate/{estimateId}/invoice")
     public ResponseEntity<?> createInvoiceFromEstimate(
             @PathVariable String estimateId,
             @RequestBody InvoiceCreateRequest request
@@ -75,7 +75,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @GetMapping("/list")
+    @GetMapping("/estimate/list")
     public ResponseEntity<?> listEstimates(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -92,7 +92,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @PatchMapping("/stats/last-visited-at")
+    @PatchMapping("/estimate/stats/last-visited-at")
     public ResponseEntity<?> updateEstimateLastVisitedAt(
             @RequestBody LastVisitedUpdateRequest request
     ) {
@@ -101,7 +101,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @GetMapping("/templates")
+    @GetMapping("/estimate/templates")
     public ResponseEntity<?> listEstimateTemplates(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -114,7 +114,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @PostMapping("/template")
+    @PostMapping("/estimate/template")
     public ResponseEntity<?> createEstimateTemplate(
             @RequestBody EstimateTemplateCreateRequest request
     ) {
@@ -123,7 +123,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @PutMapping("/template/{template-id}")
+    @PutMapping("/estimate/template/{template-id}")
     public ResponseEntity<?> updateEstimateTemplate(
             @RequestBody EstimateTemplateUpdateRequest request,
             @PathVariable("template-id") String templateId
@@ -133,7 +133,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @DeleteMapping("/template/{template-id}")
+    @DeleteMapping("/estimate/template/{template-id}")
     public ResponseEntity<?> deleteEstimateTemplate(
             @PathVariable("template-id") String templateId,
             @RequestParam("alt-id") String altId,
@@ -144,7 +144,7 @@ public class EstimateController {
     }
 
     @AppKey
-    @GetMapping("/template/preview")
+    @GetMapping("/estimate/template/preview")
     public ResponseEntity<?> previewEstimateTemplate(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,

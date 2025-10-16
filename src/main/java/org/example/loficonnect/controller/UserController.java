@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/ghl")
 public class UserController {
 
     private final UserService userService;
@@ -23,13 +23,13 @@ public class UserController {
     }
 
     @AppKey
-    @GetMapping("/{user-id}")
+    @GetMapping("/users/{user-id}")
     public ResponseEntity<?> getUserById(@PathVariable("user-id") String userId) {
         return ResponseEntity.ok(userService.getUserById(userId));
     }
 
     @AppKey
-    @PutMapping("/{user-id}")
+    @PutMapping("/users/{user-id}")
     public ResponseEntity<?> updateUserById(
             @PathVariable("user-id") String userId,
             @RequestBody UserUpdateRequest request
@@ -38,13 +38,13 @@ public class UserController {
     }
 
     @AppKey
-    @DeleteMapping("/{user-id}")
+    @DeleteMapping("/users/{user-id}")
     public ResponseEntity<?> deleteUserById(@PathVariable("user-id") String userId) {
         return ResponseEntity.ok(userService.deleteUserById(userId));
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<?> getUsersByLocation(
             @RequestParam("location-id") String locationId
     ) {
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody UserCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/orders")
+@RequestMapping("/api/v1/ghl")
 public class OrderController {
 
     private final OrderService orderService;
@@ -20,7 +20,7 @@ public class OrderController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/orders")
     public ResponseEntity<?> getOrders(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @AppKey
-    @GetMapping("/{order-id}")
+    @GetMapping("/orders/{order-id}")
     public ResponseEntity<?> getOrderById(
             @PathVariable("order-id") String orderId,
             @RequestParam("alt-id") String altId,

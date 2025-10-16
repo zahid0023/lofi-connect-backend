@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/pipelines")
+@RequestMapping("/api/v1/ghl")
 public class PipelineController {
 
     private final PipelineService pipelineService;
@@ -20,7 +20,7 @@ public class PipelineController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/pipelines")
     public ResponseEntity<?> getPipelines(@RequestParam("location-id") String locationId) {
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "location-id", locationId);

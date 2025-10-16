@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/tag")
+@RequestMapping("/api/v1/ghl")
 public class TagController {
 
     private final TagService tagService;
@@ -21,7 +21,7 @@ public class TagController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}")
+    @GetMapping("/tag/{location-id}")
     public ResponseEntity<?> getTags(
         @PathVariable("location-id") String locationId,
         @RequestParam(value = "limit", required = false) String limit,
@@ -37,7 +37,7 @@ public class TagController {
     }
 
     @AppKey
-    @PostMapping("/{location-id}/details")
+    @PostMapping("/tag/{location-id}/details")
     public ResponseEntity<?> getTagsByIds(
             @PathVariable("location-id") String locationId,
             @RequestBody TagByIdsRequest request

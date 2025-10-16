@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/documents/templates")
+@RequestMapping("/api/v1/ghl")
 public class DocumentsTemplateController {
 
     private final DocumentsTemplateService documentsTemplateService;
@@ -23,7 +23,7 @@ public class DocumentsTemplateController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/documents/templates")
     public ResponseEntity<?> getTemplates(
             @RequestParam("location-id") String locationId,
             @RequestParam(value = "date-from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateFrom,
@@ -51,7 +51,7 @@ public class DocumentsTemplateController {
 
 
     @AppKey
-    @PostMapping("/send")
+    @PostMapping("/documents/templates/send")
     public ResponseEntity<?> sendTemplate(@RequestBody TemplateSendRequest request) {
         return ResponseEntity.ok(documentsTemplateService.sendTemplate(request));
     }
