@@ -46,7 +46,7 @@ public interface UserClient {
     );
 
     @GetMapping(
-            value = "/users",
+            value = "/users/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     JsonNode getUsersByLocation(
