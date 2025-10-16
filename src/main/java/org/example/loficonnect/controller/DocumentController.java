@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/documents")
+@RequestMapping("/api/v1/ghl")
 public class DocumentController {
 
     private final DocumentService documentService;
@@ -24,7 +24,7 @@ public class DocumentController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/documents")
     public ResponseEntity<?> getDocuments(
             @RequestParam("location-id") String locationId,
             @RequestParam(value = "date-from", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateFrom,
@@ -49,7 +49,7 @@ public class DocumentController {
     }
 
     @AppKey
-    @PostMapping("/send")
+    @PostMapping("/documents/send")
     public ResponseEntity<?> sendDocument(@RequestBody DocumentSendRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(documentService.sendDocument(request));

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/calendars")
+@RequestMapping("/api/v1/ghl")
 public class CalendarNotificationController {
     private final CalendarNotificationService calendarNotificationService;
 
@@ -23,7 +23,7 @@ public class CalendarNotificationController {
     }
 
     @AppKey
-    @PostMapping("/notifications/{calendarId}")
+    @PostMapping("/calendars/notifications/{calendarId}")
     public ResponseEntity<?> createNotification(
             @PathVariable("calendarId") String calendarId,
             @RequestBody List<NotificationCreateRequest> request
@@ -33,7 +33,7 @@ public class CalendarNotificationController {
     }
 
     @AppKey
-    @PutMapping("/notifications/{calendar-id}/{notification-id}")
+    @PutMapping("/calendars/notifications/{calendar-id}/{notification-id}")
     public ResponseEntity<?> updateCalendarNotification(
             @PathVariable("calendar-id") String calendarId,
             @PathVariable("notification-id") String notificationId,
@@ -45,7 +45,7 @@ public class CalendarNotificationController {
     }
 
     @AppKey
-    @GetMapping("/notifications/{calendar-id}/{notification-id}")
+    @GetMapping("/calendars/notifications/{calendar-id}/{notification-id}")
     public ResponseEntity<?> getCalendarNotification(
             @PathVariable("calendar-id") String calendarId,
             @PathVariable("notification-id") String notificationId
@@ -56,7 +56,7 @@ public class CalendarNotificationController {
     }
 
     @AppKey
-    @GetMapping("/notifications/{calendar-id}")
+    @GetMapping("/calendars/notifications/{calendar-id}")
     public ResponseEntity<?> getCalendarNotifications(
             @PathVariable("calendar-id") String calendarId,
             @RequestParam(value = "deleted", required = false) Boolean deleted,
@@ -74,7 +74,7 @@ public class CalendarNotificationController {
     }
 
     @AppKey
-    @DeleteMapping("/notifications/{calendar-id}/{notification-id}")
+    @DeleteMapping("/calendars/notifications/{calendar-id}/{notification-id}")
     public ResponseEntity<?> deleteCalendarNotification(
             @PathVariable("calendar-id") String calendarId,
             @PathVariable("notification-id") String notificationId

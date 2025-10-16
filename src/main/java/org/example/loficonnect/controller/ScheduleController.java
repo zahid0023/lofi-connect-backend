@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/schedules")
+@RequestMapping("/api/v1/ghl")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
@@ -19,13 +19,13 @@ public class ScheduleController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/schedules")
     public ResponseEntity<?> createSchedule(@RequestBody ScheduleCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(scheduleService.createSchedule(request));
     }
 
     @AppKey
-    @GetMapping("/list")
+    @GetMapping("/schedules/list")
     public ResponseEntity<JsonNode> listSchedules(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -42,7 +42,7 @@ public class ScheduleController {
     }
 
     @AppKey
-    @GetMapping("/{schedule-id}")
+    @GetMapping("/schedules/{schedule-id}")
     public ResponseEntity<JsonNode> getSchedule(
             @PathVariable("schedule-id") String scheduleId,
             @RequestParam("alt-id") String altId,
@@ -53,7 +53,7 @@ public class ScheduleController {
     }
 
     @AppKey
-    @PutMapping("/{schedule-id}")
+    @PutMapping("/schedules/{schedule-id}")
     public ResponseEntity<JsonNode> updateSchedule(
             @PathVariable("schedule-id") String scheduleId,
             @RequestBody ScheduleUpdateRequest request
@@ -63,7 +63,7 @@ public class ScheduleController {
     }
 
     @AppKey
-    @DeleteMapping("/{schedule-id}")
+    @DeleteMapping("/schedules/{schedule-id}")
     public ResponseEntity<JsonNode> deleteSchedule(
             @PathVariable("schedule-id") String scheduleId,
             @RequestParam("alt-id") String altId,
@@ -74,7 +74,7 @@ public class ScheduleController {
     }
 
     @AppKey
-    @PostMapping("/{schedule-id}/update-and-schedule")
+    @PostMapping("/schedules/{schedule-id}/update-and-schedule")
     public ResponseEntity<JsonNode> updateAndScheduleInvoice(
             @PathVariable("schedule-id") String scheduleId,
             @RequestBody ScheduleUpdateAndScheduleRequest request
@@ -84,7 +84,7 @@ public class ScheduleController {
     }
 
     @AppKey
-    @PostMapping("/{schedule-id}/schedule")
+    @PostMapping("/schedules/{schedule-id}/schedule")
     public ResponseEntity<JsonNode> scheduleInvoice(
             @PathVariable("schedule-id") String scheduleId,
             @RequestBody ScheduleInvoiceRequest request
@@ -94,7 +94,7 @@ public class ScheduleController {
     }
 
     @AppKey
-    @PostMapping("/{schedule-id}/auto-payment")
+    @PostMapping("/schedules/{schedule-id}/auto-payment")
     public ResponseEntity<JsonNode> manageAutoPayment(
             @PathVariable("schedule-id") String scheduleId,
             @RequestBody ScheduleAutoPaymentRequest request
@@ -104,7 +104,7 @@ public class ScheduleController {
     }
 
     @AppKey
-    @PostMapping("/{schedule-id}/cancel")
+    @PostMapping("/schedules/{schedule-id}/cancel")
     public ResponseEntity<JsonNode> cancelScheduledInvoice(
             @PathVariable("schedule-id") String scheduleId,
             @RequestBody ScheduleCancelRequest request

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/users/search")
+@RequestMapping("/api/v1/ghl")
 public class UserSearchController {
 
     private final UserSearchService userSearchService;
@@ -20,7 +20,7 @@ public class UserSearchController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/users/search")
     public ResponseEntity<?> searchUsers(
             @RequestParam("company-id") String companyId,
             @RequestParam(value = "location-id", required = false) String locationId,

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/trigger")
+@RequestMapping("/api/v1/ghl")
 public class TriggerLinkController {
 
     private final TriggerLinkService triggerLinkService;
@@ -22,7 +22,7 @@ public class TriggerLinkController {
     }
 
     @AppKey
-    @PutMapping("/{link-id}")
+    @PutMapping("/trigger/{link-id}")
     public ResponseEntity<?> updateLink(
         @PathVariable("link-id") String linkId,
         @RequestBody LinkUpdateRequest request
@@ -31,7 +31,7 @@ public class TriggerLinkController {
     }
 
     @AppKey
-    @DeleteMapping("/{link-id}")
+    @DeleteMapping("/trigger/{link-id}")
     public ResponseEntity<?> deleteLink(
             @PathVariable("link-id") String linkId
     ) {
@@ -39,7 +39,7 @@ public class TriggerLinkController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/trigger")
     public ResponseEntity<?> getLinks(
             @RequestParam(value = "location-id") String locationId
     ) {
@@ -50,7 +50,7 @@ public class TriggerLinkController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/trigger")
     public ResponseEntity<?> createLink(
             @RequestBody LinkCreateRequest request
     ) {

@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/custom-providers")
+@RequestMapping("/api/v1/ghl")
 public class CustomerProviderController {
 
     private final CustomerProviderService customerProviderService;
@@ -20,7 +20,7 @@ public class CustomerProviderController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/custom-providers")
     public ResponseEntity<?> createCustomProvider(
             @RequestParam("location-id") String locationId,
             @RequestBody CustomerProviderCreateRequest request
@@ -30,19 +30,19 @@ public class CustomerProviderController {
     }
 
     @AppKey
-    @DeleteMapping
+    @DeleteMapping("/custom-providers")
     public ResponseEntity<?> deleteCustomProvider(@RequestParam("location-id") String locationId) {
         return ResponseEntity.ok(customerProviderService.deleteCustomProvider(locationId));
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/custom-providers")
     public ResponseEntity<?> getCustomProviderConfig(@RequestParam("location-id") String locationId) {
         return ResponseEntity.ok(customerProviderService.getCustomProviderConfig(locationId));
     }
 
     @AppKey
-    @PostMapping("/payments/custom-provider/connect")
+    @PostMapping("/custom-providers/payments/custom-provider/connect")
     public ResponseEntity<?> createCustomProviderConfig(
             @RequestParam("location-id") String locationId,
             @RequestBody CustomProviderCreateRequest request
@@ -52,7 +52,7 @@ public class CustomerProviderController {
     }
 
     @AppKey
-    @PostMapping("/payments/custom-provider/disconnect")
+    @PostMapping("/custom-providers/payments/custom-provider/disconnect")
     public ResponseEntity<?> disconnectCustomProviderConfig(
             @RequestParam("location-id") String locationId,
             @RequestBody CustomProviderDisconnectRequest request

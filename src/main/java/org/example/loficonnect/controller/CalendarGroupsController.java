@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/calendars")
+@RequestMapping("/api/v1/ghl")
 public class CalendarGroupsController {
     private final CalendarGroupsService calendarGroupsService;
 
@@ -24,7 +24,7 @@ public class CalendarGroupsController {
     }
 
     @AppKey
-    @GetMapping("/groups")
+    @GetMapping("/calendars/groups")
     public ResponseEntity<?> getCalendarGroups(
             @RequestParam("location-id") String locationId
     ) {
@@ -35,26 +35,26 @@ public class CalendarGroupsController {
     }
 
     @AppKey
-    @PostMapping("/groups")
+    @PostMapping("/calendars/groups")
     public ResponseEntity<?> createCalendarGroup(@RequestBody CalendarGroupCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(calendarGroupsService.createCalendarGroup(request));
     }
 
     @AppKey
-    @PostMapping("/groups/validate-slug")
+    @PostMapping("/calendars/groups/validate-slug")
     public ResponseEntity<?> validateCalendarGroupSlug(@RequestBody CalendarGroupValidateSlugRequest request) {
         return ResponseEntity.ok(calendarGroupsService.validateCalendarGroupSlug(request));
     }
 
     @AppKey
-    @DeleteMapping("/groups/{group-id}")
+    @DeleteMapping("/calendars/groups/{group-id}")
     public ResponseEntity<?> deleteCalendarGroup(@PathVariable("group-id") String groupId) {
         return ResponseEntity.ok(calendarGroupsService.deleteCalendarGroup(groupId));
     }
 
     @AppKey
-    @PutMapping("/groups/{group-id}")
+    @PutMapping("/calendars/groups/{group-id}")
     public ResponseEntity<?> updateCalendarGroup(
             @PathVariable("group-id") String groupId,
             @RequestBody CalendarGroupUpdateRequest request
@@ -63,7 +63,7 @@ public class CalendarGroupsController {
     }
 
     @AppKey
-    @PutMapping("/groups/{group-id}/status")
+    @PutMapping("/calendars/groups/{group-id}/status")
     public ResponseEntity<?> updateGroupStatus(
             @PathVariable("group-id") String groupId,
             @RequestBody CalendarGroupStatusUpdateRequest request

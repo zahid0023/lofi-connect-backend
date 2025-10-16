@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/collections")
+@RequestMapping("/api/v1/ghl")
 public class CollectionController {
 
     private final CollectionService collectionService;
@@ -23,7 +23,7 @@ public class CollectionController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/collections")
     public ResponseEntity<?> getProductCollections(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -44,20 +44,20 @@ public class CollectionController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/collections")
     public ResponseEntity<?> createCollection(@RequestBody CollectionCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(collectionService.createCollection(request));
     }
 
     @AppKey
-    @GetMapping("/{collection-id}")
+    @GetMapping("/collections/{collection-id}")
     public ResponseEntity<?> getCollectionById(@PathVariable("collection-id") String collectionId) {
         return ResponseEntity.ok(collectionService.getCollectionById(collectionId));
     }
 
     @AppKey
-    @PutMapping("/{collection-id}")
+    @PutMapping("/collections/{collection-id}")
     public ResponseEntity<?> updateCollection(
             @PathVariable("collection-id") String collectionId,
             @RequestBody CollectionUpdateRequest request
@@ -66,7 +66,7 @@ public class CollectionController {
     }
 
     @AppKey
-    @DeleteMapping("/{collection-id}")
+    @DeleteMapping("/collections/{collection-id}")
     public ResponseEntity<?> deleteCollection(
             @PathVariable("collection-id") String collectionId,
             @RequestParam("alt-id") String altId,

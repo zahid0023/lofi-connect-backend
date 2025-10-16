@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/category")
+@RequestMapping("/api/v1/ghl")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -20,7 +20,7 @@ public class CategoryController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}")
+    @GetMapping("/category/{location-id}")
     public ResponseEntity<?> getCategories(
         @PathVariable("location-id") String locationId,
         @RequestParam(value = "limit", required = false) String limit,
@@ -36,7 +36,7 @@ public class CategoryController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}/{id}")
+    @GetMapping("/category/{location-id}/{id}")
     public ResponseEntity<?> getCategoryById(
             @PathVariable("location-id") String locationId,
             @PathVariable("id") String categoryId

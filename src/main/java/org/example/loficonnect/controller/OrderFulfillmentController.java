@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/orders")
+@RequestMapping("/api/v1/ghl")
 public class OrderFulfillmentController {
 
     private final OrderFulfillmentService orderFulfillmentService;
@@ -22,7 +22,7 @@ public class OrderFulfillmentController {
     }
 
     @AppKey
-    @PostMapping("/{order-id}/fulfillments")
+    @PostMapping("/orders/{order-id}/fulfillments")
     public ResponseEntity<?> createFulfillment(
             @PathVariable("order-id") String orderId,
             @RequestBody OrderFulfillmentCreateRequest request
@@ -32,7 +32,7 @@ public class OrderFulfillmentController {
     }
 
     @AppKey
-    @GetMapping("/{order-id}/fulfillments")
+    @GetMapping("/orders/{order-id}/fulfillments")
     public ResponseEntity<?> getFulfillments(
             @PathVariable("order-id") String orderId,
             @RequestParam("alt-id") String altId,

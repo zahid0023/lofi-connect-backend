@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/funnels")
+@RequestMapping("/api/v1/ghl")
 public class FunnelController {
 
     private final FunnelService funnelService;
@@ -20,7 +20,7 @@ public class FunnelController {
     }
 
     @AppKey
-    @GetMapping("/list")
+    @GetMapping("/funnels/list")
     public ResponseEntity<?> getFunnelList(
         @RequestParam("location-id") String locationId,
         @RequestParam(value = "category", required = false) String category,
@@ -43,7 +43,7 @@ public class FunnelController {
     }
 
     @AppKey
-    @GetMapping("/pages")
+    @GetMapping("/funnels/pages")
     public ResponseEntity<?> getFunnelPages(
             @RequestParam("location-id") String locationId,
             @RequestParam("funnel-id") String funnelId,
@@ -62,7 +62,7 @@ public class FunnelController {
     }
 
     @AppKey
-    @GetMapping("/pages/count")
+    @GetMapping("/funnels/pages/count")
     public ResponseEntity<?> getFunnelPageCount(
             @RequestParam("location-id") String locationId,
             @RequestParam("funnel-id") String funnelId,

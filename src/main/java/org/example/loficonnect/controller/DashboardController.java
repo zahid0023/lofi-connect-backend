@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/dashboard")
+@RequestMapping("/api/v1/ghl")
 public class DashboardController {
-    @GetMapping("/api-keys")
+    @GetMapping("/dashboard/api-keys")
     public ResponseEntity<?> apiKeys() {
         return ResponseEntity.ok("Test API Keys");
     }

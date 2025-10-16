@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/v1/ghl")
 public class ProductController {
 
     private final ProductService productService;
@@ -25,14 +25,14 @@ public class ProductController {
     }
 
     @AppKey
-    @PostMapping("/bulk-update")
+    @PostMapping("/products/bulk-update")
     public ResponseEntity<?> bulkUpdateProducts(@RequestBody ProductBulkUpdateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(productService.bulkUpdateProducts(request));
     }
 
     @AppKey
-    @GetMapping("/{product-id}")
+    @GetMapping("/products/{product-id}")
     public ResponseEntity<?> getProductById(
             @PathVariable("product-id") String productId,
             @RequestParam("location-id") String locationId
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @AppKey
-    @DeleteMapping("/{product-id}")
+    @DeleteMapping("/products/{product-id}")
     public ResponseEntity<?> deleteProductById(
             @PathVariable("product-id") String productId,
             @RequestParam("location-id") String locationId
@@ -56,7 +56,7 @@ public class ProductController {
     }
 
     @AppKey
-    @PutMapping("/{product-id}")
+    @PutMapping("/products/{product-id}")
     public ResponseEntity<?> updateProductById(
             @PathVariable("product-id") String productId,
             @RequestBody ProductUpdateRequest request
@@ -65,13 +65,13 @@ public class ProductController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/products")
     public ResponseEntity<?> createProduct(@RequestBody ProductCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.createProduct(request));
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/products")
     public ResponseEntity<?> getProducts(
             @RequestParam("location-id") String locationId,
             @RequestParam(value = "limit", required = false) Integer limit,

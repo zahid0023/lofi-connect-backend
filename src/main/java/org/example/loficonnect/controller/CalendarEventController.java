@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/calendars/events")
+@RequestMapping("/api/v1/ghl")
 public class CalendarEventController {
     private final CalendarEventService calendarEventService;
 
@@ -28,13 +28,13 @@ public class CalendarEventController {
     }
 
     @AppKey
-    @PostMapping("/appointments")
+    @PostMapping("/calendars/events/appointments")
     public ResponseEntity<?> createAppointment(@RequestBody AppointmentCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(calendarEventService.createCalendarEvent(request));
     }
 
     @AppKey
-    @PutMapping("/appointments/{appointment-id}")
+    @PutMapping("/calendars/events/appointments/{appointment-id}")
     public ResponseEntity<?> updateAppointment(
             @PathVariable("appointment-id") String appointmentId,
             @RequestBody AppointmentUpdateRequest request
@@ -43,7 +43,7 @@ public class CalendarEventController {
     }
 
     @AppKey
-    @GetMapping("/appointments/{appointmentId}")
+    @GetMapping("/calendars/events/appointments/{appointmentId}")
     public ResponseEntity<?> getAppointment(
             @PathVariable String appointmentId
     ) {
@@ -51,7 +51,7 @@ public class CalendarEventController {
     }
 
     @AppKey
-    @GetMapping("/events")
+    @GetMapping("/calendars/events/events")
     public ResponseEntity<?> getCalendarEvents(
             @RequestParam(value = "calendar-id", required = false) String calendarId,
             @RequestParam(value = "group-id", required = false) String groupId,
@@ -76,7 +76,7 @@ public class CalendarEventController {
     }
 
     @AppKey
-    @GetMapping("/blocked-slots")
+    @GetMapping("/calendars/events/blocked-slots")
     public ResponseEntity<?> getBlockedSlots(
             @RequestParam(value = "calendar-id", required = false) String calendarId,
             @RequestParam(value = "group-id", required = false) String groupId,
@@ -101,14 +101,14 @@ public class CalendarEventController {
     }
 
     @AppKey
-    @PostMapping("/block-slots")
+    @PostMapping("/calendars/events/block-slots")
     public ResponseEntity<?> createBlockSlot(@RequestBody BlockSlotCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(calendarEventService.createBlockSlot(request));
     }
 
     @AppKey
-    @PutMapping("/block-slots/{eventId}")
+    @PutMapping("/calendars/events/block-slots/{eventId}")
     public ResponseEntity<?> updateBlockSlot(
             @PathVariable("eventId") String eventId,
             @RequestBody BlockSlotUpdateRequest request
@@ -117,7 +117,7 @@ public class CalendarEventController {
     }
 
     @AppKey
-    @DeleteMapping("/events/{eventId}")
+    @DeleteMapping("/calendars/events/events/{eventId}")
     public ResponseEntity<?> deleteCalendarEvent(@PathVariable("eventId") String eventId) {
         return ResponseEntity.ok(calendarEventService.deleteCalendarEvent(eventId));
     }

@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/statictics")
+@RequestMapping("/api/v1/ghl")
 public class StaticticsController {
 
     private final StaticticsService staticticsService;
@@ -18,7 +18,7 @@ public class StaticticsController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/statictics")
     public ResponseEntity<?> getStatistics(
         @RequestParam("location-id") String locationId,
         @RequestBody StaticticsRequest request

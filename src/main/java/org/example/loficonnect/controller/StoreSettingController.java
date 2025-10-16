@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/store-settings")
+@RequestMapping("/api/v1/ghl")
 public class StoreSettingController {
 
     private final StoreSettingService storeSettingService;
@@ -22,13 +22,13 @@ public class StoreSettingController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/store-settings")
     public ResponseEntity<?> createOrUpdateStoreSetting(@RequestBody StoreSettingCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(storeSettingService.createOrUpdateStoreSetting(request));
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/store-settings")
     public ResponseEntity<?> getStoreSetting(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType

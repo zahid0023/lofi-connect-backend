@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/email-verification")
+@RequestMapping("/api/v1/ghl")
 public class EmailVerificationController {
 
     private final EmailVerificationService emailVerificationService;
@@ -22,7 +22,7 @@ public class EmailVerificationController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/email-verification")
     public ResponseEntity<?> verifyEmail(
         @RequestParam("location-id") String locationId,
         @RequestBody EmailVerificationRequest request

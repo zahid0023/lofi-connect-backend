@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/oauth/linkedin")
+@RequestMapping("/api/v1/ghl")
 public class OauthLinkedinController {
 
     private final OauthLinkedinService oauthLinkedinService;
@@ -21,7 +21,7 @@ public class OauthLinkedinController {
     }
 
     @AppKey
-    @GetMapping("/start")
+    @GetMapping("/oauth/linkedin/start")
     public ResponseEntity<?> startOauthLinkedin(
         @RequestParam("location-id") String locationId,
         @RequestParam("user-id") String userId,
@@ -38,7 +38,7 @@ public class OauthLinkedinController {
     }
 
     @AppKey
-    @GetMapping("/{location-id}/accounts/{account-id}")
+    @GetMapping("/oauth/linkedin/{location-id}/accounts/{account-id}")
     public ResponseEntity<?> getLinkedinAccounts(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId
@@ -47,7 +47,7 @@ public class OauthLinkedinController {
     }
 
     @AppKey
-    @PostMapping("/{location-id}/accounts/{account-id}")
+    @PostMapping("/oauth/linkedin/{location-id}/accounts/{account-id}")
     public ResponseEntity<?> attachLinkedinAccount(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId,

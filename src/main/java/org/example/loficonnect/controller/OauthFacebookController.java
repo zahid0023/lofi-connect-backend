@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/oauth/facebook")
+@RequestMapping("/api/v1/ghl")
 public class OauthFacebookController {
 
     private final OauthFacebookService oauthFacebookService;
@@ -21,7 +21,7 @@ public class OauthFacebookController {
     }
 
     @AppKey
-    @GetMapping("/start")
+    @GetMapping("/oauth/facebook/start")
     public ResponseEntity<?> startOauthFacebook(
         @RequestParam("location-id") String locationId,
         @RequestParam("user-id") String userId,
@@ -38,7 +38,7 @@ public class OauthFacebookController {
     }
 
     @AppKey
-    @GetMapping("/locations/{location-id}/accounts/{account-id}/facebook/pages")
+    @GetMapping("/oauth/facebook/locations/{location-id}/accounts/{account-id}/facebook/pages")
     public ResponseEntity<?> getFacebookPages(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId
@@ -47,7 +47,7 @@ public class OauthFacebookController {
     }
 
     @AppKey
-    @PostMapping("/locations/{location-id}/accounts/{account-id}/facebook/attach")
+    @PostMapping("/oauth/facebook/locations/{location-id}/accounts/{account-id}/facebook/attach")
     public ResponseEntity<?> attachFacebookPage(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId,

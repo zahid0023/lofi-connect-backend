@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/subscriptions")
+@RequestMapping("/api/v1/ghl")
 public class SubscriptionController {
 
     private final SubscriptionService subscriptionService;
@@ -20,7 +20,7 @@ public class SubscriptionController {
     }
 
     @AppKey
-    @GetMapping
+    @GetMapping("/subscriptions")
     public ResponseEntity<?> getSubscriptions(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -53,7 +53,7 @@ public class SubscriptionController {
     }
 
     @AppKey
-    @GetMapping("/{subscription-id}")
+    @GetMapping("/subscriptions/{subscription-id}")
     public ResponseEntity<?> getSubscriptionById(
             @PathVariable("subscription-id") String subscriptionId,
             @RequestParam("alt-id") String altId,

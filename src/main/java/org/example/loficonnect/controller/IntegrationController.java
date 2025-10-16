@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/integrations")
+@RequestMapping("/api/v1/ghl")
 public class IntegrationController {
 
     private final IntegrationService integrationService;
@@ -22,14 +22,14 @@ public class IntegrationController {
     }
 
     @AppKey
-    @PostMapping("/provider/whitelabel")
+    @PostMapping("/integrations/provider/whitelabel")
     public ResponseEntity<?> createIntegration(@RequestBody IntegrationCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(integrationService.createIntegration(request));
     }
 
 
     @AppKey
-    @GetMapping("/provider/whitelabel")
+    @GetMapping("/integrations/provider/whitelabel")
     public ResponseEntity<?> getIntegrationProviders(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,

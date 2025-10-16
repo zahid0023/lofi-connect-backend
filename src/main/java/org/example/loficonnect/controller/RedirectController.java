@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/redirects")
+@RequestMapping("/api/v1/ghl")
 public class RedirectController {
 
     private final RedirectService redirectService;
@@ -23,13 +23,13 @@ public class RedirectController {
     }
 
     @AppKey
-    @PostMapping
+    @PostMapping("/redirects")
     public ResponseEntity<?> createRedirect(@RequestBody RedirectCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(redirectService.createRedirect(request));
     }
 
     @AppKey
-    @PatchMapping("/{id}")
+    @PatchMapping("/redirects/{id}")
     public ResponseEntity<?> updateRedirect(
             @PathVariable("id") String id,
             @RequestBody RedirectUpdateRequest request
@@ -38,7 +38,7 @@ public class RedirectController {
     }
 
     @AppKey
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/redirects/{id}")
     public ResponseEntity<?> deleteRedirectById(
             @PathVariable("id") String id,
             @RequestParam("location-id") String locationId
@@ -49,7 +49,7 @@ public class RedirectController {
     }
 
     @AppKey
-    @GetMapping("/list")
+    @GetMapping("/redirects/list")
     public ResponseEntity<?> getRedirectList(
             @RequestParam("location-id") String locationId,
             @RequestParam("limit") Integer limit,

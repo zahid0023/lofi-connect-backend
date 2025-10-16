@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/oauth/google")
+@RequestMapping("/api/v1/ghl")
 public class OauthGoogleController {
 
     private final OauthGoogleService oauthGoogleService;
@@ -22,7 +22,7 @@ public class OauthGoogleController {
     }
 
     @AppKey
-    @GetMapping("/start")
+    @GetMapping("/oauth/google/start")
     public ResponseEntity<?> startOauth(
             @RequestParam("location-id") String locationId,
             @RequestParam("user-id") String userId,
@@ -39,7 +39,7 @@ public class OauthGoogleController {
     }
 
     @AppKey
-    @GetMapping("/locations/{location-id}/accounts/{account-id}/google/locations")
+    @GetMapping("/oauth/google/locations/{location-id}/accounts/{account-id}/google/locations")
     public ResponseEntity<?> getGoogleBusinessLocations(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId
@@ -48,7 +48,7 @@ public class OauthGoogleController {
     }
 
     @AppKey
-    @PostMapping("/locations/{location-id}/accounts/{account-id}/google/locations")
+    @PostMapping("/oauth/google/locations/{location-id}/accounts/{account-id}/google/locations")
     public ResponseEntity<?> setGoogleBusinessLocation(
             @PathVariable("location-id") String locationId,
             @PathVariable("account-id") String accountId,
