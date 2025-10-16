@@ -16,7 +16,7 @@ See usage statistics.
 
 This part uses standard Spring Security authentication with UserDetailsService, password hashing, login endpoints, etc.
 
-The Security Stack Will Look Like This
+The Security Stack Will Look Like This      
 +-------------------------------------------------------------+
 | Dashboard UI |
 | - Login/Register (Spring Security + JWT)                   |
