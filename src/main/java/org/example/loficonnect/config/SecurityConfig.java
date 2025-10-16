@@ -33,8 +33,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/api/v1/authorization/register",
-                                "/api/v1/authorization/login",
+                                "/api/v1/authorization/**",
                                 "/api/v1/ghl/**",
                                 // ✅ Swagger & API docs (Spring Boot 3 / OpenAPI 3)
                                 "/v3/api-docs/**",

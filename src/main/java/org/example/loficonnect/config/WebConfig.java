@@ -16,6 +16,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(appKeyInterceptor);
+        registry.addInterceptor(appKeyInterceptor).addPathPatterns("/api/v1/ghl/**");
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/ghl")
+@RequestMapping("/api/v1/authorization")
 @Slf4j
 public class AuthorizationController {
     private final AuthorizationService authorizationService;
@@ -18,7 +18,7 @@ public class AuthorizationController {
         this.authorizationService = authorizationService;
     }
 
-    @GetMapping("/authorization/init")
+    @GetMapping("/init")
     public ResponseEntity<Void> initAuthorization() {
         String url = authorizationService.generateAuthorizationUrl();
         log.info("Redirecting user to authorization URL: {}", url);
@@ -27,13 +27,13 @@ public class AuthorizationController {
                 .build();
     }
 
-    @GetMapping("/authorization/redirect")
+    @GetMapping("/redirect")
     public ResponseEntity<?> handleRedirect(@RequestParam("code") String code) {
         Map<String, Object> apiResponse = authorizationService.exchangeCodeForToken(code);
         return ResponseEntity.ok(authorizationService.generateAndSaveAppKey(apiResponse));
     }
 
-    @GetMapping("/authorization/ping")
+    @GetMapping("/ping")
     public ResponseEntity<?> ping() {
         return ResponseEntity.ok().build();
     }
