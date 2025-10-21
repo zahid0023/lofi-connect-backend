@@ -69,7 +69,7 @@ public interface OpportunityClient {
     );
 
     @PostMapping(
-            value = "/opportunities",
+            value = "/opportunities/",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
