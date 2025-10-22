@@ -37,7 +37,7 @@ public interface ObjectSchemaClient {
     );
 
     @GetMapping(
-            value = "/objects",
+            value = "/objects/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     JsonNode getAllObjects(
@@ -46,9 +46,8 @@ public interface ObjectSchemaClient {
             @RequestParam("locationId") String locationId
     );
 
-    @AppKey
     @PostMapping(
-            value = "/objects",
+            value = "/objects/",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

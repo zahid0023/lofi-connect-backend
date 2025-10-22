@@ -4,6 +4,7 @@ import org.example.loficonnect.config.AppKey;
 import org.example.loficonnect.dto.request.objectschema.CustomObjectCreateRequest;
 import org.example.loficonnect.dto.request.objectschema.ObjectSchemaUpdateRequest;
 import org.example.loficonnect.service.ObjectSchemaService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,6 @@ public class ObjectSchemaController {
     @AppKey
     @PostMapping("/objects")
     public ResponseEntity<?> createCustomObject(@RequestBody CustomObjectCreateRequest request) {
-        return ResponseEntity.status(201).body(objectSchemaService.createCustomObject(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(objectSchemaService.createCustomObject(request));
     }
 }

@@ -5,20 +5,42 @@ import org.example.loficonnect.dto.request.objectschema.CustomObjectCreateReques
 
 @Data
 public class GoHighLevelCreateCustomObjectRequest {
-    private CustomObjectCreateRequest.Labels labels;
+    private Labels labels;
     private String key;
     private String description;
     private String locationId;
-    private CustomObjectCreateRequest.PrimaryDisplayPropertyDetails primaryDisplayPropertyDetails;
+    private PrimaryDisplayPropertyDetails primaryDisplayPropertyDetails;
+
+    @Data
+    public static class Labels {
+        private String singular;
+        private String plural;
+    }
+
+    @Data
+    public static class PrimaryDisplayPropertyDetails {
+        private String key;
+        private String name;
+        private String dataType;
+    }
 
     public static GoHighLevelCreateCustomObjectRequest fromRequest(CustomObjectCreateRequest request) {
         GoHighLevelCreateCustomObjectRequest ghlRequest = new GoHighLevelCreateCustomObjectRequest();
 
-        ghlRequest.setLabels(request.getLabels());
+        Labels labels = new Labels();
+        labels.setSingular(request.getLabels().getSingular());
+        labels.setPlural(request.getLabels().getPlural());
+
+        PrimaryDisplayPropertyDetails details = new PrimaryDisplayPropertyDetails();
+        details.setKey(request.getPrimaryDisplayPropertyDetails().getKey());
+        details.setName(request.getPrimaryDisplayPropertyDetails().getName());
+        details.setDataType(request.getPrimaryDisplayPropertyDetails().getDataType());
+
+        ghlRequest.setLabels(labels);
         ghlRequest.setKey(request.getKey());
         ghlRequest.setDescription(request.getDescription());
         ghlRequest.setLocationId(request.getLocationId());
-        ghlRequest.setPrimaryDisplayPropertyDetails(request.getPrimaryDisplayPropertyDetails());
+        ghlRequest.setPrimaryDisplayPropertyDetails(details);
 
         return ghlRequest;
     }
