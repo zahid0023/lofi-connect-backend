@@ -23,7 +23,7 @@ public interface AssociationsClient {
     );
 
     @GetMapping(
-            value = "/associations/object-key/{objectKey}",
+            value = "/associations/objectKey/{objectKey}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     JsonNode getAssociationByObjectKey(

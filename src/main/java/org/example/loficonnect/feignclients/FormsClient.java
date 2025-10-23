@@ -27,7 +27,7 @@ public interface FormsClient {
             @RequestBody GoHighLevelFileUploadRequest request
     );
 
-    @GetMapping(value = "/forms", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/forms/", produces = MediaType.APPLICATION_JSON_VALUE)
     JsonNode getForms(
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Version") String version,
