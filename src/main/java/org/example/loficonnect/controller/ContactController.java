@@ -3,6 +3,7 @@ package org.example.loficonnect.controller;
 import org.example.loficonnect.config.AppKey;
 import org.example.loficonnect.dto.request.contact.ContactCreateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpdateRequest;
+import org.example.loficonnect.dto.request.contact.ContactUpsertRequest;
 import org.example.loficonnect.service.ContactService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +51,11 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.CREATED).body(contactService.createContact(request));
     }
 
+    @AppKey
+    @PostMapping("/contacts/upsert")
+    public ResponseEntity<?> upsertContact(@RequestBody ContactUpsertRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(contactService.upsertContact(request));
+    }
 
 }
