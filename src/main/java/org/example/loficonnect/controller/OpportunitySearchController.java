@@ -44,10 +44,10 @@ public class OpportunitySearchController {
         @RequestParam(value = "status", required = false) String status
     ) {
         Map<String, Object> queryParams = new HashMap<>();
-        MapUtil.putIfNotNull(queryParams, "location-id", locationId);
-        MapUtil.putIfNotNull(queryParams, "assigned-to", assignedTo);
-        MapUtil.putIfNotNull(queryParams, "campaign-id", campaignId);
-        MapUtil.putIfNotNull(queryParams, "contact-id", contactId);
+        MapUtil.putIfNotNull(queryParams, "location_id", locationId);
+        MapUtil.putIfNotNull(queryParams, "assigned_to", assignedTo);
+        MapUtil.putIfNotNull(queryParams, "campaignId", campaignId);
+        MapUtil.putIfNotNull(queryParams, "contact_id", contactId);
         MapUtil.putIfNotNull(queryParams, "country", country);
         MapUtil.putIfNotNull(queryParams, "date", date);
         MapUtil.putIfNotNull(queryParams, "endDate", endDate);
@@ -58,11 +58,11 @@ public class OpportunitySearchController {
         MapUtil.putIfNotNull(queryParams, "limit", limit);
         MapUtil.putIfNotNull(queryParams, "order", order);
         MapUtil.putIfNotNull(queryParams, "page", page);
-        MapUtil.putIfNotNull(queryParams, "pipeline-id", pipelineId);
-        MapUtil.putIfNotNull(queryParams, "pipeline-stage-id", pipelineStageId);
+        MapUtil.putIfNotNull(queryParams, "pipeline_id", pipelineId);
+        MapUtil.putIfNotNull(queryParams, "pipeline_stage_id", pipelineStageId);
         MapUtil.putIfNotNull(queryParams, "q", q);
-        MapUtil.putIfNotNull(queryParams, "start-after", startAfter);
-        MapUtil.putIfNotNull(queryParams, "start-after-id", startAfterId);
+        MapUtil.putIfNotNull(queryParams, "startAfter", startAfter);
+        MapUtil.putIfNotNull(queryParams, "startAfterId", startAfterId);
         MapUtil.putIfNotNull(queryParams, "status", status);
 
         return ResponseEntity.ok(opportunitySearchService.searchOpportunities(queryParams));

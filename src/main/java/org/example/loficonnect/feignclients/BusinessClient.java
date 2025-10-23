@@ -22,7 +22,7 @@ public interface BusinessClient {
     );
 
     @GetMapping(
-            value = "/businesses",
+            value = "/businesses/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     JsonNode getBusinessesByLocation(

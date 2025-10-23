@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.example.loficonnect.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactCreateRequest;
 import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactUpdateRequest;
+import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactUpsertRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -63,5 +64,15 @@ public interface ContactClient {
             @RequestBody GoHighLevelContactCreateRequest request
     );
 
+    @PostMapping(
+            value = "/contacts/upsert",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    JsonNode upsertContact(
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader("Version") String version,
+            @RequestBody GoHighLevelContactUpsertRequest request
+    );
 
 }

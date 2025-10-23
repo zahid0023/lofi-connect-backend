@@ -31,7 +31,7 @@ public class BusinessController {
 
     @AppKey
     @GetMapping("/businesses")
-    public ResponseEntity<JsonNode> getBusinessesByLocation(
+    public ResponseEntity<?> getBusinessesByLocation(
             @RequestParam(value = "location-id") String locationId,
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Version") String version
@@ -43,14 +43,14 @@ public class BusinessController {
 
     @AppKey
     @PostMapping("/businesses")
-    public ResponseEntity<JsonNode> createBusiness(@RequestBody BusinessCreateRequest request) {
+    public ResponseEntity<?> createBusiness(@RequestBody BusinessCreateRequest request) {
         JsonNode response = businessService.createBusiness(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @AppKey
     @PutMapping("/businesses/{business-id}")
-    public ResponseEntity<JsonNode> updateBusiness(
+    public ResponseEntity<?> updateBusiness(
             @PathVariable("business-id") String businessId,
             @RequestBody BusinessUpdateRequest request
     ) {
@@ -60,7 +60,7 @@ public class BusinessController {
 
     @AppKey
     @DeleteMapping("/businesses/{business-id}")
-    public ResponseEntity<JsonNode> deleteBusiness(@PathVariable("business-id") String businessId) {
+    public ResponseEntity<?> deleteBusiness(@PathVariable("business-id") String businessId) {
         JsonNode response = businessService.deleteBusiness(businessId);
         return ResponseEntity.ok(response);
     }

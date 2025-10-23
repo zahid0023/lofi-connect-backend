@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactCreateRequest;
 import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactUpdateRequest;
+import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactUpsertRequest;
 import org.example.loficonnect.dto.request.contact.ContactCreateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpdateRequest;
+import org.example.loficonnect.dto.request.contact.ContactUpsertRequest;
 import org.example.loficonnect.feignclients.ContactClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.ContactService;
@@ -62,5 +64,12 @@ public class ContactServiceImpl implements ContactService {
         return contactClient.createContact(accessKey, version, ghlRequest);
     }
 
+    @Override
+    public JsonNode upsertContact(ContactUpsertRequest request) {
+        String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
+        String version = VersionContext.getVersion();
+        GoHighLevelContactUpsertRequest ghlRequest = GoHighLevelContactUpsertRequest.fromRequest(request);
+        return contactClient.upsertContact(accessKey, version, ghlRequest);
+    }
 
 }

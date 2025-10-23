@@ -6,6 +6,7 @@ import org.example.loficonnect.util.DateTimeUtil;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 public class GoHighLevelContactWorkflowAddRequest {
@@ -13,8 +14,15 @@ public class GoHighLevelContactWorkflowAddRequest {
 
     public static GoHighLevelContactWorkflowAddRequest fromRequest(ContactWorkflowAddRequest request) {
         GoHighLevelContactWorkflowAddRequest ghlRequest = new GoHighLevelContactWorkflowAddRequest();
-        ZonedDateTime zdt = DateTimeUtil.toZonedDateTime(LocalDateTime.of(request.getDate(), request.getTime()), request.getTimeZone());
-        ghlRequest.setEventStartTime(zdt.toString());
+
+        ZonedDateTime zdt = DateTimeUtil.toZonedDateTime(
+                LocalDateTime.of(request.getDate(), request.getTime()),
+                request.getTimeZone()
+        );
+
+        //Format without zone name (just offset)
+        ghlRequest.setEventStartTime(zdt.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME));
         return ghlRequest;
     }
+
 }

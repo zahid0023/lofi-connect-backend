@@ -56,7 +56,7 @@ public interface UserClient {
     );
 
     @PostMapping(
-            value = "/users",
+            value = "/users/",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )

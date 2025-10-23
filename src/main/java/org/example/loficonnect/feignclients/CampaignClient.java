@@ -13,7 +13,7 @@ import java.util.Map;
 @FeignClient(name = "campaignClient", url = "https://services.leadconnectorhq.com", configuration = FeignLoggingConfig.class)
 public interface CampaignClient {
     @GetMapping(
-            value = "/campaigns",
+            value = "/campaigns/",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     JsonNode getCampaigns(
