@@ -18,7 +18,7 @@ public class GoHighLevelWalletChargeCreateRequest {
     private String locationId;
     private String companyId;
     private String description;
-    private String units;
+    private Double units;
     private ZonedDateTime eventTime;
 
     public static GoHighLevelWalletChargeCreateRequest fromRequest(WalletChargeCreateRequest request) {

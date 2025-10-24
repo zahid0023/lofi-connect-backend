@@ -18,7 +18,7 @@ public class WalletChargeCreateRequest {
     private String locationId;
     private String companyId;
     private String description;
-    private String units;
+    private Double units;
 
     private LocalDate eventDate;
     private LocalTime eventTime;
