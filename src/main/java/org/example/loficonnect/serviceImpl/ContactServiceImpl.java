@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactCreateRequest;
 import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactUpdateRequest;
@@ -8,6 +9,7 @@ import org.example.loficonnect.dto.mapper.contact.GoHighLevelContactUpsertReques
 import org.example.loficonnect.dto.request.contact.ContactCreateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpdateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpsertRequest;
+import org.example.loficonnect.dto.response.contacts.CreateContactResponse;
 import org.example.loficonnect.feignclients.ContactClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.ContactService;
@@ -21,10 +23,14 @@ import org.springframework.stereotype.Service;
 public class ContactServiceImpl implements ContactService {
     private final AuthorizationService authorizationService;
     private final ContactClient contactClient;
+    private final ObjectMapper objectMapper;
 
-    public ContactServiceImpl(AuthorizationService authorizationService, ContactClient contactClient) {
+    public ContactServiceImpl(AuthorizationService authorizationService,
+                              ContactClient contactClient,
+                              ObjectMapper objectMapper) {
         this.authorizationService = authorizationService;
         this.contactClient = contactClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -57,11 +63,13 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public JsonNode createContact(ContactCreateRequest request) {
+    public CreateContactResponse createContact(ContactCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelContactCreateRequest ghlRequest = GoHighLevelContactCreateRequest.fromRequest(request);
-        return contactClient.createContact(accessKey, version, ghlRequest);
+        JsonNode response = contactClient.createContact(accessKey, version, ghlRequest);
+        log.info("response: {}", response);
+        return CreateContactResponse.fromJson(response.has("contact") ? response.get("contact") : null, objectMapper);
     }
 
     @Override

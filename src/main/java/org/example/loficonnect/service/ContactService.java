@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.example.loficonnect.dto.request.contact.ContactCreateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpdateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpsertRequest;
+import org.example.loficonnect.dto.response.contacts.CreateContactResponse;
 
 public interface ContactService {
     JsonNode getContact(String contactId);
@@ -14,7 +15,7 @@ public interface ContactService {
 
     JsonNode getBusinessContacts(String businessId);
 
-    JsonNode createContact(ContactCreateRequest request);
+    CreateContactResponse createContact(ContactCreateRequest request);
 
     JsonNode upsertContact(ContactUpsertRequest request);
 
