@@ -3,7 +3,9 @@ package org.example.loficonnect.serviceImpl;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.opportunityfollower.GoHighLevelOpportunityFollowerRequest;
+import org.example.loficonnect.dto.mapper.opportunityfollower.GoHighLevelOpportunityRemoveFollowersRequest;
 import org.example.loficonnect.dto.request.opportunityfollower.OpportunityFollowerRequest;
+import org.example.loficonnect.dto.request.opportunityfollower.OpportunityRemoveFollowersRequest;
 import org.example.loficonnect.feignclients.OpportunityFollowerClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.OpportunityFollowerService;
@@ -36,10 +38,11 @@ public class OpportunityFollowerServiceImpl implements OpportunityFollowerServic
     }
 
     @Override
-    public JsonNode removeFollowers(String opportunityId, Map<String, Object> requestBody) {
+    public JsonNode removeFollowers(String opportunityId, OpportunityRemoveFollowersRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return opportunityFollowerClient.removeFollowers(accessKey, version, opportunityId, requestBody);
+        GoHighLevelOpportunityRemoveFollowersRequest ghlRequest = GoHighLevelOpportunityRemoveFollowersRequest.fromRequest(request);
+        return opportunityFollowerClient.removeFollowers(accessKey, version, opportunityId, ghlRequest);
     }
 
 }

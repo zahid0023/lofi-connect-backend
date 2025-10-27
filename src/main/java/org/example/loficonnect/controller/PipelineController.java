@@ -23,7 +23,7 @@ public class PipelineController {
     @GetMapping("/pipelines")
     public ResponseEntity<?> getPipelines(@RequestParam("location-id") String locationId) {
         Map<String, Object> queryParams = new HashMap<>();
-        MapUtil.putIfNotNull(queryParams, "location-id", locationId);
+        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
 
         return ResponseEntity.ok(pipelineService.getPipelines(queryParams));
     }

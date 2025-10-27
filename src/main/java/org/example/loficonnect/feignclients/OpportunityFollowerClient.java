@@ -3,6 +3,7 @@ package org.example.loficonnect.feignclients;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.example.loficonnect.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.opportunityfollower.GoHighLevelOpportunityFollowerRequest;
+import org.example.loficonnect.dto.mapper.opportunityfollower.GoHighLevelOpportunityRemoveFollowersRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +34,7 @@ public interface OpportunityFollowerClient {
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Version") String version,
             @PathVariable("id") String opportunityId,
-            @RequestBody Map<String, Object> requestBody
+            @RequestBody GoHighLevelOpportunityRemoveFollowersRequest request
     );
 
 }
