@@ -1,8 +1,10 @@
 package org.example.loficonnect.controller;
 
 import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.dto.request.usersearch.UserSearchRequest;
 import org.example.loficonnect.service.UserSearchService;
 import org.example.loficonnect.util.MapUtil;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,5 +50,11 @@ public class UserSearchController {
         MapUtil.putIfNotNull(queryParams, "type", type);
 
         return ResponseEntity.ok(userSearchService.searchUsers(queryParams));
+    }
+
+    @AppKey
+    @PostMapping("/users/search/filter-by-email")
+    public ResponseEntity<?> filterUsersByEmail(@RequestBody UserSearchRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(userSearchService.filterUsersByEmail(request));
     }
 }
