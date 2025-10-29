@@ -34,7 +34,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         final String requestPath = request.getRequestURI();
 
         // ✅ Skip JWT processing for AppKey-based routes
-        if (requestPath.startsWith("/api/v1/ghl/")) {
+        if (requestPath.startsWith("/api/v1/ghl/") || requestPath.startsWith("/api/v1/authorization/")) {
             filterChain.doFilter(request, response);
             return;
         }
