@@ -139,7 +139,7 @@ public class CreateContactResponse {
         @JsonAlias({"id"})
         private String id;
 
-        @JsonAlias({"value"})
+        @JsonAlias({"fieldValue"})
         private String value;
 
         private CustomField() {

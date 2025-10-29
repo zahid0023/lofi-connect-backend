@@ -36,6 +36,4 @@ public class WorkFlowController {
             @RequestBody ContactWorkflowDeleteRequest request) {
         return ResponseEntity.ok(workflowService.deleteContactFromWorkflow(contactId, workflowId, request));
     }
-
-
 }

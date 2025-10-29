@@ -76,7 +76,7 @@ public class ContactServiceImpl implements ContactService {
     public JsonNode upsertContact(ContactUpsertRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelContactUpsertRequest ghlRequest = GoHighLevelContactUpsertRequest.fromRequest(request);
+        GoHighLevelContactUpsertRequest ghlRequest = GoHighLevelContactUpsertRequest.fromRequest(request, objectMapper);
         return contactClient.upsertContact(accessKey, version, ghlRequest);
     }
 

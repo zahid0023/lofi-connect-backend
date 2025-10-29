@@ -34,7 +34,7 @@ public class GoHighLevelContactCreateRequest {
 
     @Data
     public static class DndSettings {
-        private Channel Call;
+        private Channel call;
         private Channel Email;
         private Channel SMS;
         private Channel WhatsApp;
@@ -69,28 +69,28 @@ public class GoHighLevelContactCreateRequest {
 
     public static GoHighLevelContactCreateRequest fromRequest(ContactCreateRequest request) {
         GoHighLevelContactCreateRequest ghlRequest = new GoHighLevelContactCreateRequest();
-        ghlRequest.setFirstName(request.getFirst_name());
-        ghlRequest.setLastName(request.getLast_name());
+        ghlRequest.setFirstName(request.getFirstName());
+        ghlRequest.setLastName(request.getLastName());
         ghlRequest.setName(request.getName());
         ghlRequest.setEmail(request.getEmail());
-        ghlRequest.setLocationId(request.getLocation_id());
+        ghlRequest.setLocationId(request.getLocationId());
         ghlRequest.setGender(request.getGender());
         ghlRequest.setPhone(request.getPhone());
         ghlRequest.setAddress1(request.getAddress1());
         ghlRequest.setCity(request.getCity());
         ghlRequest.setState(request.getState());
-        ghlRequest.setPostalCode(request.getPostal_code());
+        ghlRequest.setPostalCode(request.getPostalCode());
         ghlRequest.setWebsite(request.getWebsite());
         ghlRequest.setTimezone(request.getTimezone());
         ghlRequest.setDnd(request.getDnd());
-        ghlRequest.setDndSettings(request.getDnd_settings() != null ? mapDndSettings(request.getDnd_settings()) : null);
-        ghlRequest.setInboundDndSettings(request.getInbound_dnd_settings() != null ? mapInboundDndSettings(request.getInbound_dnd_settings()) : null);
+        ghlRequest.setDndSettings(request.getDndSettings() != null ? mapDndSettings(request.getDndSettings()) : null);
+        ghlRequest.setInboundDndSettings(request.getInboundDndSettings() != null ? mapInboundDndSettings(request.getInboundDndSettings()) : null);
         ghlRequest.setTags(request.getTags());
-        ghlRequest.setCustomFields(request.getCustom_fields() != null ? mapCustomFields(request.getCustom_fields()) : null);
+        ghlRequest.setCustomFields(request.getCustomFields() != null ? mapCustomFields(request.getCustomFields()) : null);
         ghlRequest.setSource(request.getSource());
         ghlRequest.setCountry(request.getCountry());
-        ghlRequest.setCompanyName(request.getCompany_name());
-        ghlRequest.setAssignedTo(request.getAssigned_to());
+        ghlRequest.setCompanyName(request.getCompanyName());
+        ghlRequest.setAssignedTo(request.getAssignedTo());
         return ghlRequest;
     }
 
@@ -99,7 +99,7 @@ public class GoHighLevelContactCreateRequest {
         if (req.getCall() != null) dndSettings.setCall(mapChannel(req.getCall()));
         if (req.getEmail() != null) dndSettings.setEmail(mapChannel(req.getEmail()));
         if (req.getSms() != null) dndSettings.setSMS(mapChannel(req.getSms()));
-        if (req.getWhats_app() != null) dndSettings.setWhatsApp(mapChannel(req.getWhats_app()));
+        if (req.getWhatsApp() != null) dndSettings.setWhatsApp(mapChannel(req.getWhatsApp()));
         if (req.getGmb() != null) dndSettings.setGMB(mapChannel(req.getGmb()));
         if (req.getFb() != null) dndSettings.setFB(mapChannel(req.getFb()));
         return dndSettings;
@@ -129,7 +129,7 @@ public class GoHighLevelContactCreateRequest {
             CustomField cf = new CustomField();
             cf.setId(req.getId());
             cf.setKey(req.getKey());
-            cf.setField_value(req.getField_value());
+            cf.setField_value(req.getFieldValue());
             return cf;
         }).toList();
     }

@@ -3,33 +3,34 @@ package org.example.loficonnect.dto.request.contact;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
+
 import java.util.List;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ContactCreateRequest {
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String name;
     private String email;
-    private String location_id;
+    private String locationId;
     private String gender;
     private String phone;
     private String address1;
     private String city;
     private String state;
-    private String postal_code;
+    private String postalCode;
     private String website;
     private String timezone;
     private Boolean dnd;
-    private DndSettings dnd_settings;
-    private InboundDndSettings inbound_dnd_settings;
+    private DndSettings dndSettings;
+    private InboundDndSettings inboundDndSettings;
     private List<String> tags;
-    private List<CustomField> custom_fields;
+    private List<CustomField> customFields;
     private String source;
     private String country;
-    private String company_name;
-    private String assigned_to;
+    private String companyName;
+    private String assignedTo;
 
     @Data
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
@@ -37,7 +38,7 @@ public class ContactCreateRequest {
         private Channel call;
         private Channel email;
         private Channel sms;
-        private Channel whats_app;
+        private Channel whatsApp;
         private Channel gmb;
         private Channel fb;
 
@@ -68,6 +69,6 @@ public class ContactCreateRequest {
     public static class CustomField {
         private String id;
         private String key;
-        private String field_value;
+        private String fieldValue;
     }
 }
