@@ -7,5 +7,9 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ContactSearchRequest {
-    // Currently empty; can add search filters in the future
+    private String phone;
+    private String email;
+    private String locationId;
+    private Integer pageLimit;
+    private Integer page;
 }
