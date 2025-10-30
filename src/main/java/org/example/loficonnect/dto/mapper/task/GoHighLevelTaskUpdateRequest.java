@@ -6,25 +6,24 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.task.TaskUpdateRequest;
+import org.example.loficonnect.util.DateTimeUtil;
 
 import java.time.ZonedDateTime;
-import java.time.ZoneId;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class GoHighLevelTaskUpdateRequest {
 
-    @JsonAlias({"task_title"})
+    @JsonAlias({"title"})
     private String title;
 
-    @JsonAlias({"description"})
+    @JsonAlias({"body"})
     private String body;
 
-    @JsonAlias({"due_date"})
     private ZonedDateTime dueDate;
 
-    @JsonAlias({"is_completed"})
+    @JsonAlias({"completed"})
     private Boolean completed;
 
     @JsonAlias({"assigned_to"})
@@ -37,7 +36,7 @@ public class GoHighLevelTaskUpdateRequest {
         GoHighLevelTaskUpdateRequest ghl = objectMapper.convertValue(request, GoHighLevelTaskUpdateRequest.class);
 
         if (request.getDueDate() != null && request.getDueTime() != null) {
-            ghl.setDueDate(ZonedDateTime.of(request.getDueDate(), request.getDueTime(), ZoneId.of(request.getTimeZone())));
+            ghl.setDueDate(DateTimeUtil.toZonedDateTime(request.getDueDate(), request.getDueTime(), request.getTimeZone()));
         }
 
         return ghl;

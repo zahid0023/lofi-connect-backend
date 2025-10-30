@@ -42,7 +42,7 @@ public class SubAccountServiceImpl implements SubAccountService {
     public JsonNode updateLocation(String locationId, LocationUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelLocationUpdateRequest ghlRequest = GoHighLevelLocationUpdateRequest.fromRequest(request);
+        GoHighLevelLocationUpdateRequest ghlRequest = GoHighLevelLocationUpdateRequest.fromRequest(request,objectMapper);
         return subAccountClient.updateLocation(accessKey, version, locationId, ghlRequest);
     }
 

@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.custom.fields.GoHighLevelCustomFieldCreateRequest;
 import org.example.loficonnect.dto.mapper.custom.fields.GoHighLevelCustomFieldUpdateRequest;
@@ -21,10 +22,14 @@ import java.util.Map;
 public class CustomFieldsServiceImpl implements CustomFieldsService {
     private final AuthorizationService authorizationService;
     private final CustomFieldsClient customFieldsClient;
+    private final ObjectMapper objectMapper;
 
-    public CustomFieldsServiceImpl(AuthorizationService authorizationService, CustomFieldsClient customFieldsClient) {
+    public CustomFieldsServiceImpl(AuthorizationService authorizationService,
+                                   CustomFieldsClient customFieldsClient,
+                                   ObjectMapper objectMapper) {
         this.authorizationService = authorizationService;
         this.customFieldsClient = customFieldsClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -38,7 +43,7 @@ public class CustomFieldsServiceImpl implements CustomFieldsService {
     public JsonNode createCustomField(String locationId, CustomFieldCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelCustomFieldCreateRequest ghlRequest = GoHighLevelCustomFieldCreateRequest.fromRequest(request);
+        GoHighLevelCustomFieldCreateRequest ghlRequest = GoHighLevelCustomFieldCreateRequest.fromRequest(request, objectMapper);
         return customFieldsClient.createCustomField(accessKey, version, locationId, ghlRequest);
     }
 
@@ -53,7 +58,7 @@ public class CustomFieldsServiceImpl implements CustomFieldsService {
     public JsonNode updateCustomField(String locationId, String id, CustomFieldUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelCustomFieldUpdateRequest ghlRequest = GoHighLevelCustomFieldUpdateRequest.fromRequest(request);
+        GoHighLevelCustomFieldUpdateRequest ghlRequest = GoHighLevelCustomFieldUpdateRequest.fromRequest(request, objectMapper);
         return customFieldsClient.updateCustomField(accessKey, version, locationId, id, ghlRequest);
     }
 
