@@ -25,6 +25,7 @@ public class LocationUpdateRequest {
     private Snapshot snapshot;
 
     @Data
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class ProspectInfo {
         private String firstName;
         private String lastName;
@@ -32,6 +33,7 @@ public class LocationUpdateRequest {
     }
 
     @Data
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Settings {
         private Boolean allowDuplicateContact;
         private Boolean allowDuplicateOpportunity;
@@ -40,6 +42,7 @@ public class LocationUpdateRequest {
     }
 
     @Data
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Social {
         private String facebookUrl;
         private String googlePlus;
@@ -55,18 +58,21 @@ public class LocationUpdateRequest {
     }
 
     @Data
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Twilio {
         private String sid;
         private String authToken;
     }
 
     @Data
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Mailgun {
         private String apiKey;
         private String domain;
     }
 
     @Data
+    @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class Snapshot {
         private String id;
         private Boolean override;

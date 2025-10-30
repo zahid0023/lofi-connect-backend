@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BulkTagUpdateRequest {
-    private List<String> contacts;
+    private List<String> contactIds;
     private List<String> tags;
     private String locationId;
     private Boolean removeAllTags;

@@ -48,10 +48,9 @@ public class TaskController {
     public ResponseEntity<?> updateTask(
             @PathVariable("contact-id") String contactId,
             @PathVariable("task-id") String taskId,
-            @RequestParam(value = "timeZone", defaultValue = "UTC") String timeZone,
             @RequestBody TaskUpdateRequest request
     ) {
-        return ResponseEntity.ok(taskService.updateTask(contactId, taskId, request, timeZone));
+        return ResponseEntity.ok(taskService.updateTask(contactId, taskId, request));
     }
 
     @AppKey

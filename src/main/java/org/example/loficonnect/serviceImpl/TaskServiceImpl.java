@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.task.GoHighLevelTaskCompletedRequest;
 import org.example.loficonnect.dto.mapper.task.GoHighLevelTaskCreateRequest;
@@ -20,10 +21,12 @@ import org.springframework.stereotype.Service;
 public class TaskServiceImpl implements TaskService {
     private final AuthorizationService authorizationService;
     private final TaskClient taskClient;
+    private final ObjectMapper objectMapper;
 
-    public TaskServiceImpl(AuthorizationService authorizationService, TaskClient taskClient) {
+    public TaskServiceImpl(AuthorizationService authorizationService, TaskClient taskClient, ObjectMapper objectMapper) {
         this.authorizationService = authorizationService;
         this.taskClient = taskClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -37,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
     public JsonNode createTask(String contactId, TaskCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelTaskCreateRequest ghlRequest = GoHighLevelTaskCreateRequest.fromRequest(request, request.getTimeZone());
+        GoHighLevelTaskCreateRequest ghlRequest = GoHighLevelTaskCreateRequest.fromRequest(request, objectMapper);
         return taskClient.createTask(accessKey, version, contactId, ghlRequest);
     }
 
@@ -49,10 +52,10 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public JsonNode updateTask(String contactId, String taskId, TaskUpdateRequest request, String timeZone) {
+    public JsonNode updateTask(String contactId, String taskId, TaskUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelTaskUpdateRequest ghlRequest = GoHighLevelTaskUpdateRequest.fromRequest(request, timeZone);
+        GoHighLevelTaskUpdateRequest ghlRequest = GoHighLevelTaskUpdateRequest.fromRequest(request, objectMapper);
         return taskClient.updateTask(accessKey, version, contactId, taskId, ghlRequest);
     }
 
@@ -67,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
     public JsonNode updateTaskCompleted(String contactId, String taskId, TaskCompletedRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelTaskCompletedRequest ghlRequest = GoHighLevelTaskCompletedRequest.fromRequest(request);
+        GoHighLevelTaskCompletedRequest ghlRequest = GoHighLevelTaskCompletedRequest.fromRequest(request, objectMapper);
         return taskClient.updateTaskCompleted(accessKey, version, contactId, taskId, ghlRequest);
     }
 

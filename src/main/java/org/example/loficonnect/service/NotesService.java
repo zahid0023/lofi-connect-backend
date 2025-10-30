@@ -16,6 +16,4 @@ public interface NotesService {
     JsonNode updateContactNote(String contactId, String noteId, ContactNoteUpdateRequest request);
 
     JsonNode deleteContactNote(String contactId, String noteId, Map<String, Object> queryParams);
-
-
 }

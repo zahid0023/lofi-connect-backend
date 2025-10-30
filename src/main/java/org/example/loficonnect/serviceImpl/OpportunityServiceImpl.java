@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.opportunity.GoHighLevelOpportunityCreateRequest;
 import org.example.loficonnect.dto.mapper.opportunity.GoHighLevelOpportunityStatusUpdateRequest;
@@ -23,10 +24,14 @@ public class OpportunityServiceImpl implements OpportunityService {
 
     private final OpportunityClient opportunityClient;
     private final AuthorizationService authorizationService;
+    private final ObjectMapper objectMapper;
 
-    public OpportunityServiceImpl(OpportunityClient opportunityClient, AuthorizationService authorizationService) {
+    public OpportunityServiceImpl(OpportunityClient opportunityClient,
+                                  AuthorizationService authorizationService,
+                                  ObjectMapper objectMapper) {
         this.opportunityClient = opportunityClient;
         this.authorizationService = authorizationService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -47,7 +52,7 @@ public class OpportunityServiceImpl implements OpportunityService {
     public JsonNode updateOpportunityById(String id, OpportunityUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelOpportunityUpdateRequest ghlRequest = GoHighLevelOpportunityUpdateRequest.fromRequest(request);
+        GoHighLevelOpportunityUpdateRequest ghlRequest = GoHighLevelOpportunityUpdateRequest.fromRequest(request, objectMapper);
         return opportunityClient.updateOpportunityById(accessKey, version, id, ghlRequest);
     }
 
@@ -56,7 +61,7 @@ public class OpportunityServiceImpl implements OpportunityService {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelOpportunityStatusUpdateRequest ghlRequest =
-                GoHighLevelOpportunityStatusUpdateRequest.fromRequest(request);
+                GoHighLevelOpportunityStatusUpdateRequest.fromRequest(request, objectMapper);
         return opportunityClient.updateOpportunityStatus(accessKey, version, id, ghlRequest);
     }
 
@@ -64,7 +69,7 @@ public class OpportunityServiceImpl implements OpportunityService {
     public JsonNode upsertOpportunity(OpportunityUpsertRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelOpportunityUpsertRequest ghlRequest = GoHighLevelOpportunityUpsertRequest.fromRequest(request);
+        GoHighLevelOpportunityUpsertRequest ghlRequest = GoHighLevelOpportunityUpsertRequest.fromRequest(request, objectMapper);
         return opportunityClient.upsertOpportunity(accessKey, version, ghlRequest);
     }
 
@@ -72,7 +77,7 @@ public class OpportunityServiceImpl implements OpportunityService {
     public JsonNode createOpportunity(OpportunityCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelOpportunityCreateRequest ghlRequest = GoHighLevelOpportunityCreateRequest.fromRequest(request);
+        GoHighLevelOpportunityCreateRequest ghlRequest = GoHighLevelOpportunityCreateRequest.fromRequest(request, objectMapper);
         return opportunityClient.createOpportunity(accessKey, version, ghlRequest);
     }
 

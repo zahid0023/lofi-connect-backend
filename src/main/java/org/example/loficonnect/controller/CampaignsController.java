@@ -20,10 +20,10 @@ public class CampaignsController {
     }
 
     @AppKey
-    @PostMapping("/contacts/{contactId}/campaigns/{campaignId}")
-    public ResponseEntity<?> assignContactToCampaign(
-            @PathVariable("contactId") String contactId,
-            @PathVariable("campaignId") String campaignId,
+    @PostMapping("/contacts/{contact-id}/campaigns/{campaign-id}")
+    public ResponseEntity<?> addContactToCampaign(
+            @PathVariable("contact-id") String contactId,
+            @PathVariable("campaign-id") String campaignId,
             @RequestBody ContactCampaignAssignRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -31,23 +31,21 @@ public class CampaignsController {
     }
 
     @AppKey
-    @DeleteMapping("/contacts/{contactId}/campaigns/{campaignId}")
+    @DeleteMapping("/contacts/{contact-id}/campaigns/{campaign-id}")
     public ResponseEntity<?> removeContactFromCampaign(
-            @PathVariable("contactId") String contactId,
-            @PathVariable("campaignId") String campaignId
+            @PathVariable("contact-id") String contactId,
+            @PathVariable("campaign-id") String campaignId
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         return ResponseEntity.ok(campaignsService.removeContactFromCampaign(contactId, campaignId, queryParams));
     }
 
     @AppKey
-    @DeleteMapping("/contacts/{contactId}/campaigns/removeAll")
+    @DeleteMapping("/contacts/{contact-id}/campaigns/removeAll")
     public ResponseEntity<?> removeAllCampaignsFromContact(
-            @PathVariable("contactId") String contactId
+            @PathVariable("contact-id") String contactId
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         return ResponseEntity.ok(campaignsService.removeAllCampaignsFromContact(contactId, queryParams));
     }
-
-
 }

@@ -18,10 +18,10 @@ public class WorkFlowController {
     }
 
     @AppKey
-    @PostMapping("/contacts/{contactId}/workflow/{workflowId}")
+    @PostMapping("/contacts/{contact-id}/workflow/{workflow-id}")
     public ResponseEntity<?> addContactToWorkflow(
-            @PathVariable("contactId") String contactId,
-            @PathVariable("workflowId") String workflowId,
+            @PathVariable("contact-id") String contactId,
+            @PathVariable("workflow-id") String workflowId,
             @RequestBody ContactWorkflowAddRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)

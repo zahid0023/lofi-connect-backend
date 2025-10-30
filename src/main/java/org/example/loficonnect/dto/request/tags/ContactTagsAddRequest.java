@@ -8,6 +8,6 @@ import java.util.List;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ContactTagCreateRequest {
+public class ContactTagsAddRequest {
     private List<String> tags;
 }

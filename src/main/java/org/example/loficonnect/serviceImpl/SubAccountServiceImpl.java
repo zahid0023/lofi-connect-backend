@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.subaccount.GoHighLevelLocationCreateRequest;
 import org.example.loficonnect.dto.mapper.subaccount.GoHighLevelLocationUpdateRequest;
@@ -20,10 +21,14 @@ import java.util.Map;
 public class SubAccountServiceImpl implements SubAccountService {
     private final AuthorizationService authorizationService;
     private final SubAccountClient subAccountClient;
+    private final ObjectMapper objectMapper;
 
-    public SubAccountServiceImpl(AuthorizationService authorizationService, SubAccountClient subAccountClient) {
+    public SubAccountServiceImpl(AuthorizationService authorizationService,
+                                 SubAccountClient subAccountClient,
+                                 ObjectMapper objectMapper) {
         this.authorizationService = authorizationService;
         this.subAccountClient = subAccountClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -52,7 +57,7 @@ public class SubAccountServiceImpl implements SubAccountService {
     public JsonNode createLocation(LocationCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelLocationCreateRequest ghlRequest = GoHighLevelLocationCreateRequest.fromRequest(request);
+        GoHighLevelLocationCreateRequest ghlRequest = GoHighLevelLocationCreateRequest.fromRequest(request, objectMapper);
         return subAccountClient.createLocation(accessKey, version, ghlRequest);
     }
 

@@ -30,6 +30,4 @@ public class BulkController {
     public ResponseEntity<?> updateBulkBusiness(@RequestBody BulkBusinessUpdateRequest request) {
         return ResponseEntity.ok(bulkService.updateBulkBusiness(request));
     }
-
-
 }

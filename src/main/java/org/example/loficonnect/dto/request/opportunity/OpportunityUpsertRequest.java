@@ -7,12 +7,13 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OpportunityUpsertRequest {
-    private String pipeline_id;
-    private String location_id;
-    private String contact_id;
+
+    private String pipelineId;
+    private String locationId;
+    private String contactId;
     private String name;
     private String status;
-    private String pipeline_stage_id;
-    private Integer monetary_value;
-    private String assigned_to;
+    private String pipelineStageId;
+    private Integer monetaryValue;
+    private String assignedTo;
 }

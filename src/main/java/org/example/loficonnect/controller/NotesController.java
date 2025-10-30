@@ -21,18 +21,18 @@ public class NotesController {
     }
 
     @AppKey
-    @GetMapping("/contacts/{contactId}/notes")
+    @GetMapping("/contacts/{contact-id}/notes")
     public ResponseEntity<?> getContactNotes(
-            @PathVariable("contactId") String contactId
+            @PathVariable("contact-id") String contactId
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         return ResponseEntity.ok(notesService.getContactNotes(contactId, queryParams));
     }
 
     @AppKey
-    @PostMapping("/contacts/{contactId}/notes")
+    @PostMapping("/contacts/{contact-id}/notes")
     public ResponseEntity<?> createContactNote(
-            @PathVariable("contactId") String contactId,
+            @PathVariable("contact-id") String contactId,
             @RequestBody ContactNoteCreateRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -40,30 +40,30 @@ public class NotesController {
     }
 
     @AppKey
-    @GetMapping("/contacts/{contactId}/notes/{id}")
+    @GetMapping("/contacts/{contact-id}/notes/{note-id}")
     public ResponseEntity<?> getContactNoteById(
-            @PathVariable("contactId") String contactId,
-            @PathVariable("id") String noteId
+            @PathVariable("contact-id") String contactId,
+            @PathVariable("note-id") String noteId
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         return ResponseEntity.ok(notesService.getContactNoteById(contactId, noteId, queryParams));
     }
 
     @AppKey
-    @PutMapping("/contacts/{contactId}/notes/{id}")
+    @PutMapping("/contacts/{contact-id}/notes/{note-id}")
     public ResponseEntity<?> updateContactNote(
-            @PathVariable("contactId") String contactId,
-            @PathVariable("id") String noteId,
+            @PathVariable("contact-id") String contactId,
+            @PathVariable("note-id") String noteId,
             @RequestBody ContactNoteUpdateRequest request
     ) {
         return ResponseEntity.ok(notesService.updateContactNote(contactId, noteId, request));
     }
 
     @AppKey
-    @DeleteMapping("/contacts/{contactId}/notes/{id}")
+    @DeleteMapping("/contacts/{contact-id}/notes/{note-id}")
     public ResponseEntity<?> deleteContactNote(
-            @PathVariable("contactId") String contactId,
-            @PathVariable("id") String noteId
+            @PathVariable("contact-id") String contactId,
+            @PathVariable("note-id") String noteId
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         return ResponseEntity.ok(notesService.deleteContactNote(contactId, noteId, queryParams));

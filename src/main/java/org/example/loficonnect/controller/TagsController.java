@@ -1,8 +1,8 @@
 package org.example.loficonnect.controller;
 
 import org.example.loficonnect.config.AppKey;
-import org.example.loficonnect.dto.request.tags.ContactTagCreateRequest;
-import org.example.loficonnect.dto.request.tags.ContactTagDeleteRequest;
+import org.example.loficonnect.dto.request.tags.ContactTagsAddRequest;
+import org.example.loficonnect.dto.request.tags.ContactTagsRemoveRequest;
 import org.example.loficonnect.dto.request.tags.TagCreateRequest;
 import org.example.loficonnect.dto.request.tags.TagUpdateRequest;
 import org.example.loficonnect.service.TagsService;
@@ -20,20 +20,20 @@ public class TagsController {
     }
 
     @AppKey
-    @PostMapping("/contacts/{contactId}/tags")
-    public ResponseEntity<?> createContactTags(
-            @PathVariable("contactId") String contactId,
-            @RequestBody ContactTagCreateRequest request
+    @PostMapping("/contacts/{contact-id}/tags")
+    public ResponseEntity<?> addTags(
+            @PathVariable("contact-id") String contactId,
+            @RequestBody ContactTagsAddRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(tagsService.createContactTags(contactId, request));
     }
 
     @AppKey
-    @DeleteMapping("/contacts/{contactId}/tags")
+    @DeleteMapping("/contacts/{contact-id}/tags")
     public ResponseEntity<?> deleteContactTags(
-            @PathVariable("contactId") String contactId,
-            @RequestBody ContactTagDeleteRequest request
+            @PathVariable("contact-id") String contactId,
+            @RequestBody ContactTagsRemoveRequest request
     ) {
         return ResponseEntity.ok(tagsService.deleteContactTags(contactId, request));
     }
@@ -81,6 +81,4 @@ public class TagsController {
     ) {
         return ResponseEntity.ok(tagsService.deleteTag(locationId, tagId));
     }
-
-
 }

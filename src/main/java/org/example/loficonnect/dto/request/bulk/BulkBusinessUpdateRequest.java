@@ -10,6 +10,6 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BulkBusinessUpdateRequest {
     private String locationId;
-    private List<String> ids;
+    private List<String> contactIds;
     private String businessId; // nullable → if null, removes business from contacts
 }

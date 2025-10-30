@@ -3,6 +3,7 @@ package org.example.loficonnect.dto.request.task;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -11,8 +12,9 @@ import java.time.LocalTime;
 public class TaskUpdateRequest {
     private String title;
     private String body;
-    private LocalDate due_date;
-    private LocalTime due_time;
+    private LocalDate dueDate;
+    private LocalTime dueTime;
+    private String timeZone;
     private Boolean completed;
-    private String assigned_to;
+    private String assignedTo;
 }

@@ -12,9 +12,9 @@ import java.time.LocalTime;
 public class TaskCreateRequest {
     private String title;
     private String body;
-    private LocalDate due_date;
-    private LocalTime due_time;
+    private LocalDate dueDate;
+    private LocalTime dueTime;
     private String timeZone;
     private Boolean completed;
-    private String assigned_to;
+    private String assignedTo;
 }

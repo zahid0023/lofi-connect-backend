@@ -8,6 +8,4 @@ public interface FollowerService {
     JsonNode addFollowers(String contactId, AddFollowersRequest request);
 
     JsonNode removeFollowers(String contactId, RemoveFollowersRequest request);
-
-
 }

@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.notes.GoHighLevelContactNoteCreateRequest;
 import org.example.loficonnect.dto.mapper.notes.GoHighLevelContactNoteUpdateRequest;
@@ -20,10 +21,14 @@ import java.util.Map;
 public class NotesServiceImpl implements NotesService {
     private final AuthorizationService authorizationService;
     private final NotesClient notesClient;
+    private final ObjectMapper objectMapper;
 
-    public NotesServiceImpl(AuthorizationService authorizationService, NotesClient notesClient) {
+    public NotesServiceImpl(AuthorizationService authorizationService,
+                            NotesClient notesClient,
+                            ObjectMapper objectMapper) {
         this.authorizationService = authorizationService;
         this.notesClient = notesClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class NotesServiceImpl implements NotesService {
     public JsonNode createContactNote(String contactId, ContactNoteCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelContactNoteCreateRequest ghlRequest = GoHighLevelContactNoteCreateRequest.fromRequest(request);
+        GoHighLevelContactNoteCreateRequest ghlRequest = GoHighLevelContactNoteCreateRequest.fromRequest(request, objectMapper);
         return notesClient.createContactNote(accessKey, version, contactId, ghlRequest);
     }
 
@@ -52,7 +57,7 @@ public class NotesServiceImpl implements NotesService {
     public JsonNode updateContactNote(String contactId, String noteId, ContactNoteUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelContactNoteUpdateRequest ghlRequest = GoHighLevelContactNoteUpdateRequest.fromRequest(request);
+        GoHighLevelContactNoteUpdateRequest ghlRequest = GoHighLevelContactNoteUpdateRequest.fromRequest(request, objectMapper);
         return notesClient.updateContactNote(accessKey, version, contactId, noteId, ghlRequest);
     }
 
@@ -62,6 +67,4 @@ public class NotesServiceImpl implements NotesService {
         String version = VersionContext.getVersion();
         return notesClient.deleteContactNote(accessKey, version, contactId, noteId, queryParams);
     }
-
-
 }

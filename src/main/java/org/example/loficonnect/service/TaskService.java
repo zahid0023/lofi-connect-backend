@@ -12,7 +12,7 @@ public interface TaskService {
 
     JsonNode getContactTask(String contactId, String taskId);
 
-    JsonNode updateTask(String contactId, String taskId, TaskUpdateRequest request, String timeZone);
+    JsonNode updateTask(String contactId, String taskId, TaskUpdateRequest request);
 
     JsonNode deleteTask(String contactId, String taskId);
 

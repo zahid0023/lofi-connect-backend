@@ -1,8 +1,6 @@
 package org.example.loficonnect.util;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 
 public class DateTimeUtil {
 
@@ -20,5 +18,9 @@ public class DateTimeUtil {
 
     public static ZonedDateTime toZonedDateTime(LocalDateTime localDateTime, String timezone) {
         return localDateTime.atZone(ZoneId.of(timezone));
+    }
+
+    public static ZonedDateTime toZonedDateTime(LocalDate localDate, LocalTime localTime, String timezone) {
+        return localDate.atTime(localTime).atZone(ZoneId.of(timezone));
     }
 }

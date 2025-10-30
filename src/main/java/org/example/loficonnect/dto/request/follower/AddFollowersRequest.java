@@ -9,5 +9,5 @@ import java.util.List;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class AddFollowersRequest {
-    private List<String> followers;
+    private List<String> followerIds;
 }
