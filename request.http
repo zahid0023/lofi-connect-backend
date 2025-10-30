@@ -1,0 +1,534 @@
+###
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tags
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "tags": ["minim"]
+}
+
+<> 2025-10-30T235559.201.json
+
+###
+DELETE http://localhost:8080/api/v1/ghl/locations/{{location-id}}/tags/{{tag-id}}
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "name": "minim"
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tags
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "tags": ["minim"]
+}
+
+<> 2025-10-31T000129.200.json
+
+###
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "userId": "i1CcsDXpngqsHTZXkEfJ",
+  "body": "Test Notes 5"
+}
+
+<> 2025-10-31T001556.500.json
+<> 2025-10-31T001056.500.json
+<> 2025-10-31T001048.500.json
+<> 2025-10-31T000914.500.json
+
+###
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "userId": "i1CcsDXpngqsHTZXkEfJ",
+  "body": "Test Notes 5"
+}
+
+<> 2025-10-31T003426.500.json
+<> 2025-10-31T002622.500.json
+<> 2025-10-31T002525.500.json
+<> 2025-10-31T002349.500.json
+<> 2025-10-31T001849.500.json
+
+###
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/TcOiQWSryQWIZeEJFDB0
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "userId": "i1CcsDXpngqsHTZXkEfJ",
+  "body": "Test Note 112"
+}
+
+<> 2025-10-31T003719.500.json
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T003942.200.json
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/TcOiQWSryQWIZeEJFDB0
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T004056.200.json
+
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/TcOiQWSryQWIZeEJFDB0
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T004419.200.json
+
+###
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/workflow/8afee5df-8f3f-4b7e-8cb2-ef599f9a3db1
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "date": "2025-10-28",
+  "time": "10:00:00",
+  "time_zone": "Pacific/Niue"
+}
+
+<> 2025-10-31T005024.201.json
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/workflow/3fa507f7-68aa-47d6-8658-bac444a4e4c3
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "eventDate": "2025-10-30",
+  "eventTime": "10:00:00",
+  "timeZone": "Pacific/Niue"
+}
+
+<> 2025-10-31T005706.500.json
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/workflow/3fa507f7-68aa-47d6-8658-bac444a4e4c3
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "eventDate": "2025-10-30",
+  "eventTime": "10:00:00",
+  "timeZone": "Pacific/Niue"
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/workflow/3fa507f7-68aa-47d6-8658-bac444a4e4c3
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "eventDate": "2025-10-30",
+  "eventTime": "10:00:00",
+  "timeZone": "Pacific/Niue"
+}
+
+<> 2025-10-31T012107.500.json
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/workflow/3fa507f7-68aa-47d6-8658-bac444a4e4c3
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "eventDate": "2025-10-30",
+  "eventTime": "10:00:00",
+  "timeZone": "Pacific/Niue"
+}
+
+<> 2025-10-31T012539.500.json
+
+###
+POST http://localhost:8080/api/v1/ghl/opportunities
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
+  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "name": "Test Opp 1",
+  "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
+  "status": "open",
+  "contact_id": "Lq95Y9oQzB4KojmsjUxs",
+  "monetary_value": 0,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ",
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7",
+      "key": "contact.dhiman__drop_down",
+      "field_value": "Dhiman | Drop Down"
+    }
+  ]
+}
+
+<> 2025-10-31T014019.201.json
+
+###
+POST http://localhost:8080/api/v1/ghl/opportunities/upsert
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
+  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "contact_id": "Lq95Y9oQzB4KojmsjUxs",
+  "name": "First Opps 2",
+  "status": "open",
+  "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
+  "monetary_value": 0,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+<> 2025-10-31T014127.201.json
+
+
+###
+PUT http://localhost:8080/api/v1/ghl/opportunities/RtSEhKJm3EBt8RVYvojQ
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
+  "name": "First Opps 3",
+  "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
+  "status": "open",
+  "monetary_value": 0,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ",
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7",
+      "key": "contact.dhiman__drop_down",
+      "field_value": "Dhiman | Drop Down"
+    }
+  ]
+}
+
+<> 2025-10-31T014611.200.json
+
+###
+PUT http://localhost:8080/api/v1/ghl/opportunities/RtSEhKJm3EBt8RVYvojQ/status
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "status": "won"
+}
+
+<> 2025-10-31T014704.200.json
+
+###
+GET http://localhost:8080/api/v1/ghl/opportunities/RtSEhKJm3EBt8RVYvojQ?
+    location-id={{$random.alphanumeric(8)}}&
+    assigned-to={{$random.alphanumeric(8)}}&
+    campaign-id={{$random.alphanumeric(8)}}&
+    contact-id={{$random.alphanumeric(8)}}&
+    country={{$random.alphanumeric(8)}}&
+    date={{$random.alphanumeric(8)}}&
+    end-date={{$random.alphanumeric(8)}}&
+    getCalendarEvents=false&
+    getNotes=false&
+    getTasks=false&
+    id={{$random.alphanumeric(8)}}&
+    limit={{$random.integer(100)}}&
+    order={{$random.alphanumeric(8)}}&
+    page={{$random.integer(100)}}&
+    pipeline-id={{$random.alphanumeric(8)}}&
+    pipeline-stage-id={{$random.alphanumeric(8)}}&
+    q={{$random.alphanumeric(8)}}&
+    start-after={{$random.alphanumeric(8)}}&
+    start-after-id={{$random.alphanumeric(8)}}&
+    status={{$random.alphanumeric(8)}}
+    Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T014838.200.json
+
+###
+DELETE http://localhost:8080/api/v1/ghl/opportunities/RtSEhKJm3EBt8RVYvojQ?
+    location-id={{$random.alphanumeric(8)}}&
+    assigned-to={{$random.alphanumeric(8)}}&
+    campaign-id={{$random.alphanumeric(8)}}&
+    contact-id={{$random.alphanumeric(8)}}&
+    country={{$random.alphanumeric(8)}}&
+    date={{$random.alphanumeric(8)}}&
+    end-date={{$random.alphanumeric(8)}}&
+    getCalendarEvents=false&
+    getNotes=false&
+    getTasks=false&
+    id={{$random.alphanumeric(8)}}&
+    limit={{$random.integer(100)}}&
+    order={{$random.alphanumeric(8)}}&
+    page={{$random.integer(100)}}&
+    pipeline-id={{$random.alphanumeric(8)}}&
+    pipeline-stage-id={{$random.alphanumeric(8)}}&
+    q={{$random.alphanumeric(8)}}&
+    start-after={{$random.alphanumeric(8)}}&
+    start-after-id={{$random.alphanumeric(8)}}&
+    status={{$random.alphanumeric(8)}}
+    Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T015034.200.json
+
+###
+POST http://localhost:8080/api/v1/ghl/locations
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "name": "Mark Shoes",
+  "phone": "+1410039940",
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
+  "address": "4th fleet street",
+  "city": "New York",
+  "state": "Illinois",
+  "country": "US",
+  "postal_code": "567654",
+  "website": "https://google.com",
+  "timezone": "Pacific/Apia",
+  "prospect_info": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@mail.com"
+  },
+  "settings": {
+    "allowDuplicateContact": true,
+    "allowDuplicateOpportunity": true,
+    "allowFacebookNameMerge": true,
+    "disableContactTimezone": true
+  },
+  "social": {
+    "facebookUrl": "https://www.facebook.com/",
+    "googlePlus": "https://www.googleplus.com/",
+    "linkedIn": "https://www.linkedIn.com/",
+    "foursquare": "https://www.foursquare.com/",
+    "twitter": "https://www.foutwitterrsquare.com/",
+    "yelp": "https://www.yelp.com/",
+    "instagram": "https://www.instagram.com/",
+    "youtube": "https://www.youtube.com/",
+    "pinterest": "https://www.pinterest.com/",
+    "blogRss": "https://www.blogRss.com/",
+    "googlePlacesId": "ChIJJGPdVbQTrjsRGUkefteUeFk"
+  },
+  "twilio": {
+    "sid": "AC_XXXXXXXXXXX",
+    "authToken": "77_XXXXXXXXXXX"
+  },
+  "mailgun": {
+    "apiKey": "AC_XXXXXXXXXXX",
+    "domain": "77_XXXXXXXXXXX"
+  },
+  "snapshot_id": "XXXXXXXXXXX"
+}
+
+<> 2025-10-31T020040.401.json
+
+###
+GET http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa?
+    companyId={{$random.alphanumeric(8)}}&
+    email={{$random.alphanumeric(8)}}&
+    limit={{$random.alphanumeric(8)}}&
+    order={{$random.alphanumeric(8)}}&
+    skip={{$random.alphanumeric(8)}}
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T020236.200.json
+
+###
+POST http://localhost:8080/api/v1/ghl/custom-fields?
+
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+    "name": "Test Custom Field",
+    "data_type": "TEXT",
+    "placeholder": "Placeholder Text",
+    "accepted_format": [
+        ".pdf"
+    ],
+    "is_multiple_file": true,
+    "max_number_of_files": 2,
+    "text_box_list_options": [
+        {
+            "label": "First",
+            "prefill_value": "ls"
+        }
+    ],
+    "position": 0,
+    "model": "opportunity"
+}
+
+<> 2025-10-31T020714.500.json
+
+###
+POST http://localhost:8080/api/v1/ghl/custom-fields?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "name": "Test Custom Field",
+  "data_type": "TEXT",
+  "placeholder": "Placeholder Text",
+  "accepted_format": [
+    ".pdf"
+  ],
+  "is_multiple_file": true,
+  "max_number_of_files": 2,
+  "text_box_list_options": [
+    {
+      "label": "First",
+      "prefill_value": "ls"
+    }
+  ],
+  "position": 0,
+  "model": "opportunity"
+}
+
+<> 2025-10-31T021324.201.json
+<> 2025-10-31T021217.500.json
+<> 2025-10-31T021051.500.json
+<> 2025-10-31T020851.500.json
+
+###
+POST http://localhost:8080/api/v1/ghl/custom-fields/files?location-id=IxfSlEIQQeiOYQlVEApa&id=QCwjdcFaGDJfsomgFvI1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+    "file": "resume.pdf"
+}
+
+<> 2025-10-31T021602.500.json
+
+###
+PUT http://localhost:8080/api/v1/ghl/custom-fields/QCwjdcFaGDJfsomgFvI1?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "name": "Test Custom Field 2",
+  "placeholder": "Placeholder Text 2",
+  "accepted_format": [
+    ".docx"
+  ],
+  "is_multiple_file": true,
+  "max_number_of_files": 3,
+  "text_box_list_options": [
+    {
+      "label": "First",
+      "prefill_value": "ls"
+    }
+  ],
+  "position": 0,
+  "model": "opportunity"
+}
+
+<> 2025-10-31T021901.200.json
+<> 2025-10-31T021729.500.json
+
+###
+GET http://localhost:8080/api/v1/ghl/custom-fields/{{id}}?
+    location-id={{$random.alphanumeric(8)}}&
+    id={{$random.alphanumeric(8)}}&
+    maxFiles={{$random.integer(100)}}&
+    file={{$random.alphanumeric(8)}}
+
+###
+GET http://localhost:8080/api/v1/ghl/custom-fields/QCwjdcFaGDJfsomgFvI1?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T022126.200.json
+
+###
+GET http://localhost:8080/api/v1/ghl/custom-fields?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T022249.200.json
+
+###
+DELETE http://localhost:8080/api/v1/ghl/custom-fields/{{id}}?
+    location-id={{$random.alphanumeric(8)}}&
+    id={{$random.alphanumeric(8)}}&
+    maxFiles={{$random.integer(100)}}&
+    file={{$random.alphanumeric(8)}}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/custom-fields/0X8mBctAfRFOoiKXVuVy?location-id=IxfSlEIQQeiOYQlVEApa
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T022502.200.json
+
+###
+POST http://localhost:8080/api/v1/ghl/custom-values?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+
+{
+  "name": "Custom Field Name 3",
+  "value": "Test value 3"
+}
+
+<> 2025-10-31T025428.201.json
+<> 2025-10-31T025402.400.json
+
+###
+PUT http://localhost:8080/api/v1/ghl/custom-values/{{id}}?
+    location-id={{$random.alphanumeric(8)}}
+    Content-Type: application/json
+
+###
+PUT http://localhost:8080/api/v1/ghl/custom-values/nWMrLjkcdPvrar9PAckP?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+{
+  "name": "Custom Value 3 Update",
+  "value": "Updated Value 3"
+}
+
+<> 2025-10-31T025707.200.json
+
+###
+GET http://localhost:8080/api/v1/ghl/custom-values?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T025949.200.json
+
+###
+GET http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa/custom-values/nWMrLjkcdPvrar9PAckP
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T030150.200.json
+
+###
+DELETE http://localhost:8080/api/v1/ghl/custom-values/nWMrLjkcdPvrar9PAckP?location-id=IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer acrjeCtbG6Jyt7k-J-rlyldsSG3eeMnSXlttSedMjgU
+
+<> 2025-10-31T030349.200.json
+
+###
+GET http://localhost:8080/api/v1/ghl/locations/{{location-id}}/custom-values/{{id}}
