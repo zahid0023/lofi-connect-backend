@@ -42,7 +42,7 @@ public class WorkflowsServiceImpl implements WorkflowsService {
     public JsonNode addContactToWorkflow(String contactId, String workflowId, ContactWorkflowAddRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelContactWorkflowAddRequest ghlRequest = GoHighLevelContactWorkflowAddRequest.fromRequest(request);
+        GoHighLevelContactWorkflowAddRequest ghlRequest = GoHighLevelContactWorkflowAddRequest.fromRequest(request, objectMapper);
         return workflowsClient.addContactToWorkflow(accessKey, version, contactId, workflowId, ghlRequest);
     }
 

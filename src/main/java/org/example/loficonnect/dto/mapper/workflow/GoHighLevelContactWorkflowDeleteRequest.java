@@ -1,6 +1,5 @@
 package org.example.loficonnect.dto.mapper.workflow;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,8 +13,6 @@ import java.time.ZonedDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class GoHighLevelContactWorkflowDeleteRequest {
-
-    @JsonAlias({"event_start_time"})
     private ZonedDateTime eventStartTime;
 
     private GoHighLevelContactWorkflowDeleteRequest() {
@@ -23,7 +20,7 @@ public class GoHighLevelContactWorkflowDeleteRequest {
 
     public static GoHighLevelContactWorkflowDeleteRequest fromRequest(ContactWorkflowDeleteRequest request, ObjectMapper objectMapper) {
         GoHighLevelContactWorkflowDeleteRequest ghlRequest = objectMapper.convertValue(request, GoHighLevelContactWorkflowDeleteRequest.class);
-        ghlRequest.setEventStartTime(DateTimeUtil.toZonedDateTime(request.getEventDate(), request.getEventTime(), request.getTimeZone()));
+        ghlRequest.setEventStartTime(DateTimeUtil.toZonedDateTime(request.getDate(), request.getTime(), request.getTimeZone()));
         return ghlRequest;
     }
 }

@@ -10,7 +10,7 @@ import java.time.LocalTime;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ContactWorkflowDeleteRequest {
-    private LocalDate eventDate;
-    private LocalTime eventTime;
-    private String timeZone;
+    private LocalDate date;   // User provides the date part
+    private LocalTime time;   // User provides the time part
+    private String timeZone;  // User provides the timezone
 }
