@@ -57,5 +57,4 @@ public class ContactController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(contactService.upsertContact(request));
     }
-
 }
