@@ -14,7 +14,7 @@ public class UserCreateRequest {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
+    private String pass;
     private String phone;
     private String type;
     private String role;

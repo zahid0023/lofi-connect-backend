@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.user.GoHighLevelUserCreateRequest;
 import org.example.loficonnect.dto.mapper.user.GoHighLevelUserUpdateRequest;
@@ -21,10 +22,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserClient userClient;
     private final AuthorizationService authorizationService;
+    private final ObjectMapper objectMapper;
 
-    public UserServiceImpl(UserClient userClient, AuthorizationService authorizationService) {
+    public UserServiceImpl(UserClient userClient,
+                           AuthorizationService authorizationService,
+                           ObjectMapper objectMapper) {
         this.userClient = userClient;
         this.authorizationService = authorizationService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -38,7 +43,7 @@ public class UserServiceImpl implements UserService {
     public JsonNode updateUserById(String userId, UserUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelUserUpdateRequest ghlRequest = GoHighLevelUserUpdateRequest.fromRequest(request);
+        GoHighLevelUserUpdateRequest ghlRequest = GoHighLevelUserUpdateRequest.fromRequest(request, objectMapper);
         return userClient.updateUserById(accessKey, version, userId, ghlRequest);
     }
 
@@ -60,7 +65,7 @@ public class UserServiceImpl implements UserService {
     public JsonNode createUser(UserCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelUserCreateRequest ghlRequest = GoHighLevelUserCreateRequest.fromRequest(request);
+        GoHighLevelUserCreateRequest ghlRequest = GoHighLevelUserCreateRequest.fromRequest(request, objectMapper);
         return userClient.createUser(accessKey, version, ghlRequest);
     }
 

@@ -1,46 +1,59 @@
 package org.example.loficonnect.dto.mapper.user;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.user.UserUpdateRequest;
 
 import java.util.List;
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GoHighLevelUserUpdateRequest {
+
+    @JsonAlias("first_name")
     private String firstName;
+
+    @JsonAlias("last_name")
     private String lastName;
+
     private String email;
+
+    @JsonAlias("email_change_otp")
     private String emailChangeOTP;
+
     private String password;
     private String phone;
+
+    @JsonAlias("is_ejected_user")
     private Boolean isEjectedUser;
+
     private String type;
     private String role;
+
+    @JsonAlias("company_id")
     private String companyId;
+
+    @JsonAlias("location_ids")
     private List<String> locationIds;
+
     private Map<String, Boolean> permissions;
     private List<String> scopes;
+
+    @JsonAlias("scopes_assigned_to_only")
     private List<String> scopesAssignedToOnly;
+
+    @JsonAlias("profile_photo")
     private String profilePhoto;
 
-    public static GoHighLevelUserUpdateRequest fromRequest(UserUpdateRequest request) {
-        GoHighLevelUserUpdateRequest ghlRequest = new GoHighLevelUserUpdateRequest();
-        ghlRequest.setFirstName(request.getFirstName());
-        ghlRequest.setLastName(request.getLastName());
-        ghlRequest.setEmail(request.getEmail());
-        ghlRequest.setEmailChangeOTP(request.getEmailChangeOtp());
-        ghlRequest.setPassword(request.getPassword());
-        ghlRequest.setPhone(request.getPhone());
-        ghlRequest.setIsEjectedUser(request.getIsEjectedUser());
-        ghlRequest.setType(request.getType());
-        ghlRequest.setRole(request.getRole());
-        ghlRequest.setCompanyId(request.getCompanyId());
-        ghlRequest.setLocationIds(request.getLocationIds());
-        ghlRequest.setPermissions(request.getPermissions());
-        ghlRequest.setScopes(request.getScopes());
-        ghlRequest.setScopesAssignedToOnly(request.getScopesAssignedToOnly());
-        ghlRequest.setProfilePhoto(request.getProfilePhoto());
-        return ghlRequest;
+    /**
+     * Converts UserUpdateRequest -> GoHighLevelUserUpdateRequest using ObjectMapper.
+     */
+    public static GoHighLevelUserUpdateRequest fromRequest(UserUpdateRequest request, ObjectMapper objectMapper) {
+        return objectMapper.convertValue(request, GoHighLevelUserUpdateRequest.class);
     }
 }

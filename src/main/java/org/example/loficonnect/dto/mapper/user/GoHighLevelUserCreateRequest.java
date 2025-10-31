@@ -1,42 +1,51 @@
 package org.example.loficonnect.dto.mapper.user;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.user.UserCreateRequest;
 
 import java.util.List;
 import java.util.Map;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GoHighLevelUserCreateRequest {
+
+    @JsonAlias("company_id")
     private String companyId;
+
+    @JsonAlias("first_name")
     private String firstName;
+
+    @JsonAlias("last_name")
     private String lastName;
+
     private String email;
     private String password;
     private String phone;
     private String type;
     private String role;
+
+    @JsonAlias("location_ids")
     private List<String> locationIds;
+
     private Map<String, Boolean> permissions;
     private List<String> scopes;
+
+    @JsonAlias("scopes_assigned_to_only")
     private List<String> scopesAssignedToOnly;
+
+    @JsonAlias("profile_photo")
     private String profilePhoto;
 
-    public static GoHighLevelUserCreateRequest fromRequest(UserCreateRequest request) {
-        GoHighLevelUserCreateRequest ghlRequest = new GoHighLevelUserCreateRequest();
-        ghlRequest.setCompanyId(request.getCompanyId());
-        ghlRequest.setFirstName(request.getFirstName());
-        ghlRequest.setLastName(request.getLastName());
-        ghlRequest.setEmail(request.getEmail());
-        ghlRequest.setPassword(request.getPassword());
-        ghlRequest.setPhone(request.getPhone());
-        ghlRequest.setType(request.getType());
-        ghlRequest.setRole(request.getRole());
-        ghlRequest.setLocationIds(request.getLocationIds());
-        ghlRequest.setPermissions(request.getPermissions());
-        ghlRequest.setScopes(request.getScopes());
-        ghlRequest.setScopesAssignedToOnly(request.getScopesAssignedToOnly());
-        ghlRequest.setProfilePhoto(request.getProfilePhoto());
-        return ghlRequest;
+    /**
+     * Converts UserCreateRequest -> GoHighLevelUserCreateRequest using ObjectMapper.
+     */
+    public static GoHighLevelUserCreateRequest fromRequest(UserCreateRequest request, ObjectMapper objectMapper) {
+        return objectMapper.convertValue(request, GoHighLevelUserCreateRequest.class);
     }
 }

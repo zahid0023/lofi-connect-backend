@@ -14,7 +14,7 @@ public class UserUpdateRequest {
     private String lastName;
     private String email;
     private String emailChangeOtp;
-    private String password;
+    private String pass;
     private String phone;
     private Boolean isEjectedUser;
     private String type;
