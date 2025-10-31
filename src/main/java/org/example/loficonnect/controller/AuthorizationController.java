@@ -37,5 +37,4 @@ public class AuthorizationController {
     public ResponseEntity<?> ping() {
         return ResponseEntity.ok().build();
     }
-
 }

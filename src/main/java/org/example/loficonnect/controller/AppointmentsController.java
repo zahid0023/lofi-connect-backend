@@ -25,5 +25,4 @@ public class AppointmentsController {
 
         return ResponseEntity.ok(appointmentsService.getContactAppointments(contactId, queryParams));
     }
-
 }

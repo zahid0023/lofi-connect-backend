@@ -118,5 +118,4 @@ public class BlogController {
         MapUtil.putIfNotNull(queryParams, "skip", skip);
         return ResponseEntity.ok(blogService.getBlogsByLocation(queryParams));
     }
-
 }

@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService {
     public JsonNode getUsersByLocation(Map<String, Object> queryParams) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        queryParams.put("location_id", LocationContext.getLocationId());
+        queryParams.put("locationId", LocationContext.getLocationId());
         return userClient.getUsersByLocation(accessKey, version, queryParams);
     }
 

@@ -40,5 +40,4 @@ public class AccountController {
         MapUtil.putIfNotNull(queryParams, "userId", userId);
         return ResponseEntity.ok(accountService.deleteAccount(locationId, id, queryParams));
     }
-
 }
