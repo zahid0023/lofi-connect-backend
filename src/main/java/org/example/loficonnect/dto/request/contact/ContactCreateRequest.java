@@ -13,7 +13,6 @@ public class ContactCreateRequest {
     private String lastName;
     private String name;
     private String email;
-    private String locationId;
     private String gender;
     private String phone;
     private String address1;

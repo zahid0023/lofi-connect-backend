@@ -22,6 +22,7 @@ public class AppKeyInterceptor implements HandlerInterceptor {
                              Object handler) throws Exception {
         AppKeyContext.clearAppKeyHolder();
         VersionContext.clearVersionHolder();
+        LocationContext.clearLocationIdHolder();
 
         if (handler instanceof HandlerMethod method) {
             // Check if method has @AppKey

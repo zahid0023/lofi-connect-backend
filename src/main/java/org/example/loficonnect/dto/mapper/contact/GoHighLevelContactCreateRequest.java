@@ -3,6 +3,7 @@ package org.example.loficonnect.dto.mapper.contact;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.example.loficonnect.dto.request.contact.ContactCreateRequest;
+import org.example.loficonnect.util.LocationContext;
 
 import java.util.List;
 
@@ -73,7 +74,7 @@ public class GoHighLevelContactCreateRequest {
         ghlRequest.setLastName(request.getLastName());
         ghlRequest.setName(request.getName());
         ghlRequest.setEmail(request.getEmail());
-        ghlRequest.setLocationId(request.getLocationId());
+        ghlRequest.setLocationId(LocationContext.getLocationId());
         ghlRequest.setGender(request.getGender());
         ghlRequest.setPhone(request.getPhone());
         ghlRequest.setAddress1(request.getAddress1());
