@@ -1,6 +1,9 @@
 package org.example.loficonnect.dto.mapper.contact;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.contact.ContactUpdateRequest;
 
@@ -9,27 +12,50 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
 public class GoHighLevelContactUpdateRequest {
+
+    @JsonAlias("first_name")
     private String firstName;
+
+    @JsonAlias("last_name")
     private String lastName;
+
     private String name;
     private String email;
     private String phone;
+
+    @JsonAlias("address_1")
     private String address1;
+
     private String city;
     private String state;
+
+    @JsonAlias("postal_code")
     private String postalCode;
+
     private String website;
     private String timezone;
     private Boolean dnd;
+
+    @JsonAlias("dnd_settings")
     private DndSettings dndSettings;
+
+    @JsonAlias("inbound_dnd_settings")
     private InboundDndSettings inboundDndSettings;
+
+
     private List<String> tags;
+
+    @JsonAlias("custom_fields")
     private List<CustomField> customFields;
+
     private String source;
     private String country;
+
+    @JsonAlias("assigned_to")
     private String assignedTo;
 
     @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class DndSettings {
         private Channel Call;
         private Channel Email;
@@ -39,6 +65,7 @@ public class GoHighLevelContactUpdateRequest {
         private Channel FB;
 
         @Data
+        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Channel {
             private String status;
             private String message;
@@ -61,10 +88,12 @@ public class GoHighLevelContactUpdateRequest {
     public static class CustomField {
         private String id;
         private String key;
+
+        @JsonAlias("field_value")
         private String field_value;
     }
 
-    public static GoHighLevelContactUpdateRequest fromRequest(ContactUpdateRequest request) {
+    public static GoHighLevelContactUpdateRequest fromRequest(ContactUpdateRequest request, ObjectMapper objectMapper) {
         GoHighLevelContactUpdateRequest ghlRequest = new GoHighLevelContactUpdateRequest();
         ghlRequest.setFirstName(request.getFirst_name());
         ghlRequest.setLastName(request.getLast_name());
@@ -85,7 +114,7 @@ public class GoHighLevelContactUpdateRequest {
         ghlRequest.setSource(request.getSource());
         ghlRequest.setCountry(request.getCountry());
         ghlRequest.setAssignedTo(request.getAssigned_to());
-        return ghlRequest;
+        return objectMapper.convertValue(ghlRequest, GoHighLevelContactUpdateRequest.class);
     }
 
     private static DndSettings mapDndSettings(ContactUpdateRequest.DndSettings req) {

@@ -1,6 +1,9 @@
 package org.example.loficonnect.dto.mapper.contact;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.contact.ContactCreateRequest;
 import org.example.loficonnect.util.LocationContext;
@@ -9,31 +12,59 @@ import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GoHighLevelContactCreateRequest {
+    @JsonAlias("first_name")
     private String firstName;
+
+    @JsonAlias("last_name")
     private String lastName;
+
     private String name;
     private String email;
+
+    @JsonAlias("location_id")
     private String locationId;
+
     private String gender;
     private String phone;
+
+    @JsonAlias("address_1")
     private String address1;
+
+
     private String city;
     private String state;
+
+    @JsonAlias("postal_code")
     private String postalCode;
+
     private String website;
     private String timezone;
     private Boolean dnd;
+
+    @JsonAlias("dnd_settings")
     private DndSettings dndSettings;
+
+    @JsonAlias("inbound_dnd_settings")
     private InboundDndSettings inboundDndSettings;
+
     private List<String> tags;
+
+    @JsonAlias("custom_fields")
     private List<CustomField> customFields;
+
     private String source;
     private String country;
+
+    @JsonAlias("company_name")
     private String companyName;
+
+    @JsonAlias("assigned_to")
     private String assignedTo;
 
     @Data
+    @JsonIgnoreProperties(ignoreUnknown = true)
     public static class DndSettings {
         private Channel call;
         private Channel Email;
@@ -43,6 +74,7 @@ public class GoHighLevelContactCreateRequest {
         private Channel FB;
 
         @Data
+        @JsonIgnoreProperties(ignoreUnknown = true)
         public static class Channel {
             private String status;
             private String message;
@@ -65,10 +97,12 @@ public class GoHighLevelContactCreateRequest {
     public static class CustomField {
         private String id;
         private String key;
+
+        @JsonAlias("field_value")
         private String field_value;
     }
 
-    public static GoHighLevelContactCreateRequest fromRequest(ContactCreateRequest request) {
+    public static GoHighLevelContactCreateRequest fromRequest(ContactCreateRequest request, ObjectMapper objectMapper) {
         GoHighLevelContactCreateRequest ghlRequest = new GoHighLevelContactCreateRequest();
         ghlRequest.setFirstName(request.getFirstName());
         ghlRequest.setLastName(request.getLastName());
@@ -92,7 +126,7 @@ public class GoHighLevelContactCreateRequest {
         ghlRequest.setCountry(request.getCountry());
         ghlRequest.setCompanyName(request.getCompanyName());
         ghlRequest.setAssignedTo(request.getAssignedTo());
-        return ghlRequest;
+        return objectMapper.convertValue(ghlRequest, GoHighLevelContactCreateRequest.class);
     }
 
     private static DndSettings mapDndSettings(ContactCreateRequest.DndSettings req) {

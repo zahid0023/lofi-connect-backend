@@ -44,7 +44,7 @@ public class ContactServiceImpl implements ContactService {
     public JsonNode updateContact(String contactId, ContactUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelContactUpdateRequest ghlRequest = GoHighLevelContactUpdateRequest.fromRequest(request);
+        GoHighLevelContactUpdateRequest ghlRequest = GoHighLevelContactUpdateRequest.fromRequest(request,objectMapper);
         return contactClient.updateContact(accessKey, version, contactId, ghlRequest);
     }
 
@@ -66,7 +66,7 @@ public class ContactServiceImpl implements ContactService {
     public CreateContactResponse createContact(ContactCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelContactCreateRequest ghlRequest = GoHighLevelContactCreateRequest.fromRequest(request);
+        GoHighLevelContactCreateRequest ghlRequest = GoHighLevelContactCreateRequest.fromRequest(request,objectMapper);
         JsonNode response = contactClient.createContact(accessKey, version, ghlRequest);
         log.info("response: {}", response);
         return CreateContactResponse.fromJson(response.has("contact") ? response.get("contact") : null, objectMapper);
