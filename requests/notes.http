@@ -1,0 +1,39 @@
+###
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "user_id": "NE9ki72luwgUX38USH3D",
+  "body": "Test Note"
+}
+
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/jlGBxjHZ9zmPzWZP2uR3
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+
+###
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/jlGBxjHZ9zmPzWZP2uR3
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "user_id": "NE9ki72luwgUX38USH3D",
+  "body": "Test 3"
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/jlGBxjHZ9zmPzWZP2uR3
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0

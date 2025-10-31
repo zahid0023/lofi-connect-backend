@@ -1,0 +1,55 @@
+###
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "title": "Test task 1",
+  "body": "test task",
+  "due_date": "2025-10-31",
+  "due_time": "10:00:00",
+  "time_zone": "Pacific/Apia",
+  "completed": true,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+###
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "title": "Updated Task",
+  "body": "task updated",
+  "due_date": "2025-10-31",
+  "due_time": "10:00:00",
+  "time_zone": "Pacific/Apia",
+  "completed": true,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+###
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP/completed
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "completed": true
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
