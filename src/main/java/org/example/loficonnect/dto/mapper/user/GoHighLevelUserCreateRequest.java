@@ -48,4 +48,4 @@ public class GoHighLevelUserCreateRequest {
     public static GoHighLevelUserCreateRequest fromRequest(UserCreateRequest request, ObjectMapper objectMapper) {
         return objectMapper.convertValue(request, GoHighLevelUserCreateRequest.class);
     }
-}
+}       
