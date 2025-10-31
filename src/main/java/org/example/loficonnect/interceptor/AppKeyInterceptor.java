@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.loficonnect.config.AppKey;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -47,5 +48,6 @@ public class AppKeyInterceptor implements HandlerInterceptor {
                                 Exception ex) {
         AppKeyContext.clearAppKeyHolder();
         VersionContext.clearVersionHolder();
+        LocationContext.clearLocationIdHolder();
     }
 }

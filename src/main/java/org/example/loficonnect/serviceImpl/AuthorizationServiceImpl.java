@@ -11,6 +11,7 @@ import org.example.loficonnect.repository.GoHighLevelTokenRepository;
 import org.example.loficonnect.repository.LofiConnectAppKeyRepository;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.SecretKeyService;
+import org.example.loficonnect.util.LocationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
@@ -106,6 +107,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             goHighLevelTokenEntity = saveGoHighLevelTokenEntity(appKeyEntity, parameters);
             log.info("Refreshed access token for appKey {}: {}", appKey, parameters);
         }
+
+        LocationContext.setLocationId(goHighLevelTokenEntity.getLocationId());
 
         return "Bearer " + goHighLevelTokenEntity.getAccessToken();
     }
