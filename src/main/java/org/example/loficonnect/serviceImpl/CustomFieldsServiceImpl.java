@@ -12,6 +12,7 @@ import org.example.loficonnect.feignclients.CustomFieldsClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CustomFieldsService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -33,55 +34,53 @@ public class CustomFieldsServiceImpl implements CustomFieldsService {
     }
 
     @Override
-    public JsonNode getCustomFields(String locationId, Map<String, Object> queryParams) {
+    public JsonNode getCustomFields(Map<String, Object> queryParams) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return customFieldsClient.getCustomFields(accessKey, version, locationId, queryParams);
+        return customFieldsClient.getCustomFields(accessKey, version, LocationContext.getLocationId(), queryParams);
     }
 
     @Override
-    public JsonNode createCustomField(String locationId, CustomFieldCreateRequest request) {
+    public JsonNode createCustomField(CustomFieldCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelCustomFieldCreateRequest ghlRequest = GoHighLevelCustomFieldCreateRequest.fromRequest(request, objectMapper);
-        return customFieldsClient.createCustomField(accessKey, version, locationId, ghlRequest);
+        return customFieldsClient.createCustomField(accessKey, version, LocationContext.getLocationId(), ghlRequest);
     }
 
     @Override
-    public JsonNode getCustomField(String locationId, String id) {
+    public JsonNode getCustomField(String id) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return customFieldsClient.getCustomField(accessKey, version, locationId, id);
+        return customFieldsClient.getCustomField(accessKey, version, LocationContext.getLocationId(), id);
     }
 
     @Override
-    public JsonNode updateCustomField(String locationId, String id, CustomFieldUpdateRequest request) {
+    public JsonNode updateCustomField(String id, CustomFieldUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelCustomFieldUpdateRequest ghlRequest = GoHighLevelCustomFieldUpdateRequest.fromRequest(request, objectMapper);
-        return customFieldsClient.updateCustomField(accessKey, version, locationId, id, ghlRequest);
+        return customFieldsClient.updateCustomField(accessKey, version, LocationContext.getLocationId(), id, ghlRequest);
     }
 
     @Override
-    public JsonNode deleteCustomField(String locationId, String id) {
+    public JsonNode deleteCustomField(String id) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return customFieldsClient.deleteCustomField(accessKey, version, locationId, id);
+        return customFieldsClient.deleteCustomField(accessKey, version, LocationContext.getLocationId(), id);
     }
 
     @Override
-    public JsonNode uploadCustomFieldFile(String locationId, UploadCustomFieldFileRequest request) {
+    public JsonNode uploadCustomFieldFile(UploadCustomFieldFileRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         return customFieldsClient.uploadCustomFieldFile(
                 accessKey,
                 version,
-                locationId,
+                LocationContext.getLocationId(),
                 request.getId(),
                 request.getMaxFiles(),
                 request.getFile()
         );
     }
-
-
 }

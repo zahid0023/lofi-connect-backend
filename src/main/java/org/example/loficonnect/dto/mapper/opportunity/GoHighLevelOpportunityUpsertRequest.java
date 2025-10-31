@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.opportunity.OpportunityUpsertRequest;
+import org.example.loficonnect.util.LocationContext;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
@@ -15,7 +16,6 @@ public class GoHighLevelOpportunityUpsertRequest {
     @JsonAlias("pipeline_id")
     private String pipelineId;
 
-    @JsonAlias("location_id")
     private String locationId;
 
     @JsonAlias("contact_id")
@@ -41,6 +41,9 @@ public class GoHighLevelOpportunityUpsertRequest {
     }
 
     public static GoHighLevelOpportunityUpsertRequest fromRequest(OpportunityUpsertRequest request, ObjectMapper objectMapper) {
-        return objectMapper.convertValue(request, GoHighLevelOpportunityUpsertRequest.class);
+        GoHighLevelOpportunityUpsertRequest ghl = new GoHighLevelOpportunityUpsertRequest();
+        objectMapper.convertValue(request, GoHighLevelOpportunityUpsertRequest.class);
+        ghl.setLocationId(LocationContext.getLocationId());
+        return ghl;
     }
 }

@@ -22,16 +22,15 @@ public class OpportunitySearchController {
     @AppKey
     @GetMapping("/opportunities/search")
     public ResponseEntity<?> searchOpportunities(
-        @RequestParam("location-id") String locationId,
         @RequestParam(value = "assigned-to", required = false) String assignedTo,
         @RequestParam(value = "campaign-id", required = false) String campaignId,
         @RequestParam(value = "contact-id", required = false) String contactId,
         @RequestParam(value = "country", required = false) String country,
         @RequestParam(value = "date", required = false) String date,
         @RequestParam(value = "end-date", required = false) String endDate,
-        @RequestParam(value = "getCalendarEvents", required = false) Boolean getCalendarEvents,
-        @RequestParam(value = "getNotes", required = false) Boolean getNotes,
-        @RequestParam(value = "getTasks", required = false) Boolean getTasks,
+        @RequestParam(value = "get-calendar-events", required = false) Boolean getCalendarEvents,
+        @RequestParam(value = "get-notes", required = false) Boolean getNotes,
+        @RequestParam(value = "get-tasks", required = false) Boolean getTasks,
         @RequestParam(value = "id", required = false) String id,
         @RequestParam(value = "limit", required = false) Integer limit,
         @RequestParam(value = "order", required = false) String order,
@@ -44,7 +43,6 @@ public class OpportunitySearchController {
         @RequestParam(value = "status", required = false) String status
     ) {
         Map<String, Object> queryParams = new HashMap<>();
-        MapUtil.putIfNotNull(queryParams, "location_id", locationId);
         MapUtil.putIfNotNull(queryParams, "assigned_to", assignedTo);
         MapUtil.putIfNotNull(queryParams, "campaignId", campaignId);
         MapUtil.putIfNotNull(queryParams, "contact_id", contactId);

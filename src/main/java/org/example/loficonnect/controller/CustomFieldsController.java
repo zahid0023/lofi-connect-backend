@@ -26,58 +26,52 @@ public class CustomFieldsController {
     @AppKey
     @GetMapping("/custom-fields")
     public ResponseEntity<?> getCustomFields(
-            @RequestParam("location-id") String locationId,
             @RequestParam(value = "model", required = false) String model
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "model", model);
 
-        return ResponseEntity.ok(customFieldsService.getCustomFields(locationId, queryParams));
+        return ResponseEntity.ok(customFieldsService.getCustomFields(queryParams));
     }
 
     @AppKey
     @PostMapping("/custom-fields")
     public ResponseEntity<?> createCustomField(
-            @RequestParam("location-id") String locationId,
             @RequestBody CustomFieldCreateRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(customFieldsService.createCustomField(locationId, request));
+                .body(customFieldsService.createCustomField(request));
     }
 
     @AppKey
-    @GetMapping("/custom-fields/{id}")
+    @GetMapping("/custom-fields/{custom-field-id}")
     public ResponseEntity<?> getCustomField(
-            @RequestParam("location-id") String locationId,
-            @PathVariable("id") String id
+            @PathVariable("custom-field-id") String id
     ) {
-        return ResponseEntity.ok(customFieldsService.getCustomField(locationId, id));
+        return ResponseEntity.ok(customFieldsService.getCustomField(id));
     }
 
     @AppKey
-    @PutMapping("/custom-fields/{id}")
+    @PutMapping("/custom-fields/{custom-field-id}")
     public ResponseEntity<?> updateCustomField(
-            @RequestParam("location-id") String locationId,
-            @PathVariable("id") String id,
+            @PathVariable("custom-field-id") String id,
             @RequestBody CustomFieldUpdateRequest request
     ) {
-        return ResponseEntity.ok(customFieldsService.updateCustomField(locationId, id, request));
+        return ResponseEntity.ok(customFieldsService.updateCustomField(id, request));
     }
 
     @AppKey
-    @DeleteMapping("/custom-fields/{id}")
+    @DeleteMapping("/custom-fields/{custom-field-id}")
     public ResponseEntity<?> deleteCustomField(
-            @RequestParam("location-id") String locationId,
-            @PathVariable("id") String id
+            @PathVariable("custom-field-id") String id
     ) {
-        return ResponseEntity.ok(customFieldsService.deleteCustomField(locationId, id));
+        return ResponseEntity.ok(customFieldsService.deleteCustomField(id));
     }
 
     @AppKey
     @PostMapping("/custom-fields/files")
     public ResponseEntity<?> uploadCustomFieldFile(
-            @RequestParam("location-id") String locationId,
-            @RequestParam String id,
+            @RequestParam("custom-field-id") String id,
             @RequestParam(required = false) Integer maxFiles,
             @RequestParam MultipartFile file
     ) {
@@ -87,8 +81,6 @@ public class CustomFieldsController {
         request.setMaxFiles(maxFiles);
         request.setFile(file);
 
-        return ResponseEntity.ok(customFieldsService.uploadCustomFieldFile(locationId, request));
+        return ResponseEntity.ok(customFieldsService.uploadCustomFieldFile(request));
     }
-
-
 }

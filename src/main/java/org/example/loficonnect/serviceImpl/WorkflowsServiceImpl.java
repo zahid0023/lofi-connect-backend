@@ -11,6 +11,7 @@ import org.example.loficonnect.feignclients.WorkflowsClient;
 import org.example.loficonnect.service.WorkflowsService;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -31,10 +32,10 @@ public class WorkflowsServiceImpl implements WorkflowsService {
     }
 
     @Override
-    public JsonNode getWorkflows(String locationId) {
+    public JsonNode getWorkflows() {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return workflowsClient.getWorkflows(accessKey, version, locationId);
+        return workflowsClient.getWorkflows(accessKey, version, LocationContext.getLocationId());
     }
 
     @Override

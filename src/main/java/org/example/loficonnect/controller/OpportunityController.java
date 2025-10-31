@@ -1,6 +1,5 @@
 package org.example.loficonnect.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.example.loficonnect.config.AppKey;
 import org.example.loficonnect.dto.request.opportunity.OpportunityCreateRequest;
 import org.example.loficonnect.dto.request.opportunity.OpportunityStatusUpdateRequest;
@@ -22,30 +21,30 @@ public class OpportunityController {
     }
 
     @AppKey
-    @GetMapping("/opportunities/{id}")
-    public ResponseEntity<?> getOpportunityById(@PathVariable("id") String opportunityId) {
+    @GetMapping("/opportunities/{opportunity-id}")
+    public ResponseEntity<?> getOpportunityById(@PathVariable("opportunity-id") String opportunityId) {
         return ResponseEntity.ok(opportunityService.getOpportunityById(opportunityId));
     }
 
     @AppKey
-    @DeleteMapping("/opportunities/{id}")
-    public ResponseEntity<?> deleteOpportunityById(@PathVariable("id") String opportunityId) {
+    @DeleteMapping("/opportunities/{opportunity-id}")
+    public ResponseEntity<?> deleteOpportunityById(@PathVariable("opportunity-id") String opportunityId) {
         return ResponseEntity.ok(opportunityService.deleteOpportunityById(opportunityId));
     }
 
     @AppKey
-    @PutMapping("/opportunities/{id}")
+    @PutMapping("/opportunities/{opportunity-id}")
     public ResponseEntity<?> updateOpportunityById(
-            @PathVariable("id") String id,
+            @PathVariable("opportunity-id") String id,
             @RequestBody OpportunityUpdateRequest request
     ) {
         return ResponseEntity.ok(opportunityService.updateOpportunityById(id, request));
     }
 
     @AppKey
-    @PutMapping("/opportunities/{id}/status")
+    @PutMapping("/opportunities/{opportunity-id}/status")
     public ResponseEntity<?> updateOpportunityStatus(
-            @PathVariable("id") String id,
+            @PathVariable("opportunity-id") String id,
             @RequestBody OpportunityStatusUpdateRequest request
     ) {
         return ResponseEntity.ok(opportunityService.updateOpportunityStatus(id, request));
@@ -62,5 +61,4 @@ public class OpportunityController {
     public ResponseEntity<?> createOpportunity(@RequestBody OpportunityCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(opportunityService.createOpportunity(request));
     }
-
 }

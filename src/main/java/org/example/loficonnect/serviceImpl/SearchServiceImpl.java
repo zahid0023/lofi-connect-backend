@@ -10,10 +10,9 @@ import org.example.loficonnect.feignclients.SearchClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.SearchService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -50,11 +49,11 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public JsonNode searchTasks(String locationId, TaskSearchRequest request) {
+    public JsonNode searchTasks(TaskSearchRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelTaskSearchRequest ghlRequest = GoHighLevelTaskSearchRequest.fromRequest(request);
-        return searchClient.searchTasks(accessKey, version, locationId, ghlRequest);
+        return searchClient.searchTasks(accessKey, version, LocationContext.getLocationId(), ghlRequest);
     }
 
     @Override
@@ -63,6 +62,4 @@ public class SearchServiceImpl implements SearchService {
         String version = VersionContext.getVersion();
         return searchClient.searchConversations(accessKey, version, queryParams);
     }
-
-
 }

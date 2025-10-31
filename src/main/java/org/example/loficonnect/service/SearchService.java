@@ -13,7 +13,7 @@ public interface SearchService {
 
     JsonNode searchLocations(Map<String, Object> queryParams);
 
-    JsonNode searchTasks(String locationId, TaskSearchRequest request);
+    JsonNode searchTasks(TaskSearchRequest request);
 
     JsonNode searchConversations(Map<String, Object> queryParams);
 

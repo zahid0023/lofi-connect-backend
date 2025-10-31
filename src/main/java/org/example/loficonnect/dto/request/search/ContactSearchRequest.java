@@ -9,7 +9,6 @@ import lombok.Data;
 public class ContactSearchRequest {
     private String phone;
     private String email;
-    private String locationId;
     private Integer pageLimit;
     private Integer page;
 }

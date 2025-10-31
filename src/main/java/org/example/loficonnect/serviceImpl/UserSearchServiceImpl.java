@@ -8,6 +8,7 @@ import org.example.loficonnect.feignclients.UserSearchClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.UserSearchService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +30,7 @@ public class UserSearchServiceImpl implements UserSearchService {
     public JsonNode searchUsers(Map<String, Object> queryParams) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
+        queryParams.put("locationId", LocationContext.getLocationId());
         return userSearchClient.searchUsers(accessKey, version, queryParams);
     }
 

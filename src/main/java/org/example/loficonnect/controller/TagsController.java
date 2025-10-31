@@ -39,46 +39,42 @@ public class TagsController {
     }
 
     @AppKey
-    @GetMapping("/locations/{location-id}/tags")
-    public ResponseEntity<?> getLocationTags(@PathVariable("location-id") String locationId) {
-        return ResponseEntity.ok(tagsService.getLocationTags(locationId));
+    @GetMapping("/locations/tags")
+    public ResponseEntity<?> getLocationTags() {
+        return ResponseEntity.ok(tagsService.getLocationTags());
     }
 
     @AppKey
     @PostMapping("/tags")
     public ResponseEntity<?> createTag(
-            @RequestParam("location-id") String locationId,
             @RequestBody TagCreateRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(tagsService.createLocationTag(locationId, request));
+                .body(tagsService.createLocationTag(request));
     }
 
     @AppKey
     @GetMapping("/tags/{tag-id}")
     public ResponseEntity<?> getTagById(
-            @PathVariable("tag-id") String tagId,
-            @RequestParam("location-id") String locationId
-    ) {
-        return ResponseEntity.ok(tagsService.getTagById(locationId, tagId));
+            @PathVariable("tag-id") String tagId
+            ) {
+        return ResponseEntity.ok(tagsService.getTagById(tagId));
     }
 
     @AppKey
-    @PutMapping("/locations/{location-id}/tags/{tag-id}")
+    @PutMapping("/locations/tags/{tag-id}")
     public ResponseEntity<?> updateTag(
-            @PathVariable("location-id") String locationId,
             @PathVariable("tag-id") String tagId,
             @RequestBody TagUpdateRequest request
     ) {
-        return ResponseEntity.ok(tagsService.updateTag(locationId, tagId, request));
+        return ResponseEntity.ok(tagsService.updateTag(tagId, request));
     }
 
     @AppKey
-    @DeleteMapping("/locations/{location-id}/tags/{tag-id}")
+    @DeleteMapping("/locations/tags/{tag-id}")
     public ResponseEntity<?> deleteTag(
-            @PathVariable("location-id") String locationId,
             @PathVariable("tag-id") String tagId
     ) {
-        return ResponseEntity.ok(tagsService.deleteTag(locationId, tagId));
+        return ResponseEntity.ok(tagsService.deleteTag(tagId));
     }
 }

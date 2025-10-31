@@ -68,6 +68,4 @@ public class NotesController {
         Map<String, Object> queryParams = new HashMap<>();
         return ResponseEntity.ok(notesService.deleteContactNote(contactId, noteId, queryParams));
     }
-
-
 }

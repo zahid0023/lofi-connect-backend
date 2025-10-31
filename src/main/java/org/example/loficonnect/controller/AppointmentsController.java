@@ -17,9 +17,9 @@ public class AppointmentsController {
     }
 
     @AppKey
-    @GetMapping("/contacts/{contactId}/appointments")
+    @GetMapping("/contacts/{contact-id}/appointments")
     public ResponseEntity<?> getContactAppointments(
-            @PathVariable("contactId") String contactId
+            @PathVariable("contact-id") String contactId
     ) {
         Map<String, Object> queryParams = new HashMap<>();
 

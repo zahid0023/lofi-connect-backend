@@ -19,8 +19,8 @@ public class WorkflowsController {
 
     @AppKey
     @GetMapping("/workflows")
-    public ResponseEntity<?> getWorkflows(@RequestParam("location-id") String locationId) {
-        return ResponseEntity.ok(workflowsService.getWorkflows(locationId));
+    public ResponseEntity<?> getWorkflows() {
+        return ResponseEntity.ok(workflowsService.getWorkflows());
     }
 
     @AppKey

@@ -2,6 +2,7 @@ package org.example.loficonnect.dto.mapper.search;
 
 import lombok.Data;
 import org.example.loficonnect.dto.request.search.ContactSearchRequest;
+import org.example.loficonnect.util.LocationContext;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class GoHighLevelContactSearchRequest {
     public static GoHighLevelContactSearchRequest fromRequest(ContactSearchRequest request) {
         GoHighLevelContactSearchRequest ghl = new GoHighLevelContactSearchRequest();
 
-        ghl.setLocationId(request.getLocationId());
+        ghl.setLocationId(LocationContext.getLocationId());
         ghl.setPageLimit(request.getPageLimit());
         ghl.setPage(request.getPage());
 

@@ -4,7 +4,6 @@ import org.example.loficonnect.config.AppKey;
 import org.example.loficonnect.dto.request.user.UserCreateRequest;
 import org.example.loficonnect.dto.request.user.UserUpdateRequest;
 import org.example.loficonnect.service.UserService;
-import org.example.loficonnect.util.MapUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,11 +44,8 @@ public class UserController {
 
     @AppKey
     @GetMapping("/users")
-    public ResponseEntity<?> getUsersByLocation(
-            @RequestParam("location-id") String locationId
-    ) {
+    public ResponseEntity<?> getUsersByLocation() {
         Map<String, Object> queryParams = new HashMap<>();
-        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
         return ResponseEntity.ok(userService.getUsersByLocation(queryParams));
     }
 
@@ -58,5 +54,4 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody UserCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
     }
-
 }

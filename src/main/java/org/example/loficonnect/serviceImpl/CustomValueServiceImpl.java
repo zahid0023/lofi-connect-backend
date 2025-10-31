@@ -10,6 +10,7 @@ import org.example.loficonnect.feignclients.CustomValueClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CustomValueService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -25,41 +26,39 @@ public class CustomValueServiceImpl implements CustomValueService {
     }
 
     @Override
-    public JsonNode getCustomValues(String locationId) {
+    public JsonNode getCustomValues() {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return customValueClient.getCustomValues(accessKey, version, locationId);
+        return customValueClient.getCustomValues(accessKey, version, LocationContext.getLocationId());
     }
 
     @Override
-    public JsonNode createCustomValue(String locationId, CustomValueCreateRequest request) {
+    public JsonNode createCustomValue(CustomValueCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelCustomValueCreateRequest ghlRequest = GoHighLevelCustomValueCreateRequest.fromRequest(request);
-        return customValueClient.createCustomValue(accessKey, version, locationId, ghlRequest);
+        return customValueClient.createCustomValue(accessKey, version, LocationContext.getLocationId(), ghlRequest);
     }
 
     @Override
-    public JsonNode getCustomValue(String locationId, String id) {
+    public JsonNode getCustomValue(String id) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return customValueClient.getCustomValue(accessKey, version, locationId, id);
+        return customValueClient.getCustomValue(accessKey, version, LocationContext.getLocationId(), id);
     }
 
     @Override
-    public JsonNode updateCustomValue(String locationId, String id, CustomValueUpdateRequest request) {
+    public JsonNode updateCustomValue(String id, CustomValueUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelCustomValueUpdateRequest ghlRequest = GoHighLevelCustomValueUpdateRequest.fromRequest(request);
-        return customValueClient.updateCustomValue(accessKey, version, locationId, id, ghlRequest);
+        return customValueClient.updateCustomValue(accessKey, version, LocationContext.getLocationId(), id, ghlRequest);
     }
 
     @Override
-    public JsonNode deleteCustomValue(String locationId, String id) {
+    public JsonNode deleteCustomValue(String id) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return customValueClient.deleteCustomValue(accessKey, version, locationId, id);
+        return customValueClient.deleteCustomValue(accessKey, version, LocationContext.getLocationId(), id);
     }
-
-
 }

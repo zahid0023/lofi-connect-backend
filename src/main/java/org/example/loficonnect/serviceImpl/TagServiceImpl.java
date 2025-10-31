@@ -8,6 +8,7 @@ import org.example.loficonnect.feignclients.TagClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.TagService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +27,17 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public JsonNode getTags(String locationId, Map<String, Object> queryParams) {
+    public JsonNode getTags(Map<String, Object> queryParams) {
         String accessToken = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return tagClient.getTags(accessToken, version, locationId, queryParams);
+        return tagClient.getTags(accessToken, version, LocationContext.getLocationId(), queryParams);
     }
 
     @Override
-    public JsonNode getTagsByIds(String locationId, TagByIdsRequest request) {
+    public JsonNode getTagsByIds(TagByIdsRequest request) {
         String accessToken = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelTagByIdsRequest ghlRequest = GoHighLevelTagByIdsRequest.fromRequest(request);
-        return tagClient.getTagsByIds(accessToken, version, locationId, ghlRequest);
+        return tagClient.getTagsByIds(accessToken, version, LocationContext.getLocationId(), ghlRequest);
     }
-
 }

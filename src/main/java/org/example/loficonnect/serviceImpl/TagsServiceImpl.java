@@ -15,6 +15,7 @@ import org.example.loficonnect.feignclients.TagsClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.TagsService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -50,43 +51,41 @@ public class TagsServiceImpl implements TagsService {
     }
 
     @Override
-    public JsonNode getLocationTags(String locationId) {
+    public JsonNode getLocationTags() {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return tagsClient.getLocationTags(accessKey, version, locationId);
+        return tagsClient.getLocationTags(accessKey, version, LocationContext.getLocationId());
     }
 
     @Override
-    public JsonNode createLocationTag(String locationId, TagCreateRequest request) {
+    public JsonNode createLocationTag(TagCreateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         GoHighLevelTagCreateRequest ghlRequest = GoHighLevelTagCreateRequest.fromRequest(request, objectMapper);
-        return tagsClient.createLocationTag(accessKey, version, locationId, ghlRequest);
+        return tagsClient.createLocationTag(accessKey, version, LocationContext.getLocationId(), ghlRequest);
     }
 
     @Override
-    public JsonNode getTagById(String locationId, String tagId) {
+    public JsonNode getTagById(String tagId) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return tagsClient.getTagById(accessKey, version, locationId, tagId);
+        return tagsClient.getTagById(accessKey, version, LocationContext.getLocationId(), tagId);
     }
 
     @Override
-    public JsonNode updateTag(String locationId, String tagId, TagUpdateRequest request) {
+    public JsonNode updateTag(String tagId, TagUpdateRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
 
         GoHighLevelTagUpdateRequest ghlRequest = GoHighLevelTagUpdateRequest.fromRequest(request, objectMapper);
 
-        return tagsClient.updateTag(accessKey, version, locationId, tagId, ghlRequest);
+        return tagsClient.updateTag(accessKey, version, LocationContext.getLocationId(), tagId, ghlRequest);
     }
 
     @Override
-    public JsonNode deleteTag(String locationId, String tagId) {
+    public JsonNode deleteTag(String tagId) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return tagsClient.deleteTag(accessKey, version, locationId, tagId);
+        return tagsClient.deleteTag(accessKey, version, LocationContext.getLocationId(), tagId);
     }
-
-
 }

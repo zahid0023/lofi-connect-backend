@@ -5,7 +5,7 @@ import org.example.loficonnect.dto.request.workflow.ContactWorkflowAddRequest;
 import org.example.loficonnect.dto.request.workflow.ContactWorkflowDeleteRequest;
 
 public interface WorkflowsService {
-    JsonNode getWorkflows(String locationId);
+    JsonNode getWorkflows();
 
     JsonNode addContactToWorkflow(String contactId, String workflowId, ContactWorkflowAddRequest request);
 

@@ -30,13 +30,11 @@ public class SearchController {
     @GetMapping("/contacts/search/duplicate")
     public ResponseEntity<?> getDuplicateContacts(
             @RequestParam(value = "email", required = false) String email,
-            @RequestParam(value = "number", required = false) String number,
-            @RequestParam(value = "locationId") String locationId) {
+            @RequestParam(value = "number", required = false) String number) {
 
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "email", email);
         MapUtil.putIfNotNull(queryParams, "number", number);
-        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
 
         return ResponseEntity.ok(searchService.getDuplicateContacts(queryParams));
     }
@@ -44,7 +42,7 @@ public class SearchController {
     @AppKey
     @GetMapping("/locations/search")
     public ResponseEntity<?> searchLocations(
-            @RequestParam(value = "companyId", required = false) String companyId,
+            @RequestParam(value = "company-id", required = false) String companyId,
             @RequestParam(value = "email", required = false) String email,
             @RequestParam(value = "limit", required = false, defaultValue = "10") String limit,
             @RequestParam(value = "order", required = false, defaultValue = "asc") String order,
@@ -61,12 +59,11 @@ public class SearchController {
     }
 
     @AppKey
-    @PostMapping("/locations/{location-id}/tasks/search")
+    @PostMapping("/locations/tasks/search")
     public ResponseEntity<?> searchTasks(
-            @PathVariable("location-id") String locationId,
             @RequestBody TaskSearchRequest request
     ) {
-        return ResponseEntity.ok(searchService.searchTasks(locationId, request));
+        return ResponseEntity.ok(searchService.searchTasks(request));
     }
 
     @AppKey
@@ -115,6 +112,5 @@ public class SearchController {
 
         return ResponseEntity.ok(searchService.searchConversations(queryParams));
     }
-
 
 }

@@ -11,15 +11,13 @@ public interface TagsService {
 
     JsonNode deleteContactTags(String contactId, ContactTagsRemoveRequest request);
 
-    JsonNode getLocationTags(String locationId);
+    JsonNode getLocationTags();
 
-    JsonNode createLocationTag(String locationId, TagCreateRequest request);
+    JsonNode createLocationTag(TagCreateRequest request);
 
-    JsonNode getTagById(String locationId, String tagId);
+    JsonNode getTagById(String tagId);
 
-    JsonNode updateTag(String locationId, String tagId, TagUpdateRequest request);
+    JsonNode updateTag(String tagId, TagUpdateRequest request);
 
-    JsonNode deleteTag(String locationId, String tagId);
-
-
+    JsonNode deleteTag(String tagId);
 }

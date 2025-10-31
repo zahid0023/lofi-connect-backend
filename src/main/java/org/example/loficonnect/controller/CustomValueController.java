@@ -19,46 +19,40 @@ public class CustomValueController {
 
     @AppKey
     @GetMapping("/custom-values")
-    public ResponseEntity<?> getCustomValues(@RequestParam("location-id") String locationId) {
-        return ResponseEntity.ok(customValueService.getCustomValues(locationId));
+    public ResponseEntity<?> getCustomValues() {
+        return ResponseEntity.ok(customValueService.getCustomValues());
     }
 
     @AppKey
     @PostMapping("/custom-values")
     public ResponseEntity<?> createCustomValue(
-            @RequestParam("location-id") String locationId,
             @RequestBody CustomValueCreateRequest request
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(customValueService.createCustomValue(locationId, request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(customValueService.createCustomValue(request));
     }
 
     @AppKey
-    @GetMapping("/locations/{location-id}/custom-values/{id}")
+    @GetMapping("/locations/custom-values/{custom-value-id}")
     public ResponseEntity<?> getCustomValue(
-            @PathVariable("location-id") String locationId,
-            @PathVariable("id") String id
+            @PathVariable("custom-value-id") String id
     ) {
-        return ResponseEntity.ok(customValueService.getCustomValue(locationId, id));
+        return ResponseEntity.ok(customValueService.getCustomValue(id));
     }
 
     @AppKey
-    @PutMapping("/custom-values/{id}")
+    @PutMapping("/custom-values/{custom-value-id}")
     public ResponseEntity<?> updateCustomValue(
-            @RequestParam("location-id") String locationId,
-            @PathVariable("id") String id,
+            @PathVariable("custom-value-id") String id,
             @RequestBody CustomValueUpdateRequest request
     ) {
-        return ResponseEntity.ok(customValueService.updateCustomValue(locationId, id, request));
+        return ResponseEntity.ok(customValueService.updateCustomValue(id, request));
     }
 
     @AppKey
-    @DeleteMapping("/custom-values/{id}")
+    @DeleteMapping("/custom-values/{custom-value-id}")
     public ResponseEntity<?> deleteCustomValue(
-            @RequestParam("location-id") String locationId,
-            @PathVariable("id") String id
+            @PathVariable("custom-value-id") String id
     ) {
-        return ResponseEntity.ok(customValueService.deleteCustomValue(locationId, id));
+        return ResponseEntity.ok(customValueService.deleteCustomValue(id));
     }
-
-
 }

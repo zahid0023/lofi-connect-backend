@@ -11,6 +11,7 @@ import org.example.loficonnect.feignclients.UserClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.UserService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +59,7 @@ public class UserServiceImpl implements UserService {
     public JsonNode getUsersByLocation(Map<String, Object> queryParams) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
+        queryParams.put("location_id", LocationContext.getLocationId());
         return userClient.getUsersByLocation(accessKey, version, queryParams);
     }
 

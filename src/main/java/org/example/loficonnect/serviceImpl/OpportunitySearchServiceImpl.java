@@ -6,6 +6,7 @@ import org.example.loficonnect.feignclients.OpportunitySearchClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.OpportunitySearchService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class OpportunitySearchServiceImpl implements OpportunitySearchService {
     public JsonNode searchOpportunities(Map<String, Object> queryParams) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
+        queryParams.put("location_id", LocationContext.getLocationId());
         return opportunitySearchClient.searchOpportunities(accessKey, version, queryParams);
     }
 }

@@ -5,15 +5,13 @@ import org.example.loficonnect.dto.request.custom.value.CustomValueCreateRequest
 import org.example.loficonnect.dto.request.custom.value.CustomValueUpdateRequest;
 
 public interface CustomValueService {
-    JsonNode getCustomValues(String locationId);
+    JsonNode getCustomValues();
 
-    JsonNode createCustomValue(String locationId, CustomValueCreateRequest request);
+    JsonNode createCustomValue(CustomValueCreateRequest request);
 
-    JsonNode getCustomValue(String locationId, String id);
+    JsonNode getCustomValue(String id);
 
-    JsonNode updateCustomValue(String locationId, String id, CustomValueUpdateRequest request);
+    JsonNode updateCustomValue(String id, CustomValueUpdateRequest request);
 
-    JsonNode deleteCustomValue(String locationId, String id);
-
-
+    JsonNode deleteCustomValue(String id);
 }

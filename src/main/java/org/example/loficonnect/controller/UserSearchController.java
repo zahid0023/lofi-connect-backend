@@ -25,7 +25,6 @@ public class UserSearchController {
     @GetMapping("/users/search")
     public ResponseEntity<?> searchUsers(
             @RequestParam("company-id") String companyId,
-            @RequestParam(value = "location-id", required = false) String locationId,
             @RequestParam(value = "enabled2waySync", required = false) Boolean enabled2waySync,
             @RequestParam(value = "ids", required = false) String ids,
             @RequestParam(value = "limit", required = false) String limit,
@@ -33,12 +32,11 @@ public class UserSearchController {
             @RequestParam(value = "query", required = false) String query,
             @RequestParam(value = "role", required = false) String role,
             @RequestParam(value = "sort", required = false) String sort,
-            @RequestParam(value = "sortDirection", required = false) String sortDirection,
+            @RequestParam(value = "sort-direction", required = false) String sortDirection,
             @RequestParam(value = "type", required = false) String type
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "companyId", companyId);
-        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
         MapUtil.putIfNotNull(queryParams, "enabled2waySync", enabled2waySync);
         MapUtil.putIfNotNull(queryParams, "ids", ids);
         MapUtil.putIfNotNull(queryParams, "limit", limit);

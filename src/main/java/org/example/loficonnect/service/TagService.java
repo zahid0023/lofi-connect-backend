@@ -6,6 +6,6 @@ import org.example.loficonnect.dto.request.tag.TagByIdsRequest;
 import java.util.Map;
 
 public interface TagService {
-    JsonNode getTags(String locationId, Map<String, Object> queryParams);
-    JsonNode getTagsByIds(String locationId, TagByIdsRequest request);
+    JsonNode getTags(Map<String, Object> queryParams);
+    JsonNode getTagsByIds(TagByIdsRequest request);
 }

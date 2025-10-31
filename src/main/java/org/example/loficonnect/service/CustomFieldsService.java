@@ -8,16 +8,15 @@ import org.example.loficonnect.dto.request.custom.fields.UploadCustomFieldFileRe
 import java.util.Map;
 
 public interface CustomFieldsService {
-    JsonNode getCustomFields(String locationId, Map<String, Object> queryParams);
+    JsonNode getCustomFields(Map<String, Object> queryParams);
 
-    JsonNode createCustomField(String locationId, CustomFieldCreateRequest request);
+    JsonNode createCustomField(CustomFieldCreateRequest request);
 
-    JsonNode getCustomField(String locationId, String id);
+    JsonNode getCustomField(String id);
 
-    JsonNode updateCustomField(String locationId, String id, CustomFieldUpdateRequest request);
+    JsonNode updateCustomField(String id, CustomFieldUpdateRequest request);
 
-    JsonNode deleteCustomField(String locationId, String id);
+    JsonNode deleteCustomField(String id);
 
-    JsonNode uploadCustomFieldFile(String locationId, UploadCustomFieldFileRequest request);
-
+    JsonNode uploadCustomFieldFile(UploadCustomFieldFileRequest request);
 }

@@ -21,28 +21,25 @@ public class TagController {
     }
 
     @AppKey
-    @GetMapping("/tag/{location-id}")
+    @GetMapping("/tags")
     public ResponseEntity<?> getTags(
-        @PathVariable("location-id") String locationId,
-        @RequestParam(value = "limit", required = false) String limit,
-        @RequestParam(value = "skip", required = false) String skip,
-        @RequestParam(value = "search-text", required = false) String searchText
+            @RequestParam(value = "limit", required = false) String limit,
+            @RequestParam(value = "skip", required = false) String skip,
+            @RequestParam(value = "search-text", required = false) String searchText
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "limit", limit);
         MapUtil.putIfNotNull(queryParams, "skip", skip);
         MapUtil.putIfNotNull(queryParams, "searchText", searchText);
 
-        return ResponseEntity.ok(tagService.getTags(locationId, queryParams));
+        return ResponseEntity.ok(tagService.getTags(queryParams));
     }
 
     @AppKey
-    @PostMapping("/tag/{location-id}/details")
+    @PostMapping("/tags/details")
     public ResponseEntity<?> getTagsByIds(
-            @PathVariable("location-id") String locationId,
             @RequestBody TagByIdsRequest request
     ) {
-        return ResponseEntity.ok(tagService.getTagsByIds(locationId, request));
+        return ResponseEntity.ok(tagService.getTagsByIds(request));
     }
-
 }
