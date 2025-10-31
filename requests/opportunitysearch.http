@@ -1,0 +1,3 @@
+###
+GET http://localhost:8080/api/v1/ghl/opportunities/search?location-id=IxfSlEIQQeiOYQlVEApa
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0

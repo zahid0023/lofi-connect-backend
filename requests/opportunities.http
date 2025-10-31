@@ -1,0 +1,83 @@
+###
+POST http://localhost:8080/api/v1/ghl/opportunities
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
+  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "name": "Test Opps",
+  "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
+  "status": "open",
+  "contact_id": "Lq95Y9oQzB4KojmsjUxs",
+  "monetary_value": 0,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ",
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7",
+      "key": "contact.dhiman__drop_down",
+      "field_value": "Dhiman | Drop Down"
+    }
+  ]
+}
+
+
+###
+POST http://localhost:8080/api/v1/ghl/opportunities/upsert
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
+  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "contact_id": "Lq95Y9oQzB4KojmsjUxs",
+  "name": "First Opps",
+  "status": "open",
+  "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
+  "monetary_value": 0,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+
+###
+GET http://localhost:8080/api/v1/ghl/opportunities/nM4IjKXB3WTKnF8wONlM
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+###
+PUT http://localhost:8080/api/v1/ghl/opportunities/nM4IjKXB3WTKnF8wONlM
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
+  "name": "First Opps 2",
+  "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
+  "status": "open",
+  "monetary_value": 0,
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ",
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7",
+      "key": "contact.dhiman__drop_down",
+      "field_value": "Dhiman | Drop Down"
+    }
+  ]
+}
+
+
+###
+PUT http://localhost:8080/api/v1/ghl/opportunities/nM4IjKXB3WTKnF8wONlM/status
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "status": "won"
+}
+
+
+###
+DELETE http://localhost:8080/api/v1/ghl/opportunities/nM4IjKXB3WTKnF8wONlM
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
