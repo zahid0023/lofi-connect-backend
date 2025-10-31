@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.contact.ContactUpsertRequest;
+import org.example.loficonnect.util.LocationContext;
 
 import java.util.List;
 
@@ -23,7 +24,6 @@ public class GoHighLevelContactUpsertRequest {
     private String name;
     private String email;
 
-    @JsonAlias("location_id")
     private String locationId;
 
     private String gender;
@@ -105,6 +105,8 @@ public class GoHighLevelContactUpsertRequest {
      * Converts ContactUpsertRequest -> GoHighLevelContactUpsertRequest using ObjectMapper.
      */
     public static GoHighLevelContactUpsertRequest fromRequest(ContactUpsertRequest request, ObjectMapper objectMapper) {
+        GoHighLevelContactUpsertRequest ghl = objectMapper.convertValue(request, GoHighLevelContactUpsertRequest.class);
+        ghl.setLocationId(LocationContext.getLocationId());
         return objectMapper.convertValue(request, GoHighLevelContactUpsertRequest.class);
     }
 }
