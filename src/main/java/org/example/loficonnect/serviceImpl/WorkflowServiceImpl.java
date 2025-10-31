@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.workflow.GoHighLevelContactWorkflowAddRequest;
 import org.example.loficonnect.dto.mapper.workflow.GoHighLevelContactWorkflowDeleteRequest;
@@ -18,10 +19,12 @@ import org.springframework.stereotype.Service;
 public class WorkflowServiceImpl implements WorkflowService {
     private final AuthorizationService authorizationService;
     private final WorkflowClient workflowClient;
+    private final ObjectMapper objectMapper;
 
-    public WorkflowServiceImpl(AuthorizationService authorizationService, WorkflowClient workflowClient) {
+    public WorkflowServiceImpl(AuthorizationService authorizationService, WorkflowClient workflowClient, ObjectMapper objectMapper) {
         this.authorizationService = authorizationService;
         this.workflowClient = workflowClient;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class WorkflowServiceImpl implements WorkflowService {
     public JsonNode deleteContactFromWorkflow(String contactId, String workflowId, ContactWorkflowDeleteRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelContactWorkflowDeleteRequest ghlRequest = GoHighLevelContactWorkflowDeleteRequest.fromRequest(request);
+        GoHighLevelContactWorkflowDeleteRequest ghlRequest = GoHighLevelContactWorkflowDeleteRequest.fromRequest(request,objectMapper);
         return workflowClient.deleteContactFromWorkflow(accessKey, version, contactId, workflowId, ghlRequest);
     }
 }
