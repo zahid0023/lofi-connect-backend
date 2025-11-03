@@ -133,11 +133,11 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/contacts/NUM82IzBKOsAKdzKACRn
+GET http://localhost:8080/api/v1/ghl/contacts/business/{{business-id}}
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 ###
-GET http://localhost:8080/api/v1/ghl/contacts/business/{{business-id}}
+DELETE http://localhost:8080/api/v1/ghl/contacts/NUM82IzBKOsAKdzKACRn
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
