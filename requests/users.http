@@ -1,0 +1,147 @@
+###
+POST http://localhost:8080/api/v1/ghl/users
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
+  "first_name": "John",
+  "last_name": "Does",
+  "email": "johndoe345@gmail.com",
+  "pass": "Absdf12_sdf",
+  "phone": "+18832327689",
+  "type": "account",
+  "role": "admin",
+  "location_ids": [
+    "IxfSlEIQQeiOYQlVEApa"
+  ],
+  "permissions": {
+    "campaigns_enabled": true,
+    "campaigns_read_only": true,
+    "contacts_enabled": true,
+    "workflows_enabled": true,
+    "workflows_read_only": true,
+    "triggers_enabled": true,
+    "funnels_enabled": true,
+    "websites_enabled": true,
+    "opportunities_enabled": true,
+    "dashboard_stats_enabled": true,
+    "bulk_requests_enabled": true,
+    "appointments_enabled": true,
+    "reviews_enabled": true,
+    "online_listings_enabled": true,
+    "phone_call_enabled": true,
+    "conversations_enabled": true,
+    "assigned_data_only": true,
+    "adwords_reporting_enabled": true,
+    "membership_enabled": true,
+    "facebook_ads_reporting_enabled": true,
+    "attributions_reporting_enabled": true,
+    "settings_enabled": true,
+    "tags_enabled": true,
+    "lead_value_enabled": true,
+    "marketing_enabled": true,
+    "agent_reporting_enabled": true,
+    "bot_service": true,
+    "social_planner": true,
+    "blogging_enabled": true,
+    "invoice_enabled": true,
+    "affiliate_manager_enabled": true,
+    "content_ai_enabled": true,
+    "refunds_enabled": true,
+    "record_payment_enabled": true,
+    "cancel_subscription_enabled": true,
+    "payments_enabled": true,
+    "communities_enabled": true,
+    "export_payments_enabled": true
+  },
+  "scopes": [
+    "campaigns.readonly"
+  ],
+  "scopes_assigned_to_only": [
+    "campaigns.readonly"
+  ],
+  "profile_photo": "https://img.png"
+}
+
+
+###
+GET http://localhost:8080/api/v1/ghl/users
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+###
+GET http://localhost:8080/api/v1/ghl/users/TwfuK6M5EucvVSg9pvGp
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+###
+PUT http://localhost:8080/api/v1/ghl/users/TwfuK6M5EucvVSg9pvGp
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "first_name": "John",
+  "last_name": "Does",
+  "email": "johndoes345",
+  "email_change_otp": "123",
+  "pass": "Absdf12_sdf",
+  "phone": "string",
+  "is_ejected_user": true,
+  "type": "string",
+  "role": "string",
+  "company_id": "string",
+  "location_ids": [
+    "string"
+  ],
+  "permissions": {
+    "campaigns_enabled": true,
+    "campaigns_read_only": true,
+    "contacts_enabled": true,
+    "workflows_enabled": true,
+    "workflows_read_only": true,
+    "triggers_enabled": true,
+    "funnels_enabled": true,
+    "websites_enabled": true,
+    "opportunities_enabled": true,
+    "dashboard_stats_enabled": true,
+    "bulk_requests_enabled": true,
+    "appointments_enabled": true,
+    "reviews_enabled": true,
+    "online_listings_enabled": true,
+    "phone_call_enabled": true,
+    "conversations_enabled": true,
+    "assigned_data_only": true,
+    "adwords_reporting_enabled": true,
+    "membership_enabled": true,
+    "facebook_ads_reporting_enabled": true,
+    "attributions_reporting_enabled": true,
+    "settings_enabled": true,
+    "tags_enabled": true,
+    "lead_value_enabled": true,
+    "marketing_enabled": true,
+    "agent_reporting_enabled": true,
+    "bot_service": true,
+    "social_planner": true,
+    "blogging_enabled": true,
+    "invoice_enabled": true,
+    "affiliate_manager_enabled": true,
+    "content_ai_enabled": true,
+    "refunds_enabled": true,
+    "record_payment_enabled": true,
+    "cancel_subscription_enabled": true,
+    "payments_enabled": true,
+    "communities_enabled": true,
+    "export_payments_enabled": true
+  },
+  "scopes": [
+    "campaigns.readonly"
+  ],
+  "scopes_assigned_to_only": [
+    "campaigns.readonly"
+  ],
+  "profile_photo": "https://img.png"
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/users/TwfuK6M5EucvVSg9pvGp
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0

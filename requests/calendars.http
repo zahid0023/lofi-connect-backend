@@ -1,0 +1,241 @@
+###
+POST http://localhost:8080/api/v1/ghl/calendars
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "group_id": "",
+  "team_members": [
+    {
+      "user_id": "i1CcsDXpngqsHTZXkEfJ",
+      "priority": 1,
+      "is_primary": true,
+      "location_configurations": [
+        {
+          "kind": "custom",
+          "location": "US"
+        }
+      ]
+    }
+  ],
+  "event_type": "RoundRobin_OptimizeForAvailability",
+  "name": "test calendar",
+  "description": "this is used for testing",
+  "slug": "test1",
+  "widget_slug": "test1",
+  "widget_type": "classic",
+  "event_title": "contact.name",
+  "event_color": "#039be5",
+  "location_configurations": [
+    {
+      "kind": "custom",
+      "location": "US"
+    }
+  ],
+  "slot_duration": 30,
+  "slot_duration_unit": "mins",
+  "pre_buffer_unit": "mins",
+  "slot_interval": 30,
+  "slot_interval_unit": "mins",
+  "slot_buffer": 30,
+  "pre_buffer": 30,
+  "appointment_per_slot": 10,
+  "appointment_per_day": 10,
+  "allow_booking_after": 10,
+  "allow_booking_after_unit": "hours",
+  "allow_booking_for": 10,
+  "allow_booking_for_unit": "days",
+  "open_hours": [
+    {
+      "daysOfTheWeek": [
+        2
+      ],
+      "openHours": [
+        {
+          "openHour": 10,
+          "openMinute": 10,
+          "closeHour": 10,
+          "closeMinute": 10
+        }
+      ]
+    }
+  ],
+  "enable_recurring": true,
+  "recurring": {
+    "freq": "DAILY",
+    "count": 20,
+    "booking_option": "continue",
+    "booking_overlap_default_status": "confirmed"
+  },
+  "form_id": "dAdVSCb89cBOxSkTNl5j",
+  "sticky_contact": true,
+  "is_live_payment_mode": true,
+  "auto_confirm": true,
+  "should_send_alert_emails_to_assigned_member": true,
+  "alert_email": "john@gmail.com",
+  "google_invitation_emails": true,
+  "allow_reschedule": true,
+  "allow_cancellation": true,
+  "should_assign_contact_to_team_member": true,
+  "should_skip_assigning_contact_for_existing": true,
+  "notes": "test notes",
+  "pixel_id": "abc123",
+  "form_submit_type": "ThankYouMessage",
+  "form_submit_redirect_url": "google.com",
+  "form_submit_thanks_message": "thanks",
+  "availability_type": 0,
+  "availabilities": [
+    {
+      "date": "2023-09-24T00:00:00.000Z",
+      "hours": [
+        {
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
+        }
+      ],
+      "deleted": true
+    }
+  ],
+  "guest_type": "count_only",
+  "consent_label": "test",
+  "calendar_cover_image": "https://path-to-image.com",
+  "look_busy_config": {
+    "enabled": true,
+    "look_busy_percentage": 0
+  },
+  "is_active": true,
+  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "calendar_type": "round_robin"
+}
+
+###
+GET http://localhost:8080/api/v1/ghl/calendars
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+###
+GET http://localhost:8080/api/v1/ghl/calendars/xqbxJ7NtlK266k1S42lu
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+###
+GET http://localhost:8080/api/v1/ghl/calendars/xqbxJ7NtlK266k1S42lu/free-slots
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+###
+PUT http://localhost:8080/api/v1/ghl/calendars/xqbxJ7NtlK266k1S42lu
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "group_id": "",
+  "team_members": [
+    {
+      "user_id": "i1CcsDXpngqsHTZXkEfJ",
+      "priority": 1,
+      "is_primary": true,
+      "location_configurations": [
+        {
+          "kind": "custom",
+          "location": "US"
+        }
+      ]
+    }
+  ],
+  "event_type": "RoundRobin_OptimizeForAvailability",
+  "name": "test calendar",
+  "description": "this is used for testing",
+  "slug": "test1",
+  "widget_slug": "test1",
+  "widget_type": "classic",
+  "event_title": "contact.name",
+  "event_color": "#039be5",
+  "location_configurations": [
+    {
+      "kind": "custom",
+      "location": "US"
+    }
+  ],
+  "slot_duration": 30,
+  "slot_duration_unit": "mins",
+  "pre_buffer_unit": "mins",
+  "slot_interval": 30,
+  "slot_interval_unit": "mins",
+  "slot_buffer": 30,
+  "pre_buffer": 30,
+  "appointment_per_slot": 10,
+  "appointment_per_day": 10,
+  "allow_booking_after": 10,
+  "allow_booking_after_unit": "hours",
+  "allow_booking_for": 10,
+  "allow_booking_for_unit": "days",
+  "open_hours": [
+    {
+      "daysOfTheWeek": [
+        2
+      ],
+      "openHours": [
+        {
+          "openHour": 10,
+          "openMinute": 10,
+          "closeHour": 10,
+          "closeMinute": 10
+        }
+      ]
+    }
+  ],
+  "enable_recurring": true,
+  "recurring": {
+    "freq": "DAILY",
+    "count": 20,
+    "booking_option": "continue",
+    "booking_overlap_default_status": "confirmed"
+  },
+  "form_id": "dAdVSCb89cBOxSkTNl5j",
+  "sticky_contact": true,
+  "is_live_payment_mode": true,
+  "auto_confirm": true,
+  "should_send_alert_emails_to_assigned_member": true,
+  "alert_email": "john@gmail.com",
+  "google_invitation_emails": true,
+  "allow_reschedule": true,
+  "allow_cancellation": true,
+  "should_assign_contact_to_team_member": true,
+  "should_skip_assigning_contact_for_existing": true,
+  "notes": "test notes",
+  "pixel_id": "abc123",
+  "form_submit_type": "ThankYouMessage",
+  "form_submit_redirect_url": "google.com",
+  "form_submit_thanks_message": "thanks",
+  "availability_type": 0,
+  "availabilities": [
+    {
+      "date": "2023-09-24T00:00:00.000Z",
+      "hours": [
+        {
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
+        }
+      ],
+      "deleted": true
+    }
+  ],
+  "guest_type": "count_only",
+  "consent_label": "abc",
+  "calendar_cover_image": "https://path-to-image.com",
+  "look_busy_config": {
+    "enabled": true,
+    "look_busy_percentage": 0
+  }
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/calendars/xqbxJ7NtlK266k1S42lu
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
