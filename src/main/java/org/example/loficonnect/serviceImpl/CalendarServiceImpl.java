@@ -1,11 +1,10 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarCreateRequest;
-import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarUpdateRequest;
-import org.example.loficonnect.dto.request.calendar.CalendarCreateRequest;
-import org.example.loficonnect.dto.request.calendar.CalendarUpdateRequest;
+import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCreateCalendarRequest;
+import org.example.loficonnect.dto.request.calendar.CreateCalendarRequest;
 import org.example.loficonnect.feignclients.CalendarClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CalendarService;
@@ -21,19 +20,22 @@ import java.util.Map;
 public class CalendarServiceImpl implements CalendarService {
     private final CalendarClient calendarClient;
     private final AuthorizationService authorizationService;
+    private final ObjectMapper objectMapper;
 
     public CalendarServiceImpl(CalendarClient calendarClient,
-                               AuthorizationService authorizationService) {
+                               AuthorizationService authorizationService,
+                               ObjectMapper objectMapper) {
         this.calendarClient = calendarClient;
         this.authorizationService = authorizationService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
-    public JsonNode createCalendar(CalendarCreateRequest request) {
+    public JsonNode createCalendar(CreateCalendarRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelCalendarCreateRequest goHighLevelCalendarCreateRequest = GoHighLevelCalendarCreateRequest.fromRequest(request);
-        return calendarClient.createCalendar(accessKey, version, goHighLevelCalendarCreateRequest);
+        GoHighLevelCreateCalendarRequest goHighLevelCreateCalendarRequest = GoHighLevelCreateCalendarRequest.fromRequest(request, objectMapper);
+        return calendarClient.createCalendar(accessKey, version, goHighLevelCreateCalendarRequest);
     }
 
     @Override
@@ -51,15 +53,6 @@ public class CalendarServiceImpl implements CalendarService {
         log.info("Calling getCalendar with Authorization={}, Version={}, calendarId={}",
                 accessKey, version, calendarId);
         return calendarClient.getCalendar(accessKey, version, calendarId);
-    }
-
-
-    @Override
-    public JsonNode updateCalendar(String calendarId, CalendarUpdateRequest request) {
-        String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
-        String version = VersionContext.getVersion();
-        GoHighLevelCalendarUpdateRequest updateRequest = GoHighLevelCalendarUpdateRequest.fromRequest(request);
-        return calendarClient.updateCalendar(accessKey, version, calendarId, updateRequest);
     }
 
     @Override

@@ -2,8 +2,7 @@ package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import org.example.loficonnect.config.FeignLoggingConfig;
-import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarCreateRequest;
-import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCalendarUpdateRequest;
+import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCreateCalendarRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,7 @@ public interface CalendarClient {
     JsonNode createCalendar(
             @RequestHeader("Authorization") String bearerToken,
             @RequestHeader("Version") String version,
-            @RequestBody GoHighLevelCalendarCreateRequest request
+            @RequestBody GoHighLevelCreateCalendarRequest request
     );
 
     @GetMapping("/calendars/")
@@ -37,8 +36,7 @@ public interface CalendarClient {
     JsonNode updateCalendar(
             @RequestHeader(name = "Authorization") String authorization,
             @RequestHeader(name = "Version") String version,
-            @PathVariable("calendarId") String calendarId,
-            @RequestBody GoHighLevelCalendarUpdateRequest request
+            @PathVariable("calendarId") String calendarId
     );
 
     @DeleteMapping("/calendars/{calendarId}")

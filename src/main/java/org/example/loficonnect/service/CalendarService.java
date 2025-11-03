@@ -1,19 +1,16 @@
 package org.example.loficonnect.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.dto.request.calendar.CalendarCreateRequest;
-import org.example.loficonnect.dto.request.calendar.CalendarUpdateRequest;
+import org.example.loficonnect.dto.request.calendar.CreateCalendarRequest;
 
 import java.util.Map;
 
 public interface CalendarService {
-    JsonNode createCalendar(CalendarCreateRequest request);
+    JsonNode createCalendar(CreateCalendarRequest request);
 
     JsonNode getCalendars(Map<String, Object> queryParams);
 
     JsonNode getCalendar(String calendarId);
-
-    JsonNode updateCalendar(String calendarId, CalendarUpdateRequest request);
 
     JsonNode deleteCalendar(String calendarId);
 
