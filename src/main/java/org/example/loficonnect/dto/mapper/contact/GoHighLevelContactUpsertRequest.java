@@ -65,12 +65,23 @@ public class GoHighLevelContactUpsertRequest {
     @Data
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class DndSettings {
-        private Channel call;
-        private Channel email;
-        private Channel sms;
-        private Channel whatsapp;
-        private Channel gmb;
-        private Channel fb;
+        @JsonAlias("call")
+        private Channel Call;
+
+        @JsonAlias("email")
+        private Channel Email;
+
+        @JsonAlias("sms")
+        private Channel SMS;
+
+        @JsonAlias("whats_app")
+        private Channel WhatsApp;
+
+        @JsonAlias("gmb")
+        private Channel GMB;
+
+        @JsonAlias("fb")
+        private Channel FB;
 
         @Data
         @JsonIgnoreProperties(ignoreUnknown = true)
@@ -98,7 +109,7 @@ public class GoHighLevelContactUpsertRequest {
         private String key;
 
         @JsonAlias("field_value")
-        private String fieldValue;
+        private String field_value;
     }
 
     /**
