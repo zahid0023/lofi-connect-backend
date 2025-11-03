@@ -1,35 +1,52 @@
 package org.example.loficonnect.dto.mapper.calendarevents;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.calendarevents.BlockSlotUpdateRequest;
-import java.time.ZonedDateTime;
-import java.time.ZoneId;
+import org.example.loficonnect.util.DateTimeUtil;
 
+import java.time.ZonedDateTime;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GoHighLevelBlockSlotUpdateRequest {
+
     private String title;
+
+    @JsonAlias("calendar_id")
     private String calendarId;
+
+    @JsonAlias("assigned_user_id")
     private String assignedUserId;
+
+    @JsonAlias("location_id")
     private String locationId;
+
+    @JsonAlias("start_time")
     private ZonedDateTime startTime;
+
+    @JsonAlias("end_time")
     private ZonedDateTime endTime;
 
-    public static GoHighLevelBlockSlotUpdateRequest fromRequest(BlockSlotUpdateRequest request) {
-        GoHighLevelBlockSlotUpdateRequest ghlRequest = new GoHighLevelBlockSlotUpdateRequest();
+    private GoHighLevelBlockSlotUpdateRequest() {}
 
-        ghlRequest.setTitle(request.getTitle());
-        ghlRequest.setCalendarId(request.getCalendarId());
-        ghlRequest.setAssignedUserId(request.getAssignedUserId());
-        ghlRequest.setLocationId(request.getLocationId());
+    /**
+     * Converts BlockSlotUpdateRequest -> GoHighLevelBlockSlotUpdateRequest using ObjectMapper
+     */
+    public static GoHighLevelBlockSlotUpdateRequest fromRequest(BlockSlotUpdateRequest request, ObjectMapper objectMapper) {
+        GoHighLevelBlockSlotUpdateRequest ghl = objectMapper.convertValue(request, GoHighLevelBlockSlotUpdateRequest.class);
 
         if (request.getStartDate() != null && request.getStartTime() != null && request.getTimeZone() != null) {
-            ghlRequest.setStartTime(ZonedDateTime.of(request.getStartDate(), request.getStartTime(), ZoneId.of(request.getTimeZone())));
+            ghl.setStartTime(DateTimeUtil.toZonedDateTime(request.getStartDate(), request.getStartTime(), request.getTimeZone()));
         }
-
         if (request.getEndDate() != null && request.getEndTime() != null && request.getTimeZone() != null) {
-            ghlRequest.setEndTime(ZonedDateTime.of(request.getEndDate(), request.getEndTime(), ZoneId.of(request.getTimeZone())));
+            ghl.setEndTime(DateTimeUtil.toZonedDateTime(request.getEndDate(), request.getEndTime(), request.getTimeZone()));
         }
 
-        return ghlRequest;
+        return ghl;
     }
 }
