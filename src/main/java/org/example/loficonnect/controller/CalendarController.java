@@ -34,12 +34,10 @@ public class CalendarController {
     @AppKey
     @GetMapping("/calendars")
     public ResponseEntity<?> getCalendars(
-            @RequestParam(value = "group-id", required = false) String groupId,
-            @RequestParam("location-id") String locationId
+            @RequestParam(value = "group-id", required = false) String groupId
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "groupId", groupId);
-        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
         return ResponseEntity.status(HttpStatus.OK).body(calendarService.getCalendars(queryParams));
     }
 

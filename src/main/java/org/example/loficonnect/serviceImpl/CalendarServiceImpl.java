@@ -10,6 +10,7 @@ import org.example.loficonnect.feignclients.CalendarClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CalendarService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,7 @@ public class CalendarServiceImpl implements CalendarService {
     public JsonNode getCalendars(Map<String, Object> queryParams) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
+        queryParams.put("locationId", LocationContext.getLocationId());
         return calendarClient.getCalendars(accessKey, version, queryParams);
     }
 

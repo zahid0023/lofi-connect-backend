@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class BlockSlotUpdateRequest {
+public class    BlockSlotUpdateRequest {
     private String title;
     private String calendarId;
     private String assignedUserId;
