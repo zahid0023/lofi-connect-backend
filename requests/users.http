@@ -82,16 +82,16 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 {
   "first_name": "John",
   "last_name": "Does",
-  "email": "johndoes345",
+  "email": "johndoe3465@gmail.com",
   "email_change_otp": "123",
   "pass": "Absdf12_sdf",
-  "phone": "string",
+  "phone": "+18832327685",
   "is_ejected_user": true,
-  "type": "string",
-  "role": "string",
-  "company_id": "string",
+  "type": "account",
+  "role": "admin",
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
   "location_ids": [
-    "string"
+    "IxfSlEIQQeiOYQlVEApa"
   ],
   "permissions": {
     "campaigns_enabled": true,
