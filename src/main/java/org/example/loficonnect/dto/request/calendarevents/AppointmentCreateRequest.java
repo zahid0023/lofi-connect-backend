@@ -4,23 +4,28 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 @Data
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class) // keeps snake_case for JSON
 public class AppointmentCreateRequest {
     private String title;
-    private String meeting_location_type;
-    private String meeting_location_id;
-    private Boolean override_location_config;
-    private String appointment_status;
-    private String assigned_user_id;
+    private String meetingLocationType;
+    private String meetingLocationId;
+    private Boolean overrideLocationConfig;
+    private String appointmentStatus;
+    private String assignedUserId;
     private String address;
-    private Boolean ignore_date_range;
-    private Boolean to_notify;
-    private Boolean ignore_free_slot_validation;
+    private Boolean ignoreDateRange;
+    private Boolean toNotify;
+    private Boolean ignoreFreeSlotValidation;
     private String rrule;
-    private String calendar_id;
-    private String location_id;
-    private String contact_id;
-    private String start_time;
-    private String end_time;
+    private String calendarId;
+    private String contactId;
+    private String timeZone;
+    private LocalDate startDate;
+    private LocalTime startTime;
+    private LocalDate endDate;
+    private LocalTime endTime;
 }

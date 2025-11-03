@@ -1,8 +1,7 @@
 package org.example.loficonnect.controller;
 
 import org.example.loficonnect.config.AppKey;
-import org.example.loficonnect.dto.request.calendar.CalendarCreateRequest;
-import org.example.loficonnect.dto.request.calendar.CalendarUpdateRequest;
+import org.example.loficonnect.dto.request.calendar.CreateCalendarRequest;
 import org.example.loficonnect.service.CalendarService;
 import org.example.loficonnect.util.DateTimeUtil;
 import org.example.loficonnect.util.MapUtil;
@@ -17,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/ghl")
+@RequestMapping("/api/v1/ghl/calendars")
 public class CalendarController {
     private final CalendarService calendarService;
 
@@ -26,13 +25,13 @@ public class CalendarController {
     }
 
     @AppKey
-    @PostMapping("/calendars")
-    public ResponseEntity<?> createCalendar(@RequestBody CalendarCreateRequest calendarCreateRequest) {
+    @PostMapping
+    public ResponseEntity<?> createCalendar(@RequestBody CreateCalendarRequest calendarCreateRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(calendarService.createCalendar(calendarCreateRequest));
     }
 
     @AppKey
-    @GetMapping("/calendars")
+    @GetMapping
     public ResponseEntity<?> getCalendars(
             @RequestParam(value = "group-id", required = false) String groupId
     ) {
@@ -42,25 +41,19 @@ public class CalendarController {
     }
 
     @AppKey
-    @GetMapping("/calendars/{calendar-id}")
+    @GetMapping("/{calendar-id}")
     public ResponseEntity<?> getCalendar(@PathVariable("calendar-id") String calendarId) {
         return ResponseEntity.status(HttpStatus.OK).body(calendarService.getCalendar(calendarId));
     }
 
     @AppKey
-    @PutMapping("/calendars/{calendar-id}")
-    public ResponseEntity<?> updateCalendar(@PathVariable("calendar-id") String calendarId, @RequestBody CalendarUpdateRequest calendarUpdateRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(calendarService.updateCalendar(calendarId, calendarUpdateRequest));
-    }
-
-    @AppKey
-    @DeleteMapping("/calendars/{calendar-id}")
+    @DeleteMapping("/{calendar-id}")
     public ResponseEntity<?> deleteCalendar(@PathVariable("calendar-id") String calendarId) {
         return ResponseEntity.status(HttpStatus.OK).body(calendarService.deleteCalendar(calendarId));
     }
 
     @AppKey
-    @GetMapping("/calendars/{calendar-id}/free-slots")
+    @GetMapping("/{calendar-id}/free-slots")
     public ResponseEntity<?> getFreeSlots(@PathVariable("calendar-id") String calendarId,
                                           @RequestParam(value = "time-zone", required = false, defaultValue = "America/New_York") String timeZone,
                                           @RequestParam(value = "user-id", required = false) String userId,
