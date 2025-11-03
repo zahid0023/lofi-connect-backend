@@ -1,0 +1,48 @@
+###
+POST http://localhost:8080/api/v1/ghl/contacts/search
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "phone": "",
+  "email": "test1@gmail.com",
+  "page_limit": 10,
+  "page": 1
+}
+
+
+###
+POST http://localhost:8080/api/v1/ghl/locations/tasks/search
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "contact_id": [
+    "Lq95Y9oQzB4KojmsjUxs"
+  ],
+  "completed": true,
+  "assigned_to": [
+    "Zs21L9iF4nJUTEVPvo90"
+  ],
+  "query": "",
+  "limit": 10,
+  "skip": 0,
+  "business_id": ""
+}
+
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/search/duplicate
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+###
+GET http://localhost:8080/api/v1/ghl/locations/search
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+###
+GET http://localhost:8080/api/v1/ghl/conversations/search?location-id=IxfSlEIQQeiOYQlVEApa
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+###
+GET http://localhost:8080/api/v1/ghl/opportunities/search
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
