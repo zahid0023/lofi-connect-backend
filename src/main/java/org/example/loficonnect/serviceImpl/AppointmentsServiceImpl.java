@@ -23,10 +23,10 @@ public class AppointmentsServiceImpl implements AppointmentsService {
     }
 
     @Override
-    public JsonNode getContactAppointments(String contactId, Map<String, Object> queryParams) {
+    public JsonNode getContactAppointments(String contactId) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return appointmentsClient.getContactAppointments(accessKey, version, contactId, queryParams);
+        return appointmentsClient.getContactAppointments(accessKey, version, contactId);
     }
 
 }

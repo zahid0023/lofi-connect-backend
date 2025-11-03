@@ -62,4 +62,12 @@ public class SearchServiceImpl implements SearchService {
         String version = VersionContext.getVersion();
         return searchClient.searchConversations(accessKey, version, queryParams);
     }
+
+    @Override
+    public JsonNode searchOpportunities(Map<String, Object> queryParams) {
+        String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
+        String version = VersionContext.getVersion();
+        queryParams.put("location_id", LocationContext.getLocationId());
+        return searchClient.searchOpportunities(accessKey, version, queryParams);
+    }
 }

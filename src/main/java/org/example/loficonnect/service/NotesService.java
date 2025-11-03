@@ -7,13 +7,13 @@ import org.example.loficonnect.dto.request.notes.ContactNoteUpdateRequest;
 import java.util.Map;
 
 public interface NotesService {
-    JsonNode getContactNotes(String contactId, Map<String, Object> queryParams);
+    JsonNode getContactNotes(String contactId);
 
     JsonNode createContactNote(String contactId, ContactNoteCreateRequest request);
 
-    JsonNode getContactNoteById(String contactId, String noteId, Map<String, Object> queryParams);
+    JsonNode getContactNoteById(String contactId, String noteId);
 
     JsonNode updateContactNote(String contactId, String noteId, ContactNoteUpdateRequest request);
 
-    JsonNode deleteContactNote(String contactId, String noteId, Map<String, Object> queryParams);
+    JsonNode deleteContactNote(String contactId, String noteId);
 }

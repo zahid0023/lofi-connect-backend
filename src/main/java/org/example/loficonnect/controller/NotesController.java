@@ -25,8 +25,7 @@ public class NotesController {
     public ResponseEntity<?> getContactNotes(
             @PathVariable("contact-id") String contactId
     ) {
-        Map<String, Object> queryParams = new HashMap<>();
-        return ResponseEntity.ok(notesService.getContactNotes(contactId, queryParams));
+        return ResponseEntity.ok(notesService.getContactNotes(contactId));
     }
 
     @AppKey
@@ -45,8 +44,7 @@ public class NotesController {
             @PathVariable("contact-id") String contactId,
             @PathVariable("note-id") String noteId
     ) {
-        Map<String, Object> queryParams = new HashMap<>();
-        return ResponseEntity.ok(notesService.getContactNoteById(contactId, noteId, queryParams));
+        return ResponseEntity.ok(notesService.getContactNoteById(contactId, noteId));
     }
 
     @AppKey
@@ -65,7 +63,6 @@ public class NotesController {
             @PathVariable("contact-id") String contactId,
             @PathVariable("note-id") String noteId
     ) {
-        Map<String, Object> queryParams = new HashMap<>();
-        return ResponseEntity.ok(notesService.deleteContactNote(contactId, noteId, queryParams));
+        return ResponseEntity.ok(notesService.deleteContactNote(contactId, noteId));
     }
 }

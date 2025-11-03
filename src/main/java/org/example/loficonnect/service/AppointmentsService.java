@@ -5,5 +5,5 @@ import com.fasterxml.jackson.databind.JsonNode;
 import java.util.Map;
 
 public interface AppointmentsService {
-    JsonNode getContactAppointments(String contactId, Map<String, Object> queryParams);
+    JsonNode getContactAppointments(String contactId);
 }

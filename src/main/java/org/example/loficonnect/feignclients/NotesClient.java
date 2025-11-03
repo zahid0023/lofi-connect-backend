@@ -8,8 +8,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @FeignClient(name = "notesClient", url = "https://services.leadconnectorhq.com", configuration = FeignLoggingConfig.class)
 public interface NotesClient {
     @GetMapping(
@@ -19,8 +17,7 @@ public interface NotesClient {
     JsonNode getContactNotes(
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Version") String version,
-            @PathVariable("contactId") String contactId,
-            @RequestParam Map<String, Object> queryParams
+            @PathVariable("contactId") String contactId
     );
 
     @PostMapping(
@@ -43,8 +40,7 @@ public interface NotesClient {
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Version") String version,
             @PathVariable("contactId") String contactId,
-            @PathVariable("id") String noteId,
-            @RequestParam Map<String, Object> queryParams
+            @PathVariable("id") String noteId
     );
     @PutMapping(
             value = "/contacts/{contactId}/notes/{id}",
@@ -66,10 +62,6 @@ public interface NotesClient {
             @RequestHeader("Authorization") String authorization,
             @RequestHeader("Version") String version,
             @PathVariable("contactId") String contactId,
-            @PathVariable("id") String noteId,
-            @RequestParam Map<String, Object> queryParams
+            @PathVariable("id") String noteId
     );
-
-
-
 }

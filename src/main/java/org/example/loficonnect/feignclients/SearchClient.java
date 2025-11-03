@@ -65,5 +65,13 @@ public interface SearchClient {
             @RequestParam Map<String, Object> queryParams
     );
 
-
+    @GetMapping(
+            value = "/opportunities/search",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    JsonNode searchOpportunities(
+            @RequestHeader("Authorization") String authorization,
+            @RequestHeader("Version") String version,
+            @RequestParam Map<String, Object> queryParams
+    );
 }

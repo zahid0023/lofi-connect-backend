@@ -21,7 +21,7 @@ public class TagsController {
 
     @AppKey
     @PostMapping("/contacts/{contact-id}/tags")
-    public ResponseEntity<?> addTags(
+    public ResponseEntity<?> addTagsToContact(
             @PathVariable("contact-id") String contactId,
             @RequestBody ContactTagsAddRequest request
     ) {
@@ -31,7 +31,7 @@ public class TagsController {
 
     @AppKey
     @DeleteMapping("/contacts/{contact-id}/tags")
-    public ResponseEntity<?> deleteContactTags(
+    public ResponseEntity<?> removeTagsFromContact(
             @PathVariable("contact-id") String contactId,
             @RequestBody ContactTagsRemoveRequest request
     ) {
@@ -57,7 +57,7 @@ public class TagsController {
     @GetMapping("/tags/{tag-id}")
     public ResponseEntity<?> getTagById(
             @PathVariable("tag-id") String tagId
-            ) {
+    ) {
         return ResponseEntity.ok(tagsService.getTagById(tagId));
     }
 

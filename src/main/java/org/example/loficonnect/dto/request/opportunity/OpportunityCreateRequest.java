@@ -10,7 +10,6 @@ import java.util.List;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class OpportunityCreateRequest {
     private String pipelineId;
-    private String locationId;
     private String name;
     private String pipelineStageId;
     private String status;

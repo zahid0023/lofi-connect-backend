@@ -17,6 +17,5 @@ public interface SearchService {
 
     JsonNode searchConversations(Map<String, Object> queryParams);
 
-
-
+    JsonNode searchOpportunities(Map<String, Object> queryParams);
 }

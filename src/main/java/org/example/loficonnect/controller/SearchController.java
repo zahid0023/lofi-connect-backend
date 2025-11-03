@@ -113,4 +113,50 @@ public class SearchController {
         return ResponseEntity.ok(searchService.searchConversations(queryParams));
     }
 
+    @AppKey
+    @GetMapping("/opportunities/search")
+    public ResponseEntity<?> searchOpportunities(
+            @RequestParam(value = "q", required = false) String q,
+            @RequestParam(value = "pipeline-id", required = false) String pipelineId,
+            @RequestParam(value = "pipeline-stage-id", required = false) String pipelineStageId,
+            @RequestParam(value = "contact-id", required = false) String contactId,
+            @RequestParam(value = "status", required = false) String status,
+            @RequestParam(value = "assigned-to", required = false) String assignedTo,
+            @RequestParam(value = "campaign-id", required = false) String campaignId,
+            @RequestParam(value = "opportunity_id", required = false) String id,
+            @RequestParam(value = "order", required = false) String order,
+            @RequestParam(value = "end-date", required = false) String endDate,
+            @RequestParam(value = "start-after", required = false) String startAfter,
+            @RequestParam(value = "start-after-id", required = false) String startAfterId,
+            @RequestParam(value = "start-date", required = false) String date,
+            @RequestParam(value = "country", required = false) String country,
+            @RequestParam(value = "page", required = false) Integer page,
+            @RequestParam(value = "limit", required = false) Integer limit,
+            @RequestParam(value = "get-tasks", required = false) Boolean getTasks,
+            @RequestParam(value = "get-notes", required = false) Boolean getNotes,
+            @RequestParam(value = "get-calendar-events", required = false) Boolean getCalendarEvents
+    ) {
+        Map<String, Object> queryParams = new HashMap<>();
+        MapUtil.putIfNotNull(queryParams, "q", q);
+        MapUtil.putIfNotNull(queryParams, "pipeline_id", pipelineId);
+        MapUtil.putIfNotNull(queryParams, "pipeline_stage_id", pipelineStageId);
+        MapUtil.putIfNotNull(queryParams, "contact_id", contactId);
+        MapUtil.putIfNotNull(queryParams, "status", status);
+        MapUtil.putIfNotNull(queryParams, "assigned_to", assignedTo);
+        MapUtil.putIfNotNull(queryParams, "campaignId", campaignId);
+        MapUtil.putIfNotNull(queryParams, "id", id);
+        MapUtil.putIfNotNull(queryParams, "order", order);
+        MapUtil.putIfNotNull(queryParams, "endDate", endDate);
+        MapUtil.putIfNotNull(queryParams, "startAfter", startAfter);
+        MapUtil.putIfNotNull(queryParams, "startAfterId", startAfterId);
+        MapUtil.putIfNotNull(queryParams, "date", date);
+        MapUtil.putIfNotNull(queryParams, "country", country);
+        MapUtil.putIfNotNull(queryParams, "page", page);
+        MapUtil.putIfNotNull(queryParams, "limit", limit);
+        MapUtil.putIfNotNull(queryParams, "getTasks", getTasks);
+        MapUtil.putIfNotNull(queryParams, "getNotes", getNotes);
+        MapUtil.putIfNotNull(queryParams, "getCalendarEvents", getCalendarEvents);
+
+        return ResponseEntity.ok(searchService.searchOpportunities(queryParams));
+    }
 }

@@ -32,10 +32,10 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
-    public JsonNode getContactNotes(String contactId, Map<String, Object> queryParams) {
+    public JsonNode getContactNotes(String contactId) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return notesClient.getContactNotes(accessKey, version, contactId, queryParams);
+        return notesClient.getContactNotes(accessKey, version, contactId);
     }
 
     @Override
@@ -47,10 +47,10 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
-    public JsonNode getContactNoteById(String contactId, String noteId, Map<String, Object> queryParams) {
+    public JsonNode getContactNoteById(String contactId, String noteId) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return notesClient.getContactNoteById(accessKey, version, contactId, noteId, queryParams);
+        return notesClient.getContactNoteById(accessKey, version, contactId, noteId);
     }
 
     @Override
@@ -62,9 +62,9 @@ public class NotesServiceImpl implements NotesService {
     }
 
     @Override
-    public JsonNode deleteContactNote(String contactId, String noteId, Map<String, Object> queryParams) {
+    public JsonNode deleteContactNote(String contactId, String noteId) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        return notesClient.deleteContactNote(accessKey, version, contactId, noteId, queryParams);
+        return notesClient.deleteContactNote(accessKey, version, contactId, noteId);
     }
 }
