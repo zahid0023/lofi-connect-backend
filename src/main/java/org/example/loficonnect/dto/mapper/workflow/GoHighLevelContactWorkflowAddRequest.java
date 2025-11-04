@@ -21,7 +21,9 @@ public class GoHighLevelContactWorkflowAddRequest {
 
     public static GoHighLevelContactWorkflowAddRequest fromRequest(ContactWorkflowAddRequest request, ObjectMapper objectMapper) {
         GoHighLevelContactWorkflowAddRequest ghl = objectMapper.convertValue(request, GoHighLevelContactWorkflowAddRequest.class);
-        ghl.setEventStartTime(DateTimeUtil.toZonedDateTime(request.getDate(), request.getTime(), request.getTimeZone()));
+        if (request.getDate() != null && request.getTime() != null && request.getTimeZone() != null) {
+            ghl.setEventStartTime(DateTimeUtil.toZonedDateTime(request.getDate(), request.getTime(), request.getTimeZone()));
+        }
         return ghl;
     }
 }

@@ -20,7 +20,9 @@ public class GoHighLevelContactWorkflowDeleteRequest {
 
     public static GoHighLevelContactWorkflowDeleteRequest fromRequest(ContactWorkflowDeleteRequest request, ObjectMapper objectMapper) {
         GoHighLevelContactWorkflowDeleteRequest ghlRequest = objectMapper.convertValue(request, GoHighLevelContactWorkflowDeleteRequest.class);
-        ghlRequest.setEventStartTime(DateTimeUtil.toZonedDateTime(request.getDate(), request.getTime(), request.getTimeZone()));
+        if (request.getDate() != null && request.getTime() != null && request.getTimeZone() != null) {
+            ghlRequest.setEventStartTime(DateTimeUtil.toZonedDateTime(request.getDate(), request.getTime(), request.getTimeZone()));
+        }
         return ghlRequest;
     }
 }
