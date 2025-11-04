@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/ghl")
+@RequestMapping("/api/v1/ghl/workflows")
 public class WorkflowsController {
     private final WorkflowsService workflowsService;
 
@@ -18,13 +18,13 @@ public class WorkflowsController {
     }
 
     @AppKey
-    @GetMapping("/workflows")
+    @GetMapping
     public ResponseEntity<?> getWorkflows() {
         return ResponseEntity.ok(workflowsService.getWorkflows());
     }
 
     @AppKey
-    @PostMapping("/contacts/{contact-id}/workflow/{workflow-id}")
+    @PostMapping("/{contact-id}/{workflow-id}")
     public ResponseEntity<?> addContactToWorkflow(
             @PathVariable("contact-id") String contactId,
             @PathVariable("workflow-id") String workflowId,
@@ -35,7 +35,7 @@ public class WorkflowsController {
     }
 
     @AppKey
-    @DeleteMapping("/contacts/{contact-id}/workflow/{workflow-id}")
+    @DeleteMapping("/{contact-id}/{workflow-id}")
     public ResponseEntity<?> deleteContactFromWorkflow(
             @PathVariable("contact-id") String contactId,
             @PathVariable("workflow-id") String workflowId,

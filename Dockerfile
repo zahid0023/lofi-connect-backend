@@ -1,5 +1,5 @@
 # Use a base image with Java installed
-FROM openjdk:17-jdk-slim
+FROM amazoncorretto:21
 
 # Set a working directory inside the container
 WORKDIR /app

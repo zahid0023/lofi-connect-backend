@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: root00023/lofi-connect:18.1.0  # Specify your custom image tag here
+    image: root00023/lofi-connect:22.0.0  # Specify your custom image tag here
     container_name: lofi-connect-container
     ports:
       - "8080:8080"
