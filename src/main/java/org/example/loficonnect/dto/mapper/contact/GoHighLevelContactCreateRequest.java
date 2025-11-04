@@ -63,7 +63,8 @@ public class GoHighLevelContactCreateRequest {
 
     @Data
     public static class DndSettings {
-        private Channel call;
+        @JsonAlias("call")
+        private Channel Call;
 
         @JsonAlias("email")
         private Channel Email;

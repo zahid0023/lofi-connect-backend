@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
 @Data
 public class GoHighLevelTaskCreateRequest {
 
-    @JsonAlias({"task_title"})
+    @JsonAlias({"title"})
     private String title;
 
     @JsonAlias({"body"})

@@ -15,7 +15,7 @@ Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 {
-  "name": "test tag"
+  "name": "new Test Tag 2"
 }
 
 ###
@@ -24,21 +24,21 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/tags/ipkYR856lXDKGqL6UHc7
+GET http://localhost:8080/api/v1/ghl/tags/67RKz3tBrH2ggtRCwTc3
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 ###
-PUT http://localhost:8080/api/v1/ghl/locations/tags/ipkYR856lXDKGqL6UHc7
+PUT http://localhost:8080/api/v1/ghl/locations/tags/67RKz3tBrH2ggtRCwTc3
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 {
-  "name": "consequeat"
+  "name": "Updated New Test Tag"
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/locations/tags/ipkYR856lXDKGqL6UHc7
+DELETE http://localhost:8080/api/v1/ghl/locations/tags/67RKz3tBrH2ggtRCwTc3
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 

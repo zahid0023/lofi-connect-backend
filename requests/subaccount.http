@@ -1,0 +1,114 @@
+###
+POST http://localhost:8080/api/v1/ghl/locations
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "name": "Mark Shoes",
+  "phone": "+1410039940",
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
+  "address": "4th fleet street",
+  "city": "New York",
+  "state": "Illinois",
+  "country": "US",
+  "postal_code": "567654",
+  "website": "https://google.com",
+  "timezone": "Pacific/Apia",
+  "prospect_info": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@mail.com"
+  },
+  "settings": {
+    "allow_duplicate_contact": true,
+    "allow_duplicate_opportunity": true,
+    "allow_facebook_name_merge": true,
+    "disable_contact_timezone": true
+  },
+  "social": {
+    "facebook_url": "https://www.facebook.com/",
+    "google_plus": "https://www.googleplus.com/",
+    "linked_in": "https://www.linkedIn.com/",
+    "foursquare": "https://www.foursquare.com/",
+    "twitter": "https://www.foutwitterrsquare.com/",
+    "yelp": "https://www.yelp.com/",
+    "instagram": "https://www.instagram.com/",
+    "youtube": "https://www.youtube.com/",
+    "pinterest": "https://www.pinterest.com/",
+    "blog_rss": "https://www.blogRss.com/",
+    "google_places_id": "ChIJJGPdVbQTrjsRGUkefteUeFk"
+  },
+  "twilio": {
+    "sid": "AC_XXXXXXXXXXX",
+    "auth_token": "77_XXXXXXXXXXX"
+  },
+  "mailgun": {
+    "api_key": "AC_XXXXXXXXXXX",
+    "domain": "77_XXXXXXXXXXX"
+  },
+  "snapshot_id": "XXXXXXXXXXX"
+}
+
+
+###
+GET http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+
+###
+PUT http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+
+{
+  "name": "Mark Shoes",
+  "phone": "+1410039940",
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
+  "address": "4th fleet street",
+  "city": "New York",
+  "state": "Illinois",
+  "country": "US",
+  "postal_code": "567654",
+  "website": "https://google.com",
+  "timezone": "Pacific/Apia",
+  "prospect_info": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@mail.com"
+  },
+  "settings": {
+    "allow_duplicate_contact": true,
+    "allow_duplicate_opportunity": true,
+    "allow_facebook_name_merge": true,
+    "disable_contact_timezone": true
+  },
+  "social": {
+    "facebook_url": "https://www.facebook.com/",
+    "google_plus": "https://www.googleplus.com/",
+    "linked_in": "https://www.linkedIn.com/",
+    "foursquare": "https://www.foursquare.com/",
+    "twitter": "https://www.foutwitterrsquare.com/",
+    "yelp": "https://www.yelp.com/",
+    "instagram": "https://www.instagram.com/",
+    "youtube": "https://www.youtube.com/",
+    "pinterest": "https://www.pinterest.com/",
+    "blog_rss": "https://www.blogRss.com/",
+    "google_places_id": "ChIJJGPdVbQTrjsRGUkefteUeFk"
+  },
+  "twilio": {
+    "sid": "AC_XXXXXXXXXXX",
+    "auth_token": "77_XXXXXXXXXXX"
+  },
+  "mailgun": {
+    "api_key": "AC_XXXXXXXXXXX",
+    "domain": "77_XXXXXXXXXXX"
+  },
+  "snapshot": {
+    "id": "XXXXXXXXXXX",
+    "override": true
+  }
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
+Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0

@@ -7,9 +7,9 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "first_name": "Rosan",
   "last_name": "Deo",
   "name": "Rosan Deo",
-  "email": "rosan.deo@gmail.com",
+  "email": "rosan123.deo@gmail.com",
   "gender": "male",
-  "phone": "+1 205-555-0198",
+  "phone": "+1 205-555-6666",
   "address1": "3535 1st Street North",
   "city": "Dolomite",
   "state": "AL",
@@ -40,9 +40,6 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "company_name": "Deo Innovations LLC",
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
-
-<> 2025-11-01T025352.201.json
-<> 2025-11-01T025327.422.json
 
 ###
 POST http://localhost:8080/api/v1/ghl/contacts/upsert
@@ -89,14 +86,12 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/contacts/NUM82IzBKOsAKdzKACRn
+GET http://localhost:8080/api/v1/ghl/contacts/eZ5BZwoDJb5pnR3CJ1N5
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
-<> 2025-11-01T025821.200.json
-
 ###
-PUT http://localhost:8080/api/v1/ghl/contacts/NUM82IzBKOsAKdzKACRn
+PUT http://localhost:8080/api/v1/ghl/contacts/eZ5BZwoDJb5pnR3CJ1N5
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
@@ -104,8 +99,8 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "first_name": "Elena",
   "last_name": "Martinez",
   "name": "Elena Martinez",
-  "email": "elena.martinez@example.com",
-  "phone": "+1 312-555-0173",
+  "email": "elena.martinezboss@example.com",
+  "phone": "+1 312-555-3333",
   "address1": "1024 W Addison St",
   "city": "Chicago",
   "state": "IL",
@@ -138,13 +133,11 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/contacts/NUM82IzBKOsAKdzKACRn
+GET http://localhost:8080/api/v1/ghl/contacts/business/{{business-id}}
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
-<> 2025-11-01T030107.200.json
-
 ###
-GET http://localhost:8080/api/v1/ghl/contacts/business/{{business-id}}
+DELETE http://localhost:8080/api/v1/ghl/contacts/eZ5BZwoDJb5pnR3CJ1N5
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0

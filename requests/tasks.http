@@ -20,13 +20,13 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 
 ###
-PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
@@ -41,15 +41,15 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 ###
-PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP/completed
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ/completed
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 {
-  "completed": true
+  "completed": false
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Er5XoNsuPvbi2tzsOkXP
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
