@@ -7,9 +7,9 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "company_id": "2Y6wzd96Wjmrl1yEm99j",
   "first_name": "John",
   "last_name": "Does",
-  "email": "johndoe345@gmail.com",
+  "email": "johndoe3456@gmail.com",
   "pass": "Absdf12_sdf",
-  "phone": "+18832327689",
+  "phone": "+18832327229",
   "type": "account",
   "role": "admin",
   "location_ids": [
@@ -71,11 +71,11 @@ Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 ###
-GET http://localhost:8080/api/v1/ghl/users/TwfuK6M5EucvVSg9pvGp
+GET http://localhost:8080/api/v1/ghl/users/qihi5befRmolCHoIonv1
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 ###
-PUT http://localhost:8080/api/v1/ghl/users/TwfuK6M5EucvVSg9pvGp
+PUT http://localhost:8080/api/v1/ghl/users/qihi5befRmolCHoIonv1
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
@@ -143,5 +143,5 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/users/TwfuK6M5EucvVSg9pvGp
+DELETE http://localhost:8080/api/v1/ghl/users/qihi5befRmolCHoIonv1
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0

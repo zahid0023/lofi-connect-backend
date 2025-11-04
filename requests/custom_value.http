@@ -4,7 +4,7 @@ Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 {
-  "name": "Custom Field Name",
+  "name": "Test Custom Value",
   "value": "Test value"
 }
 
@@ -14,12 +14,12 @@ Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 ###
-GET http://localhost:8080/api/v1/ghl/locations/custom-values/GOFCmUdt4uFLbIjVpIyT
+GET http://localhost:8080/api/v1/ghl/locations/custom-values/LJ9zr1Cdcy7NXAVklgo9
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
 ###
-PUT http://localhost:8080/api/v1/ghl/custom-values/GOFCmUdt4uFLbIjVpIyT
+PUT http://localhost:8080/api/v1/ghl/custom-values/LJ9zr1Cdcy7NXAVklgo9
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 
@@ -29,6 +29,6 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/custom-values/GOFCmUdt4uFLbIjVpIyT
+DELETE http://localhost:8080/api/v1/ghl/custom-values/LJ9zr1Cdcy7NXAVklgo9
 Content-Type: application/json
 Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
