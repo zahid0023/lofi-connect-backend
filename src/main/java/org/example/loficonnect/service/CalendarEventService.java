@@ -24,5 +24,4 @@ public interface CalendarEventService {
     JsonNode updateBlockSlot(String eventId, BlockSlotUpdateRequest request);
 
     JsonNode deleteCalendarEvent(String eventId);
-
 }

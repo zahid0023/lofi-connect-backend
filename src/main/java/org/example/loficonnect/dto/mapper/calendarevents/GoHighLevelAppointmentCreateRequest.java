@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.calendarevents.AppointmentCreateRequest;
 import org.example.loficonnect.util.DateTimeUtil;
+import org.example.loficonnect.util.LocationContext;
 
 import java.time.ZonedDateTime;
 
@@ -48,16 +49,13 @@ public class GoHighLevelAppointmentCreateRequest {
     @JsonAlias("calendar_id")
     private String calendarId;
 
-    @JsonAlias("location_id")
     private String locationId;
 
     @JsonAlias("contact_id")
     private String contactId;
 
-    @JsonAlias("start_time")
     private ZonedDateTime startTime;
 
-    @JsonAlias("end_time")
     private ZonedDateTime endTime;
 
     private GoHighLevelAppointmentCreateRequest() {
@@ -69,7 +67,10 @@ public class GoHighLevelAppointmentCreateRequest {
     public static GoHighLevelAppointmentCreateRequest fromRequest(AppointmentCreateRequest request, ObjectMapper objectMapper) {
         GoHighLevelAppointmentCreateRequest ghl = objectMapper.convertValue(request, GoHighLevelAppointmentCreateRequest.class);
         ghl.setStartTime(DateTimeUtil.toZonedDateTime(request.getStartDate(), request.getStartTime(), request.getTimeZone()));
-        ghl.setEndTime(DateTimeUtil.toZonedDateTime(request.getEndDate(), request.getEndTime(), request.getTimeZone()));
+        if (request.getEndDate() != null && request.getEndTime() != null && request.getTimeZone() != null) {
+            ghl.setEndTime(DateTimeUtil.toZonedDateTime(request.getEndDate(), request.getEndTime(), request.getTimeZone()));
+        }
+        ghl.setLocationId(LocationContext.getLocationId());
         return ghl;
     }
 }

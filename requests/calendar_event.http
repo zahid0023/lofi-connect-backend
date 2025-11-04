@@ -1,27 +1,16 @@
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/appointments
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 {
-  "title": "Test Event 3",
-  "meeting_location_type": "custom",
-  "meeting_location_id": "custom_0",
-  "override_location_config": true,
-  "appointment_status": "confirmed",
-  "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
-  "address": "Zoom",
-  "ignore_date_range": true,
-  "to_notify": true,
-  "ignore_free_slot_validation": true,
-  "rrule": "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5",
-  "calendar_id": "2mqNXde5z5IYQjNKcprY",
-  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "title": "Test Calendar Appointment 1",
+  "calendar_id": "4g3IekJOy8kLwBsw52P1",
   "contact_id": "Lq95Y9oQzB4KojmsjUxs",
-  "start_time": "2026-06-23T03:30:00+05:30",
-  "end_time": "2027-06-23T04:30:00+05:30"
+  "time_zone": "America/New_York",
+  "start_date": "2025-11-05",
+  "start_time": "13:00:00"
 }
-
 
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
