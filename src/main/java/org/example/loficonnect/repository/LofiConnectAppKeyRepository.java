@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface LofiConnectAppKeyRepository extends JpaRepository<LofiConnectAppKeyEntity, Long> {
 
     // Find by app_key value
-    Optional<LofiConnectAppKeyEntity> findByAppKey(String appKey);
+    Optional<LofiConnectAppKeyEntity> findByAppKeyAndIsActive(String appKey, Boolean isActive);
 
     @Query("""
                 SELECT DISTINCT a

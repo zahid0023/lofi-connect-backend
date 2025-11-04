@@ -93,7 +93,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     @Transactional
     @Override
     public String getAccessToken(String appKey) {
-        LofiConnectAppKeyEntity appKeyEntity = lofiConnectAppKeyRepository.findByAppKey(appKey).orElseThrow(() -> new EntityNotFoundException("App key not found"));
+        LofiConnectAppKeyEntity appKeyEntity = lofiConnectAppKeyRepository.findByAppKeyAndIsActive(appKey, true).orElseThrow(() -> new EntityNotFoundException("App key not found"));
 
         GoHighLevelTokenEntity goHighLevelTokenEntity = goHighLevelTokenRepository.findFirstByAppKeyEntityAndIsActive(appKeyEntity, true).orElseThrow(() -> new EntityNotFoundException("Active token not found"));
 
