@@ -1,55 +1,67 @@
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/appointments
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 {
-  "title": "Test Calendar Appointment 1",
-  "calendar_id": "4g3IekJOy8kLwBsw52P1",
+  "title": "Test Event",
+  "meeting_location_type": "custom",
+  "meeting_location_id": "custom_0",
+  "override_location_config": true,
+  "appointment_status": "confirmed",
+  "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
+  "address": "Zoom",
+  "ignore_date_range": true,
+  "to_notify": true,
+  "ignore_free_slot_validation": true,
+  "rrule": "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5",
+  "calendar_id": "2mqNXde5z5IYQjNKcprY",
   "contact_id": "Lq95Y9oQzB4KojmsjUxs",
-  "time_zone": "America/New_York",
-  "start_date": "2025-11-05",
-  "start_time": "14:00:00"
+  "time_zone": "Pacific/Apia",
+  "start_date": "2025-11-04",
+  "start_time": "10:00:00",
+  "end_date": "2025-11-04",
+  "end_time": "10:00:00"
 }
 
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 {
-  "title": "Test Event 4",
-  "calendar_id": "AZh6xFlrxoNQ1wQ9J4c9",
-  "assigned_user_id": "",
+  "title": "Test Event 2",
+  "calendar_id": "2mqNXde5z5IYQjNKcprY",
+  "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
   "location_id": "IxfSlEIQQeiOYQlVEApa",
   "time_zone": "Pacific/Apia",
-  "start_date": "2025-11-03",
+  "start_date": "2025-11-04",
   "start_time": "10:00:00",
-  "end_date": "2025-11-03",
+  "end_date": "2025-11-04",
   "end_time": "10:00:00"
 }
 
 ###
 GET http://localhost:8080/api/v1/ghl/calendars/events/appointments/wFPdS5BfKAYBFW8MR3pg
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/calendars/events/events
+GET http://localhost:8080/api/v1/ghl/calendars/events/events?time-zone=America%2FNew_York&start-date=2025-11-01&start-time=10%3A00%3A00&end-date=2025-12-01&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/calendars/events/blocked-slots
+GET http://localhost:8080/api/v1/ghl/calendars/events/blocked-slots?time-zone=America%2FNew_York&start-date=2025-11-01&start-time=10%3A00%3A00&end-date=2025-12-01&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 ###
 PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/AZh6xFlrxoNQ1wQ9J4c9
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 {
   "title": "Updated Test Event",
@@ -64,14 +76,17 @@ Authorization: Bearer {{bearerToken}}
   "ignore_free_slot_validation": true,
   "rrule": "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5",
   "calendar_id": "2mqNXde5z5IYQjNKcprY",
-  "start_time": "2027-06-23T03:30:00+05:30",
-  "end_time": "2027-06-23T04:30:00+05:30"
+  "time_zone": "Pacific/Apia",
+  "start_date": "2025-11-04",
+  "start_time": "10:00:00",
+  "end_date": "2025-11-04",
+  "end_time": "10:00:00"
 }
 
 ###
 PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/AZh6xFlrxoNQ1wQ9J4c9
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 
 {
   "title": "Block Test",
@@ -88,4 +103,4 @@ Authorization: Bearer {{bearerToken}}
 ###
 DELETE http://localhost:8080/api/v1/ghl/calendars/events/events/AZh6xFlrxoNQ1wQ9J4c9
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
