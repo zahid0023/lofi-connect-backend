@@ -1,4 +1,5 @@
-###Full Payload - Create Contact
+### Create Concact
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/contacts
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -74,7 +75,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 
-### Full Payload without dndSettings - Create Conctact
+### Full Payload without dndSettings
 POST http://localhost:8080/api/v1/ghl/contacts
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -117,7 +118,7 @@ Authorization: Bearer {{bearerToken}}
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
 
-###Only Required Fields - Create Contact
+###Only Required Fields
 POST http://localhost:8080/api/v1/ghl/contacts
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -168,7 +169,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 
-###Only Required Fields without dndSettings - Create Contact
+###Only Required Fields without dndSettings
 POST http://localhost:8080/api/v1/ghl/contacts
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -186,9 +187,30 @@ Authorization: Bearer {{bearerToken}}
   ]
 }
 
+###Optional Required Fields without dndSettings
+POST http://localhost:8080/api/v1/ghl/contacts
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
 
+{
+  "first_name": "Rosan",
+  "last_name": "Deo",
+  "email": "rosan2253.deo@gmail.com",
+  "phone": "+1 205-555-22563",
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
 
-### Full Payload - Upsert Contact
+### Upsert Contact
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/contacts/upsert
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -264,7 +286,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 
-### Full Payload without dndSettings- Upsert Contact
+### Full Payload without dndSettings
 POST http://localhost:8080/api/v1/ghl/contacts/upsert
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -308,7 +330,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 
-### Only Required Fields Payload - Upsert Contact
+### Only Required Fields
 POST http://localhost:8080/api/v1/ghl/contacts/upsert
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -347,7 +369,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 
-### Only Required Fields Payload  without dndSettings- Upsert Contact
+### Only Required Fields Payload  without dndSettings
 POST http://localhost:8080/api/v1/ghl/contacts/upsert
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -370,7 +392,8 @@ GET http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
-### Full Payload - Update Contact
+### Update Contact
+### Full Payload
 PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -444,7 +467,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 
-### Full Payload without dndSettings- Update Contact
+### Full Payload without dndSettings
 PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -485,7 +508,7 @@ Authorization: Bearer {{bearerToken}}
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
 
-### Only Required Fields - Update Contact
+### Only Required Fields
 PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -524,7 +547,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 
-### Only Required Fields without dndSettings- Update Contact
+### Only Required Fields without dndSettings
 PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -548,6 +571,6 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+DELETE http://localhost:8080/api/v1/ghl/contacts/duTAgKnV1ATEMBkaIc8j
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
