@@ -16,6 +16,7 @@ public class AppointmentUpdateRequest {
     private Boolean overrideLocationConfig;
     private String appointmentStatus;
     private String assignedUserId;
+    private String description;
     private String address;
     private Boolean ignoreDateRange;
     private Boolean toNotify;

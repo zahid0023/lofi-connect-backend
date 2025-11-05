@@ -1,15 +1,16 @@
-###
+### Create Concact
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/contacts
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "first_name": "Rosan",
   "last_name": "Deo",
   "name": "Rosan Deo",
-  "email": "rosan123.deo@gmail.com",
+  "email": "rosan.deo@gmail.com",
   "gender": "male",
-  "phone": "+1 205-555-6666",
+  "phone": "+1 205-555-0198",
   "address1": "3535 1st Street North",
   "city": "Dolomite",
   "state": "AL",
@@ -17,6 +18,38 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "website": "https://rosandeo.com",
   "timezone": "America/Chicago",
   "dnd": true,
+  "dnd_settings": {
+    "call": {
+      "status": "active",
+      "message": "Do not disturb via phone call",
+      "code": "DND-CALL-001"
+    },
+    "email": {
+      "status": "inactive",
+      "message": "Email communication allowed",
+      "code": "EMAIL-OK-002"
+    },
+    "sms": {
+      "status": "active",
+      "message": "Text messages disabled",
+      "code": "DND-SMS-003"
+    },
+    "whats_app": {
+      "status": "inactive",
+      "message": "WhatsApp messaging allowed",
+      "code": "WA-OK-004"
+    },
+    "gmb": {
+      "status": "inactive",
+      "message": "Google My Business messages allowed",
+      "code": "GMB-OK-005"
+    },
+    "fb": {
+      "status": "inactive",
+      "message": "Facebook Messenger allowed",
+      "code": "FB-OK-006"
+    }
+  },
   "inbound_dnd_settings": {
     "all": {
       "status": "active",
@@ -41,18 +74,154 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
 
-###
-POST http://localhost:8080/api/v1/ghl/contacts/upsert
+
+### Full Payload without dndSettings
+POST http://localhost:8080/api/v1/ghl/contacts
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "first_name": "Rosan",
   "last_name": "Deo",
-  "name": "Rosan Deos",
-  "email": "rosan123.deo@gmail.com",
+  "name": "Rosan Deo",
+  "email": "rosan225.deo@gmail.com",
   "gender": "male",
-  "phone": "+1 205-555-3321",
+  "phone": "+1 205-555-2256",
+  "address1": "3535 1st Street North",
+  "city": "Dolomite",
+  "state": "AL",
+  "postal_code": "35061",
+  "website": "https://rosandeo.com",
+  "timezone": "America/Chicago",
+  "dnd": false,
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active",
+      "message": "Hi there! I'm currently unavailable. Please leave a message."
+    }
+  },
+  "tags": [
+    "lead",
+    "high-interest",
+    "newsletter-subscriber"
+  ],
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7",
+      "key": "contact.dhiman__drop_down",
+      "field_value": "Premium Lead"
+    }
+  ],
+  "source": "lead form - homepage",
+  "country": "US",
+  "company_name": "Deo Innovations LLC",
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+###Only Required Fields
+POST http://localhost:8080/api/v1/ghl/contacts
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "dnd_settings": {
+    "call": {
+      "status": "active",
+      "message": "Do not disturb via phone call",
+      "code": "DND-CALL-001"
+    },
+    "email": {
+      "status": "inactive",
+      "message": "Email communication allowed",
+      "code": "EMAIL-OK-002"
+    },
+    "sms": {
+      "status": "active",
+      "message": "Text messages disabled",
+      "code": "DND-SMS-003"
+    },
+    "whats_app": {
+      "status": "inactive",
+      "message": "WhatsApp messaging allowed",
+      "code": "WA-OK-004"
+    },
+    "gmb": {
+      "status": "inactive",
+      "message": "Google My Business messages allowed",
+      "code": "GMB-OK-005"
+    },
+    "fb": {
+      "status": "inactive",
+      "message": "Facebook Messenger allowed",
+      "code": "FB-OK-006"
+    }
+  },
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
+
+
+###Only Required Fields without dndSettings
+POST http://localhost:8080/api/v1/ghl/contacts
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
+
+###Optional Required Fields without dndSettings
+POST http://localhost:8080/api/v1/ghl/contacts
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "first_name": "Rosan",
+  "last_name": "Deo",
+  "email": "rosan2253.deo@gmail.com",
+  "phone": "+1 205-555-22563",
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
+
+### Upsert Contact
+### Full Payload
+POST http://localhost:8080/api/v1/ghl/contacts/upsert
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "first_name": "Rosan",
+  "last_name": "Deo",
+  "name": "Rosan Deo",
+  "email": "rosan6541.deo@gmail.com",
+  "gender": "male",
+  "phone": "+1 205-555-2258",
   "address1": "3535 1st Street North",
   "city": "Dolomite",
   "state": "AL",
@@ -60,9 +229,41 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "website": "https://rosandeo.com",
   "timezone": "America/Chicago",
   "dnd": true,
+  "dnd_settings": {
+    "call": {
+      "status": "active",
+      "message": "Do not disturb via phone call",
+      "code": "DND-CALL-001"
+    },
+    "email": {
+      "status": "inactive",
+      "message": "Email communication allowed",
+      "code": "EMAIL-OK-002"
+    },
+    "sms": {
+      "status": "active",
+      "message": "Text messages disabled",
+      "code": "DND-SMS-003"
+    },
+    "whats_app": {
+      "status": "inactive",
+      "message": "WhatsApp messaging allowed",
+      "code": "WA-OK-004"
+    },
+    "gmb": {
+      "status": "inactive",
+      "message": "Google My Business messages allowed",
+      "code": "GMB-OK-005"
+    },
+    "fb": {
+      "status": "inactive",
+      "message": "Facebook Messenger allowed",
+      "code": "FB-OK-006"
+    }
+  },
   "inbound_dnd_settings": {
     "all": {
-      "status": "America/Chicago",
+      "status": "active",
       "message": "Currently unavailable – please leave a message."
     }
   },
@@ -85,59 +286,313 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
-###
-GET http://localhost:8080/api/v1/ghl/contacts/eZ5BZwoDJb5pnR3CJ1N5
+### Full Payload without dndSettings
+POST http://localhost:8080/api/v1/ghl/contacts/upsert
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
-
-###
-PUT http://localhost:8080/api/v1/ghl/contacts/eZ5BZwoDJb5pnR3CJ1N5
-Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
-  "first_name": "Elena",
-  "last_name": "Martinez",
-  "name": "Elena Martinez",
-  "email": "elena.martinezboss@example.com",
-  "phone": "+1 312-555-3333",
-  "address1": "1024 W Addison St",
-  "city": "Chicago",
-  "state": "IL",
-  "postal_code": "60613",
-  "website": "https://elenamartinez.co",
+  "first_name": "Rosan",
+  "last_name": "Deo",
+  "name": "Rosan Deo",
+  "email": "rosan6541.deo@gmail.com",
+  "gender": "male",
+  "phone": "+1 205-555-2258",
+  "address1": "3535 1st Street North",
+  "city": "Dolomite",
+  "state": "AL",
+  "postal_code": "35061",
+  "website": "https://rosandeo.com",
   "timezone": "America/Chicago",
   "dnd": true,
-
   "inbound_dnd_settings": {
     "all": {
       "status": "active",
-      "message": "Currently not accepting inbound communications. Please try later."
+      "message": "Currently unavailable – please leave a message."
     }
   },
   "tags": [
-    "vip-client",
-    "lead-q4",
+    "lead",
+    "interested",
+    "newsletter"
+  ],
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7",
+      "key": "contact.preferred_package",
+      "field_value": "Gold Membership"
+    }
+  ],
+  "source": "lead form - homepage",
+  "country": "US",
+  "company_name": "Deo Innovations LLC",
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/contacts/upsert
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "dnd_settings": {
+    "call": {
+      "status": "active"
+    },
+    "email": {
+      "status": "inactive"
+    },
+    "sms": {
+      "status": "active"
+    },
+    "whats_app": {
+      "status": "inactive"
+    },
+    "gmb": {
+      "status": "inactive"
+    },
+    "fb": {
+      "status": "inactive"
+    }
+  },
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
+
+
+### Only Required Fields Payload  without dndSettings
+POST http://localhost:8080/api/v1/ghl/contacts/upsert
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
+
+###
+GET http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+### Update Contact
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "first_name": "Rosan",
+  "last_name": "Deo",
+  "name": "Rosan Deo",
+  "email": "rosan.deo@gmail.com",
+  "phone": "+1 205-555-0198",
+  "address1": "3535 1st Street North",
+  "city": "Dolomite",
+  "state": "AL",
+  "postal_code": "35061",
+  "website": "https://rosandeo.com",
+  "timezone": "America/Chicago",
+  "dnd": true,
+  "dnd_settings": {
+    "call": {
+      "status": "active",
+      "message": "Do not disturb via phone call",
+      "code": "DND-CALL-001"
+    },
+    "email": {
+      "status": "inactive",
+      "message": "Email communication allowed",
+      "code": "EMAIL-OK-002"
+    },
+    "sms": {
+      "status": "active",
+      "message": "Text messages disabled",
+      "code": "DND-SMS-003"
+    },
+    "whats_app": {
+      "status": "inactive",
+      "message": "WhatsApp messaging allowed",
+      "code": "WA-OK-004"
+    },
+    "gmb": {
+      "status": "inactive",
+      "message": "Google My Business messages allowed",
+      "code": "GMB-OK-005"
+    },
+    "fb": {
+      "status": "inactive",
+      "message": "Facebook Messenger allowed",
+      "code": "FB-OK-006"
+    }
+  },
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active",
+      "message": "Hi there! I'm currently unavailable. Please leave a message."
+    }
+  },
+  "tags": [
+    "lead",
+    "high-interest",
     "newsletter-subscriber"
   ],
   "custom_fields": [
     {
       "id": "EHnICTrpVnzdTdk6pWx7",
-      "key": "contact.interest_level",
-      "field_value": "High"
+      "key": "contact.dhiman__drop_down",
+      "field_value": "Premium Lead"
     }
   ],
-  "source": "referral - linkedin",
+  "source": "lead form - homepage",
   "country": "US",
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+
+### Full Payload without dndSettings
+PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "first_name": "Rosan",
+  "last_name": "Deo",
+  "name": "Rosan Deo",
+  "email": "rosan2489.deo@gmail.com",
+  "phone": "+1 205-555-1010",
+  "address1": "3535 1st Street North",
+  "city": "Dolomite",
+  "state": "AL",
+  "postal_code": "35061",
+  "website": "https://rosandeo.com",
+  "timezone": "America/Chicago",
+  "dnd": false,
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active",
+      "message": "Hi there! I'm currently unavailable. Please leave a message."
+    }
+  },
+  "tags": [
+    "lead",
+    "high-interest",
+    "newsletter-subscriber"
+  ],
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7",
+      "key": "contact.dhiman__drop_down",
+      "field_value": "Premium Lead"
+    }
+  ],
+  "source": "lead form - homepage",
+  "country": "US",
+  "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
+}
+
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "dnd_settings": {
+    "call": {
+      "status": "active"
+    },
+    "email": {
+      "status": "inactive"
+    },
+    "sms": {
+      "status": "active"
+    },
+    "whats_app": {
+      "status": "inactive"
+    },
+    "gmb": {
+      "status": "inactive"
+    },
+    "fb": {
+      "status": "inactive"
+    }
+  },
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
+
+
+### Only Required Fields without dndSettings
+PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
+}
+
+###Optional Required Fields without dndSettings
+PUT http://localhost:8080/api/v1/ghl/contacts
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "first_name": "Rosan",
+  "last_name": "Deo",
+  "email": "rosan2253.deo@gmail.com",
+  "phone": "+1 205-555-22563",
+  "inbound_dnd_settings": {
+    "all": {
+      "status": "active"
+    }
+  },
+  "custom_fields": [
+    {
+      "id": "EHnICTrpVnzdTdk6pWx7"
+    }
+  ]
 }
 
 ###
 GET http://localhost:8080/api/v1/ghl/contacts/business/{{business-id}}
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/contacts/eZ5BZwoDJb5pnR3CJ1N5
+DELETE http://localhost:8080/api/v1/ghl/contacts/duTAgKnV1ATEMBkaIc8j
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}

@@ -26,10 +26,7 @@ public class GoHighLevelBlockSlotCreateRequest {
     @JsonAlias("location_id")
     private String locationId;
 
-    @JsonAlias("start_time")
     private ZonedDateTime startTime;
-
-    @JsonAlias("end_time")
     private ZonedDateTime endTime;
 
     private GoHighLevelBlockSlotCreateRequest() {}
