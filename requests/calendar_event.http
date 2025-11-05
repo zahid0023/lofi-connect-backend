@@ -1,7 +1,7 @@
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/appointments
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 {
   "title": "Test Event",
@@ -10,6 +10,7 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
   "override_location_config": true,
   "appointment_status": "confirmed",
   "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
+  "description": "This is a test Event",
   "address": "Zoom",
   "ignore_date_range": true,
   "to_notify": true,
@@ -20,14 +21,14 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
   "time_zone": "Pacific/Apia",
   "start_date": "2025-11-04",
   "start_time": "10:00:00",
-  "end_date": "2025-11-04",
+  "end_date": "2025-11-06",
   "end_time": "10:00:00"
 }
 
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 {
   "title": "Test Event 2",
@@ -42,26 +43,26 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 }
 
 ###
-GET http://localhost:8080/api/v1/ghl/calendars/events/appointments/wFPdS5BfKAYBFW8MR3pg
+GET http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/calendars/events/events?time-zone=America%2FNew_York&start-date=2025-11-01&start-time=10%3A00%3A00&end-date=2025-12-01&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
+GET http://localhost:8080/api/v1/ghl/calendars/events/events?calendar-id=2mqNXde5z5IYQjNKcprY&time-zone=America%2FNew_York&start-date=2021-11-01&start-time=10%3A00%3A00&end-date=2026-11-01&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/calendars/events/blocked-slots?time-zone=America%2FNew_York&start-date=2025-11-01&start-time=10%3A00%3A00&end-date=2025-12-01&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
+GET http://localhost:8080/api/v1/ghl/calendars/events/blocked-slots?calendar-id=2mqNXde5z5IYQjNKcprY&time-zone=America%2FNew_York&start-date=2021-05-11&start-time=10%3A00%3A00&end-date=2026-05-12&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 ###
-PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/AZh6xFlrxoNQ1wQ9J4c9
+PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 {
   "title": "Updated Test Event",
@@ -84,9 +85,9 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 }
 
 ###
-PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/AZh6xFlrxoNQ1wQ9J4c9
+PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 {
   "title": "Block Test",
@@ -101,6 +102,6 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/calendars/events/events/AZh6xFlrxoNQ1wQ9J4c9
+DELETE http://localhost:8080/api/v1/ghl/calendars/events/events/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs

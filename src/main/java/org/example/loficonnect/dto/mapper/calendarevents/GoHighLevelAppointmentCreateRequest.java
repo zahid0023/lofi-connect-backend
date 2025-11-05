@@ -33,6 +33,7 @@ public class GoHighLevelAppointmentCreateRequest {
     @JsonAlias("assigned_user_id")
     private String assignedUserId;
 
+    private String description;
     private String address;
 
     @JsonAlias("ignore_date_range")
