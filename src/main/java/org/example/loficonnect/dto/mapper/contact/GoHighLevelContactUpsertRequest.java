@@ -112,12 +112,15 @@ public class GoHighLevelContactUpsertRequest {
         private String field_value;
     }
 
+    private GoHighLevelContactUpsertRequest() {
+    }
+
     /**
      * Converts ContactUpsertRequest -> GoHighLevelContactUpsertRequest using ObjectMapper.
      */
     public static GoHighLevelContactUpsertRequest fromRequest(ContactUpsertRequest request, ObjectMapper objectMapper) {
         GoHighLevelContactUpsertRequest ghl = objectMapper.convertValue(request, GoHighLevelContactUpsertRequest.class);
         ghl.setLocationId(LocationContext.getLocationId());
-        return objectMapper.convertValue(request, GoHighLevelContactUpsertRequest.class);
+        return ghl;
     }
 }

@@ -336,36 +336,7 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "dnd_settings": {
-    "call": {
-      "status": "active"
-    },
-    "email": {
-      "status": "inactive"
-    },
-    "sms": {
-      "status": "active"
-    },
-    "whats_app": {
-      "status": "inactive"
-    },
-    "gmb": {
-      "status": "inactive"
-    },
-    "fb": {
-      "status": "inactive"
-    }
-  },
-  "inbound_dnd_settings": {
-    "all": {
-      "status": "active"
-    }
-  },
-  "custom_fields": [
-    {
-      "id": "EHnICTrpVnzdTdk6pWx7"
-    }
-  ]
+  "email": "test1@email.com"
 }
 
 

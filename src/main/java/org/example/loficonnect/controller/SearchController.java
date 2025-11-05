@@ -123,7 +123,7 @@ public class SearchController {
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "assigned-to", required = false) String assignedTo,
             @RequestParam(value = "campaign-id", required = false) String campaignId,
-            @RequestParam(value = "opportunity_id", required = false) String id,
+            @RequestParam(value = "opportunity-id", required = false) String id,
             @RequestParam(value = "order", required = false) String order,
             @RequestParam(value = "end-date", required = false) String endDate,
             @RequestParam(value = "start-after", required = false) String startAfter,
