@@ -1,7 +1,7 @@
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/appointments
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
 
 {
   "title": "Test Event",
@@ -28,7 +28,7 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
 
 {
   "title": "Test Event 2",
@@ -45,24 +45,24 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 ###
 GET http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
 
 
 ###
 GET http://localhost:8080/api/v1/ghl/calendars/events/events?calendar-id=2mqNXde5z5IYQjNKcprY&time-zone=America%2FNew_York&start-date=2021-11-01&start-time=10%3A00%3A00&end-date=2026-11-01&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
 
 
 ###
 GET http://localhost:8080/api/v1/ghl/calendars/events/blocked-slots?calendar-id=2mqNXde5z5IYQjNKcprY&time-zone=America%2FNew_York&start-date=2021-05-11&start-time=10%3A00%3A00&end-date=2026-05-12&end-time=10%3A00%3A00&location-id=IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
 
 ###
 PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
 
 {
   "title": "Updated Test Event",
@@ -87,7 +87,7 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 ###
 PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
 
 {
   "title": "Block Test",
@@ -104,4 +104,4 @@ Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
 ###
 DELETE http://localhost:8080/api/v1/ghl/calendars/events/events/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
-Authorization: Bearer 6LOZ9gYHihOLeQdJ3m3YgxTnMxR7AA_zJRieuGHFLS0
+Authorization: Bearer {{bearerToken}}
