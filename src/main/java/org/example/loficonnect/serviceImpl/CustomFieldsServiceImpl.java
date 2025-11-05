@@ -8,6 +8,7 @@ import org.example.loficonnect.dto.mapper.custom.fields.GoHighLevelCustomFieldUp
 import org.example.loficonnect.dto.request.custom.fields.CustomFieldCreateRequest;
 import org.example.loficonnect.dto.request.custom.fields.CustomFieldUpdateRequest;
 import org.example.loficonnect.dto.request.custom.fields.UploadCustomFieldFileRequest;
+import org.example.loficonnect.dto.response.customfields.CustomFieldsResponse;
 import org.example.loficonnect.feignclients.CustomFieldsClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CustomFieldsService;
@@ -38,6 +39,14 @@ public class CustomFieldsServiceImpl implements CustomFieldsService {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         return customFieldsClient.getCustomFields(accessKey, version, LocationContext.getLocationId(), queryParams);
+    }
+
+    @Override
+    public CustomFieldsResponse getCustomFieldsTypes(Map<String, Object> queryParams) {
+        String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
+        String version = VersionContext.getVersion();
+        JsonNode customFieldsNode = customFieldsClient.getCustomFields(accessKey, version, LocationContext.getLocationId(), queryParams);
+        return CustomFieldsResponse.fromJson(customFieldsNode.get("customFields"), objectMapper);
     }
 
     @Override
