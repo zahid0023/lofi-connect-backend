@@ -1,7 +1,7 @@
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/appointments
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 {
   "title": "Test Event",
@@ -28,17 +28,17 @@ Authorization: Bearer {{bearerToken}}
 ###
 POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
 Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
+Authorization: Bearer Bn0IiD8IIk2xazO6007WxJbDuVapqH4Fi2ZhrSyrnFs
 
 {
   "title": "Test Event 2",
-  "calendar_id": "2mqNXde5z5IYQjNKcprY",
+  "calendar_id": "",
   "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
   "location_id": "IxfSlEIQQeiOYQlVEApa",
   "time_zone": "Pacific/Apia",
   "start_date": "2025-11-04",
   "start_time": "10:00:00",
-  "end_date": "2025-11-04",
+  "end_date": "2025-12-04",
   "end_time": "10:00:00"
 }
 
