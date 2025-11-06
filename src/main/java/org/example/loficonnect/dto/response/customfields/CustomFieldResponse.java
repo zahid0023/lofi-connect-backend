@@ -33,7 +33,7 @@ public class CustomFieldResponse {
     private List<String> choices;
 
     private static final Map<String, String> DATA_TYPE_MAP = Map.of(
-            "LARGE_TEXT", "text",
+            "LARGE_TEXT", "text",   
             "TEXT", "string",
             "SINGLE_OPTIONS", "single_options",
             "DATE", "datetime",
