@@ -96,4 +96,16 @@ public class OpenApiConfig {
                         .version("v1")))
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi ghlCustomFieldsApi() {
+        return GroupedOpenApi.builder()
+                .group("GHL Custom Fields APIs") // dropdown name in Swagger UI
+                .pathsToMatch("/api/v1/ghl/custom-fields/**") // your path pattern
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
+                        .title("GHL Custom Fields API Documentation")
+                        .description("Endpoints for managing GHL Custom Fields")
+                        .version("v1")))
+                .build();
+    }
 }

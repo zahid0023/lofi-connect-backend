@@ -49,13 +49,12 @@ public class GoHighLevelAppointmentUpdateRequest {
     @JsonAlias("calendar_id")
     private String calendarId;
 
-    @JsonAlias("start_time")
     private ZonedDateTime startTime;
 
-    @JsonAlias("end_time")
     private ZonedDateTime endTime;
 
-    private GoHighLevelAppointmentUpdateRequest() {}
+    private GoHighLevelAppointmentUpdateRequest() {
+    }
 
     /**
      * Converts AppointmentUpdateRequest -> GoHighLevelAppointmentUpdateRequest using ObjectMapper
@@ -64,8 +63,13 @@ public class GoHighLevelAppointmentUpdateRequest {
         GoHighLevelAppointmentUpdateRequest ghl = objectMapper.convertValue(request, GoHighLevelAppointmentUpdateRequest.class);
 
         // convert LocalDate + LocalTime + timeZone to ZonedDateTime
-        ghl.setStartTime(DateTimeUtil.toZonedDateTime(request.getStartDate(), request.getStartTime(), request.getTimeZone()));
-        ghl.setEndTime(DateTimeUtil.toZonedDateTime(request.getEndDate(), request.getEndTime(), request.getTimeZone()));
+        if (request.getStartDate() != null && request.getStartTime() != null && request.getTimeZone() != null) {
+            ghl.setStartTime(DateTimeUtil.toZonedDateTime(request.getStartDate(), request.getStartTime(), request.getTimeZone()));
+        }
+
+        if (request.getEndDate() != null && request.getEndTime() != null && request.getTimeZone() != null) {
+            ghl.setEndTime(DateTimeUtil.toZonedDateTime(request.getEndDate(), request.getEndTime(), request.getTimeZone()));
+        }
 
         return ghl;
     }
