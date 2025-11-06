@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import org.example.loficonnect.dto.request.opportunity.OpportunityCreateRequest;
+import org.example.loficonnect.util.LocationContext;
 
 import java.util.List;
 
@@ -60,6 +61,8 @@ public class GoHighLevelOpportunityCreateRequest {
     }
 
     public static GoHighLevelOpportunityCreateRequest fromRequest(OpportunityCreateRequest request, ObjectMapper objectMapper) {
-        return objectMapper.convertValue(request, GoHighLevelOpportunityCreateRequest.class);
+        GoHighLevelOpportunityCreateRequest ghl = objectMapper.convertValue(request, GoHighLevelOpportunityCreateRequest.class);
+        ghl.setLocationId(LocationContext.getLocationId());
+        return ghl;
     }
 }

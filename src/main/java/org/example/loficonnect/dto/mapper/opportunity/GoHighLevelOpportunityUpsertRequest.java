@@ -41,8 +41,7 @@ public class GoHighLevelOpportunityUpsertRequest {
     }
 
     public static GoHighLevelOpportunityUpsertRequest fromRequest(OpportunityUpsertRequest request, ObjectMapper objectMapper) {
-        GoHighLevelOpportunityUpsertRequest ghl = new GoHighLevelOpportunityUpsertRequest();
-        objectMapper.convertValue(request, GoHighLevelOpportunityUpsertRequest.class);
+        GoHighLevelOpportunityUpsertRequest ghl = objectMapper.convertValue(request, GoHighLevelOpportunityUpsertRequest.class);
         ghl.setLocationId(LocationContext.getLocationId());
         return ghl;
     }
