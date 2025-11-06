@@ -1,10 +1,11 @@
-###
+### Create Custom Field
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/custom-fields
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
-  "name": "Custom Field",
+  "name": "Custom Field 2",
   "data_type": "TEXT",
   "placeholder": "Placeholder Text",
   "accepted_format": [
@@ -23,31 +24,49 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
-###
-POST http://localhost:8080/api/v1/ghl/custom-fields/files?custom-field-id=12&maxFiles=1
-Content-Type: application/x-www-form-urlencoded
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/custom-fields
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
 
 {
-  "file": "file.pdf"
+  "name": "Custom Field 3",
+  "data_type": "TEXT"
 }
+
+### Uploads File to customFields
+### Full Payload
+POST http://localhost:8080/api/v1/ghl/custom-fields/files?custom-field-id=12&maxFiles=1
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{bearerToken}}
+
+{
+  "file": "image/jpeg"
+}
+
+
+### Required Part
+POST http://localhost:8080/api/v1/ghl/custom-fields/files
+Content-Type: application/x-www-form-urlencoded
+Authorization: Bearer {{bearerToken}}
 
 
 ###
 GET http://localhost:8080/api/v1/ghl/custom-fields
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/custom-fields/H7v9zOFAWTYpywM9icoK
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+GET http://localhost:8080/api/v1/ghl/custom-fields/1BC04Z7i9BPqltv833V6
+Authorization: Bearer {{bearerToken}}
 
 
-###
-PUT http://localhost:8080/api/v1/ghl/custom-fields/H7v9zOFAWTYpywM9icoK
+### Update Custom Field
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/custom-fields/1BC04Z7i9BPqltv833V6
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "name": "Custom Field 2",
@@ -68,6 +87,15 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/custom-fields/1BC04Z7i9BPqltv833V6
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "name": "Custom Field 0"
+}
+
 ###
-DELETE http://localhost:8080/api/v1/ghl/custom-fields/H7v9zOFAWTYpywM9icoK
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+DELETE http://localhost:8080/api/v1/ghl/custom-fields/chjZrhx0PNbUreHkTBs7
+Authorization: Bearer {{bearerToken}}
