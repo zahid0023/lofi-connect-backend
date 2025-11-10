@@ -1,6 +1,7 @@
 package org.example.loficonnect.serviceImpl;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.usersearch.GoHighLevelUserSearchRequest;
 import org.example.loficonnect.dto.request.usersearch.UserSearchRequest;
@@ -20,10 +21,12 @@ public class UserSearchServiceImpl implements UserSearchService {
 
     private final UserSearchClient userSearchClient;
     private final AuthorizationService authorizationService;
+    private final ObjectMapper objectMapper;
 
-    public UserSearchServiceImpl(UserSearchClient userSearchClient, AuthorizationService authorizationService) {
+    public UserSearchServiceImpl(UserSearchClient userSearchClient, AuthorizationService authorizationService, ObjectMapper objectMapper) {
         this.userSearchClient = userSearchClient;
         this.authorizationService = authorizationService;
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class UserSearchServiceImpl implements UserSearchService {
     public JsonNode filterUsersByEmail(UserSearchRequest request) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
-        GoHighLevelUserSearchRequest ghlRequest = GoHighLevelUserSearchRequest.fromRequest(request);
+        GoHighLevelUserSearchRequest ghlRequest = GoHighLevelUserSearchRequest.fromRequest(request,objectMapper);
         return userSearchClient.filterUsersByEmail(accessKey, version, ghlRequest);
     }
 }
