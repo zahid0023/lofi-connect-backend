@@ -43,7 +43,7 @@ public class CustomFieldResponse {
 
     private CustomFieldResponse() {
     }
-
+                    
     public static CustomFieldResponse fromJson(JsonNode jsonNode, ObjectMapper mapper) {
         if (jsonNode == null || jsonNode.isNull()) return null;
         CustomFieldResponse customFieldResponse = mapper.convertValue(jsonNode, CustomFieldResponse.class);
