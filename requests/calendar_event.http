@@ -1,4 +1,5 @@
-###
+### Create Appointment
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/calendars/events/appointments
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -25,7 +26,21 @@ Authorization: Bearer {{bearerToken}}
   "end_time": "10:00:00"
 }
 
-###
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/calendars/events/appointments
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "calendar_id": "2mqNXde5z5IYQjNKcprY",
+  "contact_id": "Lq95Y9oQzB4KojmsjUxs",
+  "time_zone": "Pacific/Apia",
+  "start_date": "2025-11-04",
+  "start_time": "10:00:00"
+}
+
+### Create Block Slot
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -40,6 +55,15 @@ Authorization: Bearer {{bearerToken}}
   "start_time": "10:00:00",
   "end_date": "2025-12-04",
   "end_time": "10:00:00"
+}
+
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "calendar_id": "2mqNXde5z5IYQjNKcprY"
 }
 
 ###
@@ -59,7 +83,8 @@ GET http://localhost:8080/api/v1/ghl/calendars/events/blocked-slots?calendar-id=
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
-###
+### Update Appointments
+### Full Payload
 PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -84,7 +109,18 @@ Authorization: Bearer {{bearerToken}}
   "end_time": "10:00:00"
 }
 
-###
+
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+
+}
+
+### Update Block Slots
+### Full Payload
 PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/V6HRVMCwpAHoJfz4Wb0n
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -99,6 +135,15 @@ Authorization: Bearer {{bearerToken}}
   "start_time": "10:00:00",
   "end_date": "2025-11-03",
   "end_time": "10:00:00"
+}
+
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/V6HRVMCwpAHoJfz4Wb0n
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "calendar_id": "2mqNXde5z5IYQjNKcprY"
 }
 
 ###

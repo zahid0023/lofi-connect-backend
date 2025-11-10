@@ -107,7 +107,6 @@ Authorization: Bearer {{bearerToken}}
     "look_busy_percentage": 0
   },
   "is_active": true,
-  "location_id": "IxfSlEIQQeiOYQlVEApa",
   "calendar_type": "round_robin"
 }
 
