@@ -428,7 +428,7 @@ Authorization: Bearer {{bearerToken}}
 
 }
 
-###Optional Required Fields without dndSettings
+###Additional Required Fields without dndSettings
 PUT http://localhost:8080/api/v1/ghl/contacts/OBzC0K5Zn5dJ7FbYF3Rw
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
