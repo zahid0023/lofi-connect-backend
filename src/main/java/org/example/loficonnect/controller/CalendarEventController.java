@@ -95,7 +95,7 @@ public class CalendarEventController {
         MapUtil.putIfNotNull(queryParams, "startTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(startDate, startTime), timeZone));
         MapUtil.putIfNotNull(queryParams, "endTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(endDate, endTime), timeZone));
         MapUtil.putIfNotNull(queryParams, "locationId", locationId);
-        MapUtil.putIfNotNull(queryParams, "timezone", timeZone);
+//        MapUtil.putIfNotNull(queryParams, "timezone", timeZone);
 
         return ResponseEntity.ok(calendarEventService.getBlockedSlots(queryParams));
     }

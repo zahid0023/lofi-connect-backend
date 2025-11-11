@@ -40,15 +40,32 @@ Authorization: Bearer {{bearerToken}}
 }
 
 ### Create Block Slot
-### Full Payload
+### Full Payload with assign_user_id
+POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "title": "Block Test Event 4",
+  "calendar_id": "",
+  "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
+  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "time_zone": "Pacific/Apia",
+  "start_date": "2025-11-04",
+  "start_time": "10:00:00",
+  "end_date": "2025-12-04",
+  "end_time": "10:00:00"
+}
+
+### Full Payload with calendar_id
 POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
   "title": "Test Event 4",
-  "calendar_id": "",
-  "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
+  "calendar_id": "sjVjK6SpjmDvxj6SE29S",
+  "assigned_user_id": "",
   "location_id": "IxfSlEIQQeiOYQlVEApa",
   "time_zone": "Pacific/Apia",
   "start_date": "2025-11-04",
@@ -137,29 +154,29 @@ Authorization: Bearer {{bearerToken}}
 
 ### Update Block Slots
 ### Full Payload
-PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/n8MyDtQRkF9mNzWWhJQ6
+PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/zD1Xur9OClSi49tseZNo
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
   "title": "Block Test",
-  "calendar_id": "2mqNXde5z5IYQjNKcprY",
+  "calendar_id": "sjVjK6SpjmDvxj6SE29S",
   "assigned_user_id": "",
   "location_id": "IxfSlEIQQeiOYQlVEApa",
   "time_zone": "Pacific/Apia",
   "start_date": "2025-11-03",
   "start_time": "10:00:00",
-  "end_date": "2025-11-03",
+  "end_date": "2025-11-04",
   "end_time": "10:00:00"
 }
 
 ### Only Required Fields
-PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/n8MyDtQRkF9mNzWWhJQ6
+PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/zD1Xur9OClSi49tseZNo
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "calendar_id": "2mqNXde5z5IYQjNKcprY"
+  "calendar_id": "sjVjK6SpjmDvxj6SE29S"
 }
 
 ###
