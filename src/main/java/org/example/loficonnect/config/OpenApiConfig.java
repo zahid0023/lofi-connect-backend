@@ -108,4 +108,17 @@ public class OpenApiConfig {
                         .version("v1")))
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi ghlAuthorizationApi() {
+        return GroupedOpenApi.builder()
+                .group("Authorization APIs") // ✅ dropdown name in Swagger UI
+                .pathsToMatch("/api/v1/authorization/**") // ✅ correct path
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
+                        .title("Authorizations API Documentation") // ✅ correct title
+                        .description("Endpoints for managing Authorizations") // ✅ correct description
+                        .version("v1")))
+                .build();
+    }
+
 }
