@@ -18,7 +18,7 @@ Authorization: Bearer {{bearerToken}}
   "ignore_free_slot_validation": true,
   "rrule": "RRULE:FREQ=DAILY;INTERVAL=1;COUNT=5",
   "calendar_id": "2mqNXde5z5IYQjNKcprY",
-  "contact_id": "Lq95Y9oQzB4KojmsjUxs",
+  "contact_id": "cINUkNwsyFtTChGTBIVL",
   "time_zone": "Pacific/Apia",
   "start_date": "2025-11-04",
   "start_time": "10:00:00",
@@ -33,10 +33,10 @@ Authorization: Bearer {{bearerToken}}
 
 {
   "calendar_id": "2mqNXde5z5IYQjNKcprY",
-  "contact_id": "Lq95Y9oQzB4KojmsjUxs",
+  "contact_id": "cINUkNwsyFtTChGTBIVL",
   "time_zone": "Pacific/Apia",
-  "start_date": "2025-11-04",
-  "start_time": "10:00:00"
+  "start_date": "2025-12-08",
+  "start_time": "14:00:00"
 }
 
 ### Create Block Slot
@@ -46,7 +46,7 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "title": "Test Event 2",
+  "title": "Test Event 4",
   "calendar_id": "",
   "assigned_user_id": "zlOSBQcKz3njTjHUdsUZ",
   "location_id": "IxfSlEIQQeiOYQlVEApa",
@@ -63,11 +63,27 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "calendar_id": "2mqNXde5z5IYQjNKcprY"
+  "calendar_id": "2mqNXde5z5IYQjNKcprY",
+  "location_id": "IxfSlEIQQeiOYQlVEApa"
+}
+
+### Additional Required Fields
+POST http://localhost:8080/api/v1/ghl/calendars/events/block-slots
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "calendar_id": "2mqNXde5z5IYQjNKcprY",
+  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "time_zone": "Pacific/Apia",
+  "start_date": "2025-11-04",
+  "start_time": "10:00:00",
+  "end_date": "2025-12-04",
+  "end_time": "10:00:00"
 }
 
 ###
-GET http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
+GET http://localhost:8080/api/v1/ghl/calendars/events/appointments/CoBAILyfOnGEdCj7RqtO
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -85,7 +101,7 @@ Authorization: Bearer {{bearerToken}}
 
 ### Update Appointments
 ### Full Payload
-PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
+PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/W2giJ3YhhxutghB3rK1k
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -111,7 +127,7 @@ Authorization: Bearer {{bearerToken}}
 
 
 ### Only Required Fields
-PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/V6HRVMCwpAHoJfz4Wb0n
+PUT http://localhost:8080/api/v1/ghl/calendars/events/appointments/W2giJ3YhhxutghB3rK1k
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -121,7 +137,7 @@ Authorization: Bearer {{bearerToken}}
 
 ### Update Block Slots
 ### Full Payload
-PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/V6HRVMCwpAHoJfz4Wb0n
+PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/n8MyDtQRkF9mNzWWhJQ6
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -138,7 +154,7 @@ Authorization: Bearer {{bearerToken}}
 }
 
 ### Only Required Fields
-PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/V6HRVMCwpAHoJfz4Wb0n
+PUT http://localhost:8080/api/v1/ghl/calendars/events/block-slots/n8MyDtQRkF9mNzWWhJQ6
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -147,6 +163,6 @@ Authorization: Bearer {{bearerToken}}
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/calendars/events/events/V6HRVMCwpAHoJfz4Wb0n
+DELETE http://localhost:8080/api/v1/ghl/calendars/events/events/n8MyDtQRkF9mNzWWhJQ6
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
