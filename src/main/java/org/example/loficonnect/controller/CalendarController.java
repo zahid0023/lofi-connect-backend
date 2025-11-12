@@ -2,6 +2,7 @@ package org.example.loficonnect.controller;
 
 import org.example.loficonnect.config.AppKey;
 import org.example.loficonnect.dto.request.calendar.CreateCalendarRequest;
+import org.example.loficonnect.dto.request.calendar.UpdateCalendarRequest;
 import org.example.loficonnect.service.CalendarService;
 import org.example.loficonnect.util.DateTimeUtil;
 import org.example.loficonnect.util.MapUtil;
@@ -67,5 +68,14 @@ public class CalendarController {
         MapUtil.putIfNotNull(queryParams, "startDate", DateTimeUtil.toEpochMillis(LocalDateTime.of(startDate, startTime), timeZone));
         MapUtil.putIfNotNull(queryParams, "endDate", DateTimeUtil.toEpochMillis(LocalDateTime.of(endDate, endTime), timeZone));
         return ResponseEntity.status(HttpStatus.OK).body(calendarService.getFreeSlots(calendarId, queryParams));
+    }
+
+    @AppKey
+    @PutMapping("/{calendar-id}")
+    public ResponseEntity<?> updateCalendar(
+            @PathVariable("calendar-id") String calendarId,
+            @RequestBody UpdateCalendarRequest updateCalendarRequest) {
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(calendarService.updateCalendar(calendarId, updateCalendarRequest));
     }
 }

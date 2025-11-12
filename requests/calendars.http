@@ -191,7 +191,7 @@ Authorization: Bearer {{bearerToken}}
 
 ### Update Calendar
 ### Full Payload
-PUT http://localhost:8080/api/v1/ghl/calendars/13McWi4P8j2gjNaSl7Ie
+PUT http://localhost:8080/api/v1/ghl/calendars/XrmWbL8TlYeg9KngYh6b
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -226,7 +226,6 @@ Authorization: Bearer {{bearerToken}}
   ],
   "slot_duration": 30,
   "slot_duration_unit": "mins",
-  "pre_buffer_unit": "mins",
   "slot_interval": 30,
   "slot_interval_unit": "mins",
   "slot_buffer": 30,
@@ -239,15 +238,15 @@ Authorization: Bearer {{bearerToken}}
   "allow_booking_for_unit": "days",
   "open_hours": [
     {
-      "daysOfTheWeek": [
+      "days_of_the_week": [
         2
       ],
-      "openHours": [
+      "hours": [
         {
-          "openHour": 10,
-          "openMinute": 10,
-          "closeHour": 10,
-          "closeMinute": 10
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
         }
       ]
     }
@@ -279,7 +278,8 @@ Authorization: Bearer {{bearerToken}}
   "availabilities": [
     {
       "date": "2023-09-24T00:00:00.000Z",
-      "hours": [
+      "time_zone": "Pacific/Apia",
+      "open_hours": [
         {
           "open_hour": 10,
           "open_minute": 10,
@@ -291,17 +291,114 @@ Authorization: Bearer {{bearerToken}}
     }
   ],
   "guest_type": "count_only",
-  "consent_label": "abc",
+  "consent_label": "test",
   "calendar_cover_image": "https://path-to-image.com",
   "look_busy_config": {
     "enabled": true,
     "look_busy_percentage": 0
-  }
+  },
+  "is_active": true
 }
 
 
+### Working Payload
+PUT http://localhost:8080/api/v1/ghl/calendars/XrmWbL8TlYeg9KngYh6b
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "group_id": "",
+  "event_type": "RoundRobin_OptimizeForAvailability",
+  "name": "test calendar",
+  "description": "this is used for testing",
+  "slug": "test1",
+  "widget_slug": "test1",
+  "widget_type": "classic",
+  "event_title": "contact.name",
+  "event_color": "#039be5",
+  "location_configurations": [
+    {
+      "kind": "custom",
+      "location": "US"
+    }
+  ],
+  "slot_duration": 30,
+  "slot_duration_unit": "mins",
+  "slot_interval": 30,
+  "slot_interval_unit": "mins",
+  "slot_buffer": 30,
+  "pre_buffer": 30,
+
+  "allow_booking_after": 10,
+  "allow_booking_after_unit": "hours",
+  "allow_booking_for": 10,
+  "allow_booking_for_unit": "days",
+  "open_hours": [
+    {
+      "days_of_the_week": [
+        2
+      ],
+      "hours": [
+        {
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
+        }
+      ]
+    }
+  ],
+  "enable_recurring": true,
+  "recurring": {
+    "freq": "DAILY",
+    "count": 20,
+    "booking_option": "continue",
+    "booking_overlap_default_status": "confirmed"
+  },
+  "form_id": "dAdVSCb89cBOxSkTNl5j",
+  "sticky_contact": true,
+  "is_live_payment_mode": true,
+  "auto_confirm": true,
+  "should_send_alert_emails_to_assigned_member": true,
+  "alert_email": "john@gmail.com",
+  "google_invitation_emails": true,
+  "allow_reschedule": true,
+  "allow_cancellation": true,
+  "should_assign_contact_to_team_member": true,
+  "should_skip_assigning_contact_for_existing": true,
+  "notes": "test notes",
+  "pixel_id": "abc123",
+  "form_submit_type": "ThankYouMessage",
+  "form_submit_redirect_url": "google.com",
+  "form_submit_thanks_message": "thanks",
+  "availability_type": 0,
+  "availabilities": [
+    {
+      "date": "2023-09-24T00:00:00.000Z",
+      "time_zone": "Pacific/Apia",
+      "open_hours": [
+        {
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
+        }
+      ],
+      "deleted": true
+    }
+  ],
+  "guest_type": "count_only",
+  "consent_label": "test",
+  "calendar_cover_image": "https://path-to-image.com",
+  "look_busy_config": {
+    "enabled": true,
+    "look_busy_percentage": 0
+  },
+  "is_active": true
+}
+
 ### Only Required Fields
-PUT http://localhost:8080/api/v1/ghl/calendars/13McWi4P8j2gjNaSl7Ie
+PUT http://localhost:8080/api/v1/ghl/calendars/XrmWbL8TlYeg9KngYh6b
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 

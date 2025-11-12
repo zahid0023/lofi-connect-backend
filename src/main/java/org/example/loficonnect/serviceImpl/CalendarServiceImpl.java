@@ -4,7 +4,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.mapper.calendar.GoHighLevelCreateCalendarRequest;
+import org.example.loficonnect.dto.mapper.calendar.GoHighLevelUpdateCalendarRequest;
 import org.example.loficonnect.dto.request.calendar.CreateCalendarRequest;
+import org.example.loficonnect.dto.request.calendar.UpdateCalendarRequest;
 import org.example.loficonnect.feignclients.CalendarClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CalendarService;
@@ -67,5 +69,13 @@ public class CalendarServiceImpl implements CalendarService {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
         return calendarClient.getFreeSlots(accessKey, version, calendarId, queryParams);
+    }
+
+    @Override
+    public JsonNode updateCalendar(String calendarId, UpdateCalendarRequest request) {
+        String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
+        String version = VersionContext.getVersion();
+        GoHighLevelUpdateCalendarRequest ghlRequest = GoHighLevelUpdateCalendarRequest.fromRequest(request, objectMapper);
+        return calendarClient.updateCalendar(accessKey, version, calendarId, ghlRequest);
     }
 }
