@@ -17,7 +17,6 @@ public class GoHighLevelUpdateCalendarRequest {
     @JsonAlias("group_id")
     private String groupId;
 
-    @JsonAlias("team_members")
     private List<TeamMember> teamMembers;
 
     @JsonAlias("event_type")
@@ -51,10 +50,8 @@ public class GoHighLevelUpdateCalendarRequest {
 
     private Integer preBuffer;
 
-    @JsonAlias("appointment_per_slot")
     private Integer appointmentPerSlot;
 
-    @JsonAlias("appointment_per_day")
     private Integer appointmentPerDay;
 
     @JsonAlias("allow_booking_after")
@@ -107,8 +104,12 @@ public class GoHighLevelUpdateCalendarRequest {
     @Data
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
     public static class TeamMember {
+
+        @JsonAlias("user_id")
         private String userId;
         private Double priority;
+
+        @JsonAlias("is_primary")
         private Boolean isPrimary;
         private List<LocationConfiguration> locationConfigurations;
     }
