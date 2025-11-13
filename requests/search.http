@@ -1,4 +1,5 @@
-###
+### Search Contact
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/contacts/search
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -10,8 +11,18 @@ Authorization: Bearer {{bearerToken}}
   "page": 1
 }
 
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/contacts/search
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
 
-###
+{
+  "page_limit": 10
+}
+
+
+### Search Task
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/locations/tasks/search
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
@@ -30,6 +41,14 @@ Authorization: Bearer {{bearerToken}}
   "business_id": ""
 }
 
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/locations/tasks/search
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+
+}
 
 ###
 GET http://localhost:8080/api/v1/ghl/contacts/search/duplicate
