@@ -15,6 +15,7 @@ import org.example.loficonnect.feignclients.CalendarEventClient;
 import org.example.loficonnect.service.AuthorizationService;
 import org.example.loficonnect.service.CalendarEventService;
 import org.example.loficonnect.util.AppKeyContext;
+import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +70,7 @@ public class CalendarEventServiceImpl implements CalendarEventService {
     public JsonNode getBlockedSlots(Map<String, Object> queryParams) {
         String accessKey = authorizationService.getAccessToken(AppKeyContext.getAppKey());
         String version = VersionContext.getVersion();
+        queryParams.put("locationId", LocationContext.getLocationId());
         return calendarEventClient.getBlockedSlots(accessKey, version, queryParams);
     }
 

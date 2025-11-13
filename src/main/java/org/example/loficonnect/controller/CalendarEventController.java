@@ -78,15 +78,14 @@ public class CalendarEventController {
     @AppKey
     @GetMapping("/calendars/events/blocked-slots")
     public ResponseEntity<?> getBlockedSlots(
-            @RequestParam(value = "calendar-id", required = false) String calendarId,
+            @RequestParam(value = "calendar-id") String calendarId,
             @RequestParam(value = "group-id", required = false) String groupId,
             @RequestParam(value = "user-id", required = false) String userId,
             @RequestParam(value = "time-zone", required = false, defaultValue = "America/New_York") String timeZone,
             @RequestParam("start-date") LocalDate startDate,
             @RequestParam("start-time") LocalTime startTime,
             @RequestParam("end-date") LocalDate endDate,
-            @RequestParam("end-time") LocalTime endTime,
-            @RequestParam(value = "location-id") String locationId
+            @RequestParam("end-time") LocalTime endTime
     ) {
         Map<String, Object> queryParams = new HashMap<>();
         MapUtil.putIfNotNull(queryParams, "calendarId", calendarId);
@@ -94,8 +93,6 @@ public class CalendarEventController {
         MapUtil.putIfNotNull(queryParams, "userId", userId);
         MapUtil.putIfNotNull(queryParams, "startTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(startDate, startTime), timeZone));
         MapUtil.putIfNotNull(queryParams, "endTime", DateTimeUtil.toEpochMillis(LocalDateTime.of(endDate, endTime), timeZone));
-        MapUtil.putIfNotNull(queryParams, "locationId", locationId);
-        MapUtil.putIfNotNull(queryParams, "timezone", timeZone);
 
         return ResponseEntity.ok(calendarEventService.getBlockedSlots(queryParams));
     }
