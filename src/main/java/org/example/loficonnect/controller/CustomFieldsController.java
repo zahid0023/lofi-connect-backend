@@ -34,19 +34,19 @@ public class CustomFieldsController {
         return ResponseEntity.ok(customFieldsService.getCustomFields(queryParams));
     }
 
-    @AppKey
-    @GetMapping("/custom-fields/types")
-    public ResponseEntity<?> getCustomFieldsTypes(
-            @RequestParam(value = "model", required = false) String model
-    ) {
-        Map<String, Object> queryParams = new HashMap<>();
-        MapUtil.putIfNotNull(queryParams, "model", model);
-        return ResponseEntity.status(HttpStatus.OK).body(customFieldsService.getCustomFieldsTypes(queryParams));
-    }
+        @AppKey
+        @GetMapping("/custom-fields/types")
+        public ResponseEntity<?> getCustomFieldsTypes(
+                @RequestParam(value = "model", required = false) String model
+        ) {
+            Map<String, Object> queryParams = new HashMap<>();
+            MapUtil.putIfNotNull(queryParams, "model", model);
+            return ResponseEntity.status(HttpStatus.OK).body(customFieldsService.getCustomFieldsTypes(queryParams));
+        }
 
     @AppKey
     @PostMapping("/custom-fields")
-    public ResponseEntity<?> createCustomField(
+    public ResponseEntity<?> createCustomField(     
             @RequestBody CustomFieldCreateRequest request
     ) {
         return ResponseEntity.status(HttpStatus.CREATED)

@@ -26,7 +26,7 @@ public class AuthenticationServiceImpl implements AutheticationService {
         if (!request.getPassword().equals(request.getConfirmPassword())) {
             throw new PasswordMismatchException();
         }
-
+                
         if (userRepository.existsByUsername(request.getEmail())) {
             throw new RuntimeException("Username already exists");
         }
