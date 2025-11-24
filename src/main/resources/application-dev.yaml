@@ -1,7 +1,7 @@
 gohighlevel:
   client-id: 689b932c1e999f049e317c33-me8xkopq
   client-secret: 85aa301a-2002-455f-a477-5cffe54dedd7
-  redirect-uri: http://18.215.136.34:8080/api/v1/authorization/redirect
+  redirect-uri: https://loficonnect.lofistack.com/api/v1/authorization/redirect
   base-url: https://marketplace.gohighlevel.com
   code-url: oauth/chooselocation
   token-url: https://services.leadconnectorhq.com/oauth/token
@@ -163,3 +163,6 @@ logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type.descriptor.sql.BasicBinder: trace
+
+server:
+  forward-headers-strategy: framework
