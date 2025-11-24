@@ -22,13 +22,13 @@ public class StoreSettingController {
     }
 
     @AppKey
-    @PostMapping("/store-settings")
+    @PostMapping("/store/store-settings")
     public ResponseEntity<?> createOrUpdateStoreSetting(@RequestBody StoreSettingCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(storeSettingService.createOrUpdateStoreSetting(request));
     }
 
     @AppKey
-    @GetMapping("/store-settings")
+    @GetMapping("/store/store-settings")
     public ResponseEntity<?> getStoreSetting(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType

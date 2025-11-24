@@ -21,7 +21,7 @@ public class Text2PayController {
     }
 
     @AppKey
-    @PostMapping("/text2pay")
+    @PostMapping("/invoices/text2pay")
     public ResponseEntity<?> createText2PayInvoice(@RequestBody Text2PayCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(text2PayService.createText2PayInvoice(request));
     }

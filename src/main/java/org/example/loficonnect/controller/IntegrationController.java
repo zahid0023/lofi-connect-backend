@@ -22,14 +22,14 @@ public class IntegrationController {
     }
 
     @AppKey
-    @PostMapping("/integrations/provider/whitelabel")
+    @PostMapping("/payments/integrations/provider/whitelabel")
     public ResponseEntity<?> createIntegration(@RequestBody IntegrationCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(integrationService.createIntegration(request));
     }
 
 
     @AppKey
-    @GetMapping("/integrations/provider/whitelabel")
+    @GetMapping("/payments/integrations/provider/whitelabel")
     public ResponseEntity<?> getIntegrationProviders(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,

@@ -24,14 +24,14 @@ public class ShippingZoneController {
     }
 
     @AppKey
-    @PostMapping("/shipping-zone")
+    @PostMapping("/store/shipping-zone")
     public ResponseEntity<?> createShippingZone(@RequestBody ShippingZoneCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(shippingZoneService.createShippingZone(request));
     }
 
     @AppKey
-    @GetMapping("/shipping-zone")
+    @GetMapping("/store/shipping-zone")
     public ResponseEntity<?> listShippingZones(
             @RequestParam(value = "limit", required = false, defaultValue = "0") Integer limit,
             @RequestParam(value = "offset", required = false, defaultValue = "0") Integer offset,
@@ -49,7 +49,7 @@ public class ShippingZoneController {
     }
 
     @AppKey
-    @GetMapping("/shipping-zone/{shipping-zone-id}")
+    @GetMapping("/store/shipping-zone/{shipping-zone-id}")
     public ResponseEntity<?> getShippingZoneById(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @RequestParam(value = "with-shipping-rate", required = false) Boolean withShippingRate,
@@ -64,7 +64,7 @@ public class ShippingZoneController {
     }
 
     @AppKey
-    @PutMapping("/shipping-zone/{shipping-zone-id}")
+    @PutMapping("/store/shipping-zone/{shipping-zone-id}")
     public ResponseEntity<?> updateShippingZone(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @RequestBody ShippingZoneUpdateRequest request
@@ -73,7 +73,7 @@ public class ShippingZoneController {
     }
 
     @AppKey
-    @DeleteMapping("/shipping-zone/{shipping-zone-id}")
+    @DeleteMapping("/store/shipping-zone/{shipping-zone-id}")
     public ResponseEntity<?> deleteShippingZone(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @RequestParam(value = "alt-id") String altId,
@@ -86,7 +86,7 @@ public class ShippingZoneController {
     }
 
     @AppKey
-    @PostMapping("/shipping-zone/shipping-rates")
+    @PostMapping("/store/shipping-zone/shipping-rates")
     public ResponseEntity<?> getShippingRates(@RequestBody ShippingRateRequest request) {
         return ResponseEntity.ok(shippingZoneService.getShippingRates(request));
     }

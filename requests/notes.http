@@ -1,7 +1,8 @@
-###
+### Create Note
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "user_id": "NE9ki72luwgUX38USH3D",
@@ -9,31 +10,49 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "body": "Test Note"
+}
+
+
 ###
 GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
-
-
-
-###
-GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/GTC3MBGCKoLdRjIbHwF2
-Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
-
+Authorization: Bearer {{bearerToken}}
 
 
 ###
-PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/GTC3MBGCKoLdRjIbHwF2
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/marEP28vMvrzewMFVZ9o
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
+
+
+### Update Note
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/marEP28vMvrzewMFVZ9o
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
 
 {
   "user_id": "NE9ki72luwgUX38USH3D",
   "body": "Updated Note"
 }
 
-###
-DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/GTC3MBGCKoLdRjIbHwF2
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/marEP28vMvrzewMFVZ9o
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
+
+{
+  "body": "Updated Note 2"
+}
+
+###
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/notes/on1b3pFnMH5EwCbUYp5l
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}

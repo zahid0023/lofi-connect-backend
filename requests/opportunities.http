@@ -1,12 +1,12 @@
-###
+###Create Opportunity
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/opportunities
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
-  "location_id": "IxfSlEIQQeiOYQlVEApa",
-  "name": "Test Opps",
+  "name": "Test Opportunity 2",
   "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
   "status": "open",
   "contact_id": "Lq95Y9oQzB4KojmsjUxs",
@@ -22,14 +22,27 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
-###
-POST http://localhost:8080/api/v1/ghl/opportunities/upsert
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/opportunities
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
-  "location_id": "IxfSlEIQQeiOYQlVEApa",
+  "name": "Test Opportunity RF",
+  "pipeline_stage_id": "a4aa56f5-b332-44ca-9329-c860afc3908b",
+  "status": "open",
+  "contact_id": "Lq95Y9oQzB4KojmsjUxs"
+}
+
+### Upsert Contact
+### Full Pyload
+POST http://localhost:8080/api/v1/ghl/opportunities/upsert
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
   "contact_id": "Lq95Y9oQzB4KojmsjUxs",
   "name": "First Opps",
   "status": "open",
@@ -39,16 +52,27 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
-###
-GET http://localhost:8080/api/v1/ghl/opportunities/4uZrVZQ9E1OT2BDdP6Vq
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/opportunities/upsert
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
+
+{
+  "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
+  "contact_id": "Lq95Y9oQzB4KojmsjUxs"
+}
+
+###
+GET http://localhost:8080/api/v1/ghl/opportunities/Q30XxSWLbUpDKjZRfmSM
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
 
 
-###
-PUT http://localhost:8080/api/v1/ghl/opportunities/4uZrVZQ9E1OT2BDdP6Vq
+### Update Opportunity
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/opportunities/Q30XxSWLbUpDKjZRfmSM
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "pipeline_id": "HceOPjAqAcIBkA4Nsfev",
@@ -67,17 +91,27 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
-###
-PUT http://localhost:8080/api/v1/ghl/opportunities/4uZrVZQ9E1OT2BDdP6Vq/status
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/opportunities/Q30XxSWLbUpDKjZRfmSM
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
-  "status": "won"
+
+}
+
+### Update Opportunity Status
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/opportunities/Q30XxSWLbUpDKjZRfmSM/status
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "status": "open"
 }
 
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/opportunities/4uZrVZQ9E1OT2BDdP6Vq
+DELETE http://localhost:8080/api/v1/ghl/opportunities/Q30XxSWLbUpDKjZRfmSM
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}

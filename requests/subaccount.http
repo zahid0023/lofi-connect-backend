@@ -1,7 +1,8 @@
-###
+### Create Sub-Account
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/locations
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "name": "Mark Shoes",
@@ -50,15 +51,50 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/locations
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "name": "Mark Shoes",
+  "company_id": "2Y6wzd96Wjmrl1yEm99j"
+}
+
+
+### Additional Required Fields
+POST http://localhost:8080/api/v1/ghl/locations
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "name": "Mark Shoes",
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
+  "prospect_info": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@mail.com"
+  },
+  "twilio": {
+    "sid": "AC_XXXXXXXXXXX",
+    "auth_token": "77_XXXXXXXXXXX"
+  },
+  "mailgun": {
+    "api_key": "AC_XXXXXXXXXXX",
+    "domain": "77_XXXXXXXXXXX"
+  }
+}
+
 ###
 GET http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
-###
+### Update Sub-Account
+### Full Payload
 PUT http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "name": "Mark Shoes",
@@ -109,6 +145,42 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   }
 }
 
+
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "company_id": "2Y6wzd96Wjmrl1yEm99j"
+}
+
+
+### Additional Required Fields
+PUT http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
+  "prospect_info": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "john.doe@mail.com"
+  },
+  "twilio": {
+    "sid": "AC_XXXXXXXXXXX",
+    "auth_token": "77_XXXXXXXXXXX"
+  },
+  "mailgun": {
+    "api_key": "AC_XXXXXXXXXXX",
+    "domain": "77_XXXXXXXXXXX"
+  },
+  "snapshot": {
+    "id": "XXXXXXXXXXX"
+  }
+}
+
 ###
 DELETE http://localhost:8080/api/v1/ghl/locations/IxfSlEIQQeiOYQlVEApa
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
