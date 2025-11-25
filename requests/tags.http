@@ -1,7 +1,8 @@
-###
+### Add Tags - Contact
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tags
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "tags": [
@@ -9,44 +10,44 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   ]
 }
 
-###
+### Create Tag - Sub Account
 POST http://localhost:8080/api/v1/ghl/tags?location-id=IxfSlEIQQeiOYQlVEApa
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "name": "new Test Tag 2"
 }
 
-###
+### GET Tag - Sub Account
 GET http://localhost:8080/api/v1/ghl/locations/tags
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
-###
-GET http://localhost:8080/api/v1/ghl/tags/67RKz3tBrH2ggtRCwTc3
+### GET Tag by ID - Sub Account
+GET http://localhost:8080/api/v1/ghl/tags/9kyvpbHKNmbpkT2C5LOS
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
-###
-PUT http://localhost:8080/api/v1/ghl/locations/tags/67RKz3tBrH2ggtRCwTc3
+### Update tag - Sub Account
+PUT http://localhost:8080/api/v1/ghl/locations/tags/9kyvpbHKNmbpkT2C5LOS
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "name": "Updated New Test Tag"
 }
 
-###
-DELETE http://localhost:8080/api/v1/ghl/locations/tags/67RKz3tBrH2ggtRCwTc3
+### Delete Tag - Sub Account
+DELETE http://localhost:8080/api/v1/ghl/locations/tags/9kyvpbHKNmbpkT2C5LOS
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
-###
+### Delete Tags - Contact
 DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tags
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "tags": [

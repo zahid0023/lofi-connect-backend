@@ -23,13 +23,13 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @PostMapping("/shipping-carriers")
+    @PostMapping("/store/shipping-carriers")
     public ResponseEntity<?> createShippingCarrier(@RequestBody ShippingCarrierCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(shippingCarrierService.createShippingCarrier(request));
     }
 
     @AppKey
-    @GetMapping("/shipping-carriers")
+    @GetMapping("/store/shipping-carriers")
     public ResponseEntity<?> listShippingCarriers(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType
@@ -42,7 +42,7 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @GetMapping("/shipping-carriers/{shipping-carrier-id}")
+    @GetMapping("/store/shipping-carriers/{shipping-carrier-id}")
     public ResponseEntity<?> getShippingCarrier(
             @PathVariable("shipping-carrier-id") String shippingCarrierId,
             @RequestParam("alt-id") String altId,
@@ -56,7 +56,7 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @PutMapping("/shipping-carriers/{shipping-carrier-id}")
+    @PutMapping("/store/shipping-carriers/{shipping-carrier-id}")
     public ResponseEntity<?> updateShippingCarrier(
             @PathVariable("shipping-carrier-id") String shippingCarrierId,
             @RequestBody ShippingCarrierUpdateRequest request
@@ -65,7 +65,7 @@ public class ShippingCarrierController {
     }
 
     @AppKey
-    @DeleteMapping("/shipping-carriers/{shipping-carrier-id}")
+    @DeleteMapping("/store/shipping-carriers/{shipping-carrier-id}")
     public ResponseEntity<?> deleteShippingCarrier(
             @PathVariable("shipping-carrier-id") String shippingCarrierId,
             @RequestParam("alt-id") String altId,

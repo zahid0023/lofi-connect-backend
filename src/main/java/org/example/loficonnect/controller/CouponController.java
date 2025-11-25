@@ -23,7 +23,7 @@ public class CouponController {
     }
 
     @AppKey
-    @GetMapping("/coupons")
+    @GetMapping("/payments/coupons")
     public ResponseEntity<?> getCoupons(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -44,19 +44,19 @@ public class CouponController {
     }
 
     @AppKey
-    @PostMapping("/coupons")
+    @PostMapping("/payments/coupons")
     public ResponseEntity<?> createCoupon(@RequestBody CouponCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(couponService.createCoupon(request));
     }
 
     @AppKey
-    @PutMapping("/coupons")
+    @PutMapping("/payments/coupons")
     public ResponseEntity<?> updateCoupon(@RequestBody CouponUpdateRequest request) {
         return ResponseEntity.ok(couponService.updateCoupon(request));
     }
 
     @AppKey
-    @DeleteMapping("/coupons")
+    @DeleteMapping("/payments/coupons")
     public ResponseEntity<?> deleteCoupon(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -66,7 +66,7 @@ public class CouponController {
     }
 
     @AppKey
-    @GetMapping("/coupons/details")
+    @GetMapping("/payments/coupons/details")
     public ResponseEntity<?> getCouponDetails(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,

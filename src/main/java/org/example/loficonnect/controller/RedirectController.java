@@ -23,13 +23,13 @@ public class RedirectController {
     }
 
     @AppKey
-    @PostMapping("/redirects")
+    @PostMapping("/funnels/redirects")
     public ResponseEntity<?> createRedirect(@RequestBody RedirectCreateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(redirectService.createRedirect(request));
     }
 
     @AppKey
-    @PatchMapping("/redirects/{id}")
+    @PatchMapping("/funnels/redirects/{id}")
     public ResponseEntity<?> updateRedirect(
             @PathVariable("id") String id,
             @RequestBody RedirectUpdateRequest request
@@ -38,7 +38,7 @@ public class RedirectController {
     }
 
     @AppKey
-    @DeleteMapping("/redirects/{id}")
+    @DeleteMapping("/funnels/redirects/{id}")
     public ResponseEntity<?> deleteRedirectById(
             @PathVariable("id") String id,
             @RequestParam("location-id") String locationId
@@ -49,7 +49,7 @@ public class RedirectController {
     }
 
     @AppKey
-    @GetMapping("/redirects/list")
+    @GetMapping("/funnels/redirects/list")
     public ResponseEntity<?> getRedirectList(
             @RequestParam("location-id") String locationId,
             @RequestParam("limit") Integer limit,

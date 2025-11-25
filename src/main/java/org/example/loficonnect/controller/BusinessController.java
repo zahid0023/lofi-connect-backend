@@ -23,7 +23,7 @@ public class BusinessController {
     }
 
     @AppKey
-    @GetMapping("/business/{business-id}")
+    @GetMapping("/businesses/{business-id}")
     public ResponseEntity<?> getBusiness(@PathVariable("business-id") String businessId) {
         JsonNode response = businessService.getBusiness(businessId);
         return ResponseEntity.ok(response);

@@ -22,7 +22,7 @@ public class OrderFulfillmentController {
     }
 
     @AppKey
-    @PostMapping("/orders/{order-id}/fulfillments")
+    @PostMapping("/payments/orders/{order-id}/fulfillments")
     public ResponseEntity<?> createFulfillment(
             @PathVariable("order-id") String orderId,
             @RequestBody OrderFulfillmentCreateRequest request
@@ -32,7 +32,7 @@ public class OrderFulfillmentController {
     }
 
     @AppKey
-    @GetMapping("/orders/{order-id}/fulfillments")
+    @GetMapping("/payments/orders/{order-id}/fulfillments")
     public ResponseEntity<?> getFulfillments(
             @PathVariable("order-id") String orderId,
             @RequestParam("alt-id") String altId,

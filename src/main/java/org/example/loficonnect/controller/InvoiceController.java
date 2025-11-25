@@ -21,7 +21,7 @@ public class InvoiceController {
     }
 
     @AppKey
-    @GetMapping("/generate-invoice-number")
+    @GetMapping("/invoices/generate-invoice-number")
     public ResponseEntity<?> generateInvoiceNumber(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType
@@ -126,7 +126,7 @@ public class InvoiceController {
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
-    @GetMapping
+    @GetMapping("/invoices")
     public ResponseEntity<?> listInvoices(@RequestParam Map<String, String> queryParams) {
         return ResponseEntity.ok(invoiceService.listInvoices(queryParams));
     }

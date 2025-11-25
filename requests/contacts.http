@@ -74,7 +74,6 @@ Authorization: Bearer {{bearerToken}}
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
 
-
 ### Full Payload without dndSettings
 POST http://localhost:8080/api/v1/ghl/contacts
 Content-Type: application/json
@@ -124,67 +123,7 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "dnd_settings": {
-    "call": {
-      "status": "active",
-      "message": "Do not disturb via phone call",
-      "code": "DND-CALL-001"
-    },
-    "email": {
-      "status": "inactive",
-      "message": "Email communication allowed",
-      "code": "EMAIL-OK-002"
-    },
-    "sms": {
-      "status": "active",
-      "message": "Text messages disabled",
-      "code": "DND-SMS-003"
-    },
-    "whats_app": {
-      "status": "inactive",
-      "message": "WhatsApp messaging allowed",
-      "code": "WA-OK-004"
-    },
-    "gmb": {
-      "status": "inactive",
-      "message": "Google My Business messages allowed",
-      "code": "GMB-OK-005"
-    },
-    "fb": {
-      "status": "inactive",
-      "message": "Facebook Messenger allowed",
-      "code": "FB-OK-006"
-    }
-  },
-  "inbound_dnd_settings": {
-    "all": {
-      "status": "active"
-    }
-  },
-  "custom_fields": [
-    {
-      "id": "EHnICTrpVnzdTdk6pWx7"
-    }
-  ]
-}
 
-
-###Only Required Fields without dndSettings
-POST http://localhost:8080/api/v1/ghl/contacts
-Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
-
-{
-  "inbound_dnd_settings": {
-    "all": {
-      "status": "active"
-    }
-  },
-  "custom_fields": [
-    {
-      "id": "EHnICTrpVnzdTdk6pWx7"
-    }
-  ]
 }
 
 ###Optional Required Fields without dndSettings
@@ -208,6 +147,7 @@ Authorization: Bearer {{bearerToken}}
     }
   ]
 }
+
 
 ### Upsert Contact
 ### Full Payload
@@ -329,43 +269,43 @@ Authorization: Bearer {{bearerToken}}
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
 
-
 ### Only Required Fields
 POST http://localhost:8080/api/v1/ghl/contacts/upsert
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "email": "test1@email.com"
+
 }
 
-
-### Only Required Fields Payload  without dndSettings
+### Optional Required Field without dndSettings
 POST http://localhost:8080/api/v1/ghl/contacts/upsert
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "inbound_dnd_settings": {
-    "all": {
-      "status": "active"
-    }
-  },
-  "custom_fields": [
-    {
-      "id": "EHnICTrpVnzdTdk6pWx7"
-    }
-  ]
+  "email": "rosan6541.deo@gmail.com"
 }
 
+### Optional Required Field without dndSettings
+POST http://localhost:8080/api/v1/ghl/contacts/upsert
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "email": "rosan6542.deo@gmail.com",
+  "phone": "+1 205-555-2288"
+}
+
+
 ###
-GET http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+GET http://localhost:8080/api/v1/ghl/contacts/OBzC0K5Zn5dJ7FbYF3Rw
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 ### Update Contact
 ### Full Payload
-PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+PUT http://localhost:8080/api/v1/ghl/contacts/OBzC0K5Zn5dJ7FbYF3Rw
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -439,7 +379,7 @@ Authorization: Bearer {{bearerToken}}
 
 
 ### Full Payload without dndSettings
-PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+PUT http://localhost:8080/api/v1/ghl/contacts/OBzC0K5Zn5dJ7FbYF3Rw
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
@@ -480,72 +420,24 @@ Authorization: Bearer {{bearerToken}}
 }
 
 ### Only Required Fields
-PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
+PUT http://localhost:8080/api/v1/ghl/contacts/OBzC0K5Zn5dJ7FbYF3Rw
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
-  "dnd_settings": {
-    "call": {
-      "status": "active"
-    },
-    "email": {
-      "status": "inactive"
-    },
-    "sms": {
-      "status": "active"
-    },
-    "whats_app": {
-      "status": "inactive"
-    },
-    "gmb": {
-      "status": "inactive"
-    },
-    "fb": {
-      "status": "inactive"
-    }
-  },
-  "inbound_dnd_settings": {
-    "all": {
-      "status": "active"
-    }
-  },
-  "custom_fields": [
-    {
-      "id": "EHnICTrpVnzdTdk6pWx7"
-    }
-  ]
+
 }
 
-
-### Only Required Fields without dndSettings
-PUT http://localhost:8080/api/v1/ghl/contacts/8fltbQkP7rUJO5vWStdR
-Content-Type: application/json
-Authorization: Bearer {{bearerToken}}
-
-{
-  "inbound_dnd_settings": {
-    "all": {
-      "status": "active"
-    }
-  },
-  "custom_fields": [
-    {
-      "id": "EHnICTrpVnzdTdk6pWx7"
-    }
-  ]
-}
-
-###Optional Required Fields without dndSettings
-PUT http://localhost:8080/api/v1/ghl/contacts
+###Additional Required Fields without dndSettings
+PUT http://localhost:8080/api/v1/ghl/contacts/OBzC0K5Zn5dJ7FbYF3Rw
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 {
   "first_name": "Rosan",
   "last_name": "Deo",
-  "email": "rosan2253.deo@gmail.com",
-  "phone": "+1 205-555-22563",
+  "email": "rosan2489.deo@gmail.com",
+  "phone": "+1 205-555-1010",
   "inbound_dnd_settings": {
     "all": {
       "status": "active"
@@ -564,6 +456,6 @@ Content-Type: application/json
 Authorization: Bearer {{bearerToken}}
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/contacts/duTAgKnV1ATEMBkaIc8j
+DELETE http://localhost:8080/api/v1/ghl/contacts/dD0do7DyhyXidpywHvnP
 Content-Type: application/json
 Authorization: Bearer {{bearerToken}}

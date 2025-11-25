@@ -1,10 +1,11 @@
-###
+### Create Task
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
-  "title": "Test task 1",
+  "title": "Test task 2",
   "body": "test task",
   "due_date": "2025-10-31",
   "due_time": "10:00:00",
@@ -13,22 +14,39 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
 
+
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "title": "Test task 3",
+  "body": "test task",
+  "due_date": "2025-10-31",
+  "due_time": "10:00:00",
+  "time_zone": "Pacific/Apia",
+  "completed": true
+}
+
+
 ###
 GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
 ###
-GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ
+GET http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Sd0tFobtCPbDlXYvgx46
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
-###
-PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ
+### Update Task
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Sd0tFobtCPbDlXYvgx46
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "title": "Updated Task",
@@ -40,16 +58,27 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "assigned_to": "i1CcsDXpngqsHTZXkEfJ"
 }
 
-###
-PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ/completed
+
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Sd0tFobtCPbDlXYvgx46
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
+
+{
+
+}
+
+### Update Task Completed
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/Sd0tFobtCPbDlXYvgx46/completed
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
 
 {
   "completed": false
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/KkJ4C6RhBLeD6AZbmYmJ
+DELETE http://localhost:8080/api/v1/ghl/contacts/Lq95Y9oQzB4KojmsjUxs/tasks/GDT8arcOAUXhNUDKNfft
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}

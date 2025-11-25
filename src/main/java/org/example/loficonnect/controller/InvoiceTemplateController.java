@@ -25,14 +25,14 @@ public class InvoiceTemplateController {
     }
 
     @AppKey
-    @PostMapping("/template")
+    @PostMapping("/invoices/template")
     public ResponseEntity<?> createInvoiceTemplate(@RequestBody InvoiceTemplateCreateRequest request) {
         JsonNode response = invoiceTemplateService.createInvoiceTemplate(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @AppKey
-    @GetMapping("/template")
+    @GetMapping("/invoices/template")
     public ResponseEntity<?> listInvoiceTemplates(
             @RequestParam(value = "alt-id") String altId,
             @RequestParam(value = "alt-type") String altType,
@@ -60,7 +60,7 @@ public class InvoiceTemplateController {
     }
 
     @AppKey
-    @GetMapping("/template/{template-id}")
+    @GetMapping("/invoices/template/{template-id}")
     public ResponseEntity<?> getInvoiceTemplate(
             @PathVariable("template-id") String templateId,
             @RequestParam(value = "alt-id") String altId,
@@ -75,7 +75,7 @@ public class InvoiceTemplateController {
     }
 
     @AppKey
-    @PutMapping("/template/{template-id}")
+    @PutMapping("/invoices/template/{template-id}")
     public ResponseEntity<?> updateInvoiceTemplate(
             @PathVariable("template-id") String templateId,
             @RequestBody InvoiceTemplateUpdateRequest request) {
@@ -85,7 +85,7 @@ public class InvoiceTemplateController {
     }
 
     @AppKey
-    @DeleteMapping("/template/{template-id}")
+    @DeleteMapping("/invoices/template/{template-id}")
     public ResponseEntity<?> deleteInvoiceTemplate(
             @PathVariable("template-id") String templateId,
             @RequestParam(value = "alt-id") String altId,
@@ -100,7 +100,7 @@ public class InvoiceTemplateController {
     }
 
     @AppKey
-    @PatchMapping("/template/{template-id}/late-fees-configuration")
+    @PatchMapping("/invoices/template/{template-id}/late-fees-configuration")
     public ResponseEntity<?> updateLateFeesConfiguration(
             @PathVariable("template-id") String templateId,
             @RequestBody InvoiceTemplateLateFeesConfigurationUpdateRequest request) {
@@ -110,7 +110,7 @@ public class InvoiceTemplateController {
     }
 
     @AppKey
-    @PatchMapping("/template/{template-id}/payment-methods-configuration")
+    @PatchMapping("/invoices/template/{template-id}/payment-methods-configuration")
     public ResponseEntity<?> updatePaymentMethodsConfiguration(
             @PathVariable("template-id") String templateId,
             @RequestBody InvoiceTemplatePaymentMethodsConfigurationUpdateRequest request) {

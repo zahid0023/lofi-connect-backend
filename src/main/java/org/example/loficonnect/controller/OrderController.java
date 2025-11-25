@@ -20,7 +20,7 @@ public class OrderController {
     }
 
     @AppKey
-    @GetMapping("/orders")
+    @GetMapping("/payments/orders")
     public ResponseEntity<?> getOrders(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     @AppKey
-    @GetMapping("/orders/{order-id}")
+    @GetMapping("/payments/orders/{order-id}")
     public ResponseEntity<?> getOrderById(
             @PathVariable("order-id") String orderId,
             @RequestParam("alt-id") String altId,

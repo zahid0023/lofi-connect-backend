@@ -1,7 +1,7 @@
 ###
 POST http://localhost:8080/api/v1/ghl/custom-values
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "name": "Test Custom Value",
@@ -11,17 +11,17 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 ###
 GET http://localhost:8080/api/v1/ghl/custom-values
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 ###
-GET http://localhost:8080/api/v1/ghl/locations/custom-values/LJ9zr1Cdcy7NXAVklgo9
+GET http://localhost:8080/api/v1/ghl/locations/custom-values/axrHqx2gcsyo3TT8CuzG
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 ###
-PUT http://localhost:8080/api/v1/ghl/custom-values/LJ9zr1Cdcy7NXAVklgo9
+PUT http://localhost:8080/api/v1/ghl/custom-values/axrHqx2gcsyo3TT8CuzG
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "name": "Updated Custom Value",
@@ -29,6 +29,6 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
 }
 
 ###
-DELETE http://localhost:8080/api/v1/ghl/custom-values/LJ9zr1Cdcy7NXAVklgo9
+DELETE http://localhost:8080/api/v1/ghl/custom-values/axrHqx2gcsyo3TT8CuzG
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}

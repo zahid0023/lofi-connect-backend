@@ -1,7 +1,8 @@
-###
+### Create Calendar
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/calendars
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "group_id": "",
@@ -106,30 +107,93 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
     "look_busy_percentage": 0
   },
   "is_active": true,
-  "location_id": "IxfSlEIQQeiOYQlVEApa",
   "calendar_type": "round_robin"
 }
+
+
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/calendars
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "name": "test calendar"
+}
+
+### Additional Required Fields
+POST http://localhost:8080/api/v1/ghl/calendars
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "team_members": [
+    {
+      "user_id": "i1CcsDXpngqsHTZXkEfJ"
+    }
+  ],
+  "name": "test calendar",
+  "location_configurations": [
+    {
+      "kind": "custom"
+    }
+  ],
+  "open_hours": [
+    {
+      "daysOfTheWeek": [
+        2
+      ],
+      "openHours": [
+        {
+          "openHour": 10,
+          "openMinute": 10,
+          "closeHour": 10,
+          "closeMinute": 10
+        }
+      ]
+    }
+  ],
+  "availabilities": [
+    {
+      "date": "2023-09-24T00:00:00.000Z",
+      "hours": [
+        {
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
+        }
+      ]
+    }
+  ],
+
+  "look_busy_config": {
+    "enabled": true,
+    "look_busy_percentage": 0
+  }
+}
+
 
 ###
 GET http://localhost:8080/api/v1/ghl/calendars
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 ###
 GET http://localhost:8080/api/v1/ghl/calendars/xqbxJ7NtlK266k1S42lu
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
 ###
 GET http://localhost:8080/api/v1/ghl/calendars/xqbxJ7NtlK266k1S42lu/free-slots?time-zone=America%2FNew_York&start-date=2025-11-01&start-time=10%3A00%3A00&end-date=2025-12-01&end-time=10%3A00%3A00
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 
-###
-PUT http://localhost:8080/api/v1/ghl/calendars/13McWi4P8j2gjNaSl7Ie
+### Update Calendar
+### Full Payload
+PUT http://localhost:8080/api/v1/ghl/calendars/XrmWbL8TlYeg9KngYh6b
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "group_id": "",
@@ -162,7 +226,6 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   ],
   "slot_duration": 30,
   "slot_duration_unit": "mins",
-  "pre_buffer_unit": "mins",
   "slot_interval": 30,
   "slot_interval_unit": "mins",
   "slot_buffer": 30,
@@ -175,15 +238,15 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "allow_booking_for_unit": "days",
   "open_hours": [
     {
-      "daysOfTheWeek": [
+      "days_of_the_week": [
         2
       ],
-      "openHours": [
+      "hours": [
         {
-          "openHour": 10,
-          "openMinute": 10,
-          "closeHour": 10,
-          "closeMinute": 10
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
         }
       ]
     }
@@ -215,7 +278,8 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "availabilities": [
     {
       "date": "2023-09-24T00:00:00.000Z",
-      "hours": [
+      "time_zone": "Pacific/Apia",
+      "open_hours": [
         {
           "open_hour": 10,
           "open_minute": 10,
@@ -227,15 +291,78 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
     }
   ],
   "guest_type": "count_only",
-  "consent_label": "abc",
+  "consent_label": "test",
   "calendar_cover_image": "https://path-to-image.com",
+  "look_busy_config": {
+    "enabled": true,
+    "look_busy_percentage": 0
+  },
+  "is_active": true
+}
+
+
+### Only Required Fields
+PUT http://localhost:8080/api/v1/ghl/calendars/XrmWbL8TlYeg9KngYh6b
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+
+}
+
+### Additional Required Fields
+PUT http://localhost:8080/api/v1/ghl/calendars/13McWi4P8j2gjNaSl7Ie
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "team_members": [
+    {
+      "user_id": "i1CcsDXpngqsHTZXkEfJ"
+    }
+  ],
+  "location_configurations": [
+    {
+      "kind": "custom"
+    }
+  ],
+  "open_hours": [
+    {
+      "daysOfTheWeek": [
+        2
+      ],
+      "openHours": [
+        {
+          "openHour": 10,
+          "openMinute": 10,
+          "closeHour": 10,
+          "closeMinute": 10
+        }
+      ]
+    }
+  ],
+  "availabilities": [
+    {
+      "date": "2023-09-24T00:00:00.000Z",
+      "hours": [
+        {
+          "open_hour": 10,
+          "open_minute": 10,
+          "close_hour": 10,
+          "close_minute": 10
+        }
+      ]
+    }
+  ],
+
   "look_busy_config": {
     "enabled": true,
     "look_busy_percentage": 0
   }
 }
 
+
 ###
 DELETE http://localhost:8080/api/v1/ghl/calendars/13McWi4P8j2gjNaSl7Ie
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}

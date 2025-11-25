@@ -20,7 +20,7 @@ public class CustomerProviderController {
     }
 
     @AppKey
-    @PostMapping("/custom-providers")
+    @PostMapping("/payments/custom-providers")
     public ResponseEntity<?> createCustomProvider(
             @RequestParam("location-id") String locationId,
             @RequestBody CustomerProviderCreateRequest request
@@ -30,19 +30,19 @@ public class CustomerProviderController {
     }
 
     @AppKey
-    @DeleteMapping("/custom-providers")
+    @DeleteMapping("/payments/custom-providers")
     public ResponseEntity<?> deleteCustomProvider(@RequestParam("location-id") String locationId) {
         return ResponseEntity.ok(customerProviderService.deleteCustomProvider(locationId));
     }
 
     @AppKey
-    @GetMapping("/custom-providers")
+    @GetMapping("/payments/custom-providers")
     public ResponseEntity<?> getCustomProviderConfig(@RequestParam("location-id") String locationId) {
         return ResponseEntity.ok(customerProviderService.getCustomProviderConfig(locationId));
     }
 
     @AppKey
-    @PostMapping("/custom-providers/payments/custom-provider/connect")
+    @PostMapping("/payments/custom-providers/payments/custom-provider/connect")
     public ResponseEntity<?> createCustomProviderConfig(
             @RequestParam("location-id") String locationId,
             @RequestBody CustomProviderCreateRequest request
@@ -52,7 +52,7 @@ public class CustomerProviderController {
     }
 
     @AppKey
-    @PostMapping("/custom-providers/payments/custom-provider/disconnect")
+    @PostMapping("/payments/custom-providers/payments/custom-provider/disconnect")
     public ResponseEntity<?> disconnectCustomProviderConfig(
             @RequestParam("location-id") String locationId,
             @RequestBody CustomProviderDisconnectRequest request

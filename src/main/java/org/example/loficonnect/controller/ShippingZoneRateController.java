@@ -23,7 +23,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @PostMapping("/shipping-zone/{shipping-zone-id}/shipping-rate")
+    @PostMapping("/store/shipping-zone/{shipping-zone-id}/shipping-rate")
     public ResponseEntity<?> createShippingZoneRate(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @RequestBody ShippingZoneRateCreateRequest request) {
@@ -32,7 +32,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @GetMapping("/shipping-zone/{shipping-zone-id}/shipping-rate")
+    @GetMapping("/store/shipping-zone/{shipping-zone-id}/shipping-rate")
     public ResponseEntity<?> listShippingZoneRates(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @RequestParam(value = "limit", required = false, defaultValue = "0") Integer limit,
@@ -49,7 +49,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @GetMapping("/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
+    @GetMapping("/store/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
     public ResponseEntity<?> getShippingZoneRateById(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @PathVariable("shipping-rate-id") String shippingRateId,
@@ -63,7 +63,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @PutMapping("/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
+    @PutMapping("/store/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
     public ResponseEntity<?> updateShippingZoneRate(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @PathVariable("shipping-rate-id") String shippingRateId,
@@ -73,7 +73,7 @@ public class ShippingZoneRateController {
     }
 
     @AppKey
-    @DeleteMapping("/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
+    @DeleteMapping("/store/shipping-zone/{shipping-zone-id}/shipping-rate/{shipping-rate-id}")
     public ResponseEntity<?> deleteShippingZoneRate(
             @PathVariable("shipping-zone-id") String shippingZoneId,
             @PathVariable("shipping-rate-id") String shippingRateId,

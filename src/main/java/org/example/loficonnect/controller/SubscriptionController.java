@@ -20,7 +20,7 @@ public class SubscriptionController {
     }
 
     @AppKey
-    @GetMapping("/subscriptions")
+    @GetMapping("/payments/subscriptions")
     public ResponseEntity<?> getSubscriptions(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -53,7 +53,7 @@ public class SubscriptionController {
     }
 
     @AppKey
-    @GetMapping("/subscriptions/{subscription-id}")
+    @GetMapping("/payments/subscriptions/{subscription-id}")
     public ResponseEntity<?> getSubscriptionById(
             @PathVariable("subscription-id") String subscriptionId,
             @RequestParam("alt-id") String altId,

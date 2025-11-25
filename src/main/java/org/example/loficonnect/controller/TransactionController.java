@@ -20,7 +20,7 @@ public class TransactionController {
     }
 
     @AppKey
-    @GetMapping("/transactions")
+    @GetMapping("/payments/transactions")
     public ResponseEntity<?> getTransactions(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -57,7 +57,7 @@ public class TransactionController {
     }
 
     @AppKey
-    @GetMapping("/transactions/{transaction-id}")
+    @GetMapping("/payments/transactions/{transaction-id}")
     public ResponseEntity<?> getTransactionById(
             @PathVariable("transaction-id") String transactionId,
             @RequestParam("alt-id") String altId,

@@ -1,7 +1,8 @@
-###
+### Search User
+### Full Payload
 POST http://localhost:8080/api/v1/ghl/users/search/filter-by-email
 Content-Type: application/json
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}
 
 {
   "company_id": "2Y6wzd96Wjmrl1yEm99j",
@@ -14,6 +15,18 @@ Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
   "projection": "all"
 }
 
+### Only Required Fields
+POST http://localhost:8080/api/v1/ghl/users/search/filter-by-email
+Content-Type: application/json
+Authorization: Bearer {{bearerToken}}
+
+{
+  "company_id": "2Y6wzd96Wjmrl1yEm99j",
+  "emails": [
+    "test.user@example.com"
+  ]
+}
+
 ###
 GET http://localhost:8080/api/v1/ghl/users/search?company-id=2Y6wzd96Wjmrl1yEm99j
-Authorization: Bearer cTww1ZoT7gzRK-FENMF3X1ek72zuSu4pRB488OKhoY0
+Authorization: Bearer {{bearerToken}}

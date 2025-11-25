@@ -22,7 +22,7 @@ public class MediaLibraryController {
     }
 
     @AppKey
-    @GetMapping("/files")
+    @GetMapping("/medias/files")
     public ResponseEntity<?> getFiles(
         @RequestParam(value = "limit", required = false) String limit,
         @RequestParam(value = "offset", required = false) String offset,
@@ -49,7 +49,7 @@ public class MediaLibraryController {
     }
 
     @AppKey
-    @PostMapping("/upload-file")
+    @PostMapping("/medias/upload-file")
     public ResponseEntity<?> uploadFile(
             @RequestPart("file") MultipartFile file,
             @RequestPart("hosted") Boolean hosted,
@@ -68,7 +68,7 @@ public class MediaLibraryController {
     }
 
     @AppKey
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/medias/{id}")
     public ResponseEntity<?> deleteFileOrFolder(
             @PathVariable("id") String id,
             @RequestParam("alt-id") String altId,

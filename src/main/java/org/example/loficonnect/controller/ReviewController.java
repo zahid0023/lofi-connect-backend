@@ -25,7 +25,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @GetMapping("/reviews")
+    @GetMapping("/products/reviews")
     public ResponseEntity<?> getReviews(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -56,7 +56,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @GetMapping("/reviews/count")
+    @GetMapping("/products/reviews/count")
     public ResponseEntity<?> getReviewCount(
             @RequestParam("alt-id") String altId,
             @RequestParam("alt-type") String altType,
@@ -79,7 +79,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @PutMapping("/reviews/{review-id}")
+    @PutMapping("/products/reviews/{review-id}")
     public ResponseEntity<?> updateReview(
             @PathVariable("review-id") String reviewId,
             @RequestBody ReviewUpdateRequest request
@@ -88,7 +88,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @DeleteMapping("/reviews/{review-id}")
+    @DeleteMapping("/products/reviews/{review-id}")
     public ResponseEntity<?> deleteReview(
             @PathVariable("review-id") String reviewId,
             @RequestParam("alt-id") String altId,
@@ -104,7 +104,7 @@ public class ReviewController {
     }
 
     @AppKey
-    @PostMapping("/reviews/bulk-update")
+    @PostMapping("/products/reviews/bulk-update")
     public ResponseEntity<?> bulkUpdateReviews(@RequestBody ReviewBulkUpdateRequest request) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(reviewService.bulkUpdateReviews(request));
