@@ -7,7 +7,6 @@ import org.example.loficonnect.exception.PasswordMismatchException;
 import org.example.loficonnect.model.entity.UserEntity;
 import org.example.loficonnect.repository.UserRepository;
 import org.example.loficonnect.service.AutheticationService;
-import org.example.loficonnect.service.JwtService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

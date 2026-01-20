@@ -1,6 +1,7 @@
 package org.example.loficonnect.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.dto.response.AppKeyResponse;
 import org.example.loficonnect.service.AuthorizationService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,13 @@ public class AuthorizationController {
     @GetMapping("/redirect")
     public ResponseEntity<?> handleRedirect(@RequestParam("code") String code) {
         Map<String, Object> apiResponse = authorizationService.exchangeCodeForToken(code);
-        return ResponseEntity.ok(authorizationService.generateAndSaveAppKey(apiResponse));
+        AppKeyResponse appKey = authorizationService.generateAndSaveAppKey(apiResponse);
+
+        String frontendUrl = "http://localhost:5173/dashboard?appKey=" + appKey.getSecretKey();
+
+        return ResponseEntity.status(302)
+                .header(HttpHeaders.LOCATION, frontendUrl)
+                .build();
     }
 
     @GetMapping("/ping")
