@@ -33,7 +33,7 @@ public class AuthorizationController {
         Map<String, Object> apiResponse = authorizationService.exchangeCodeForToken(code);
         AppKeyResponse appKey = authorizationService.generateAndSaveAppKey(apiResponse);
 
-        String frontendUrl = "http://localhost:5173/dashboard?appKey=" + appKey.getSecretKey();
+        String frontendUrl = "http://localhost:5173/api-keys?appKey=" + appKey.getSecretKey();
 
         return ResponseEntity.status(302)
                 .header(HttpHeaders.LOCATION, frontendUrl)
