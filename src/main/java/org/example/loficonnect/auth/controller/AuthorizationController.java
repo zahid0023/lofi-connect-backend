@@ -1,4 +1,4 @@
-package org.example.loficonnect.controller;
+package org.example.loficonnect.auth.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.dto.response.AppKeyResponse;

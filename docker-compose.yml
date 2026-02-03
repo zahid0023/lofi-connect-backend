@@ -1,39 +1,42 @@
-version: "3.8"
+version: "3.9"
 
 services:
-  database:
-    image: postgres:16
-    container_name: postgres_db
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1234
-      POSTGRES_DB: lofi_connect_database_1
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - spring-net
-
-  app:
-    build: .
-    container_name: spring_backend
-    image: root00023/lofi-connect:11.0.2
+  lofi-connect-backend-1:
+    image: root00023/lofi-connect-backend:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lofi-connect-backend-container-1
+    restart: unless-stopped
     depends_on:
-      - database
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://database:5432/lofi_connect_database_1
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 1234
-      SPRING_JPA_HIBERNATE_DDL_AUTO: none
-      SPRING_JPA_SHOW_SQL: "true"
+      lofi-connect-database-1:
+        condition: service_healthy
     ports:
       - "8080:8080"
-    networks:
-      - spring-net
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://lofi-connect-database-1:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      SPRING_JPA_SHOW_SQL: "false"
+
+  lofi-connect-database-1:
+    image: postgres:16
+    container_name: lofi-connect-postgres-container-1
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - lofi_connect_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
-  postgres_data:
-
-networks:
-  spring-net:
+  lofi_connect_data:
