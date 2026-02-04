@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.service.TimeZoneService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

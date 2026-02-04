@@ -1,10 +1,8 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.service.CoursesService;
 import org.example.loficonnect.dto.request.courses.ImportCourseRequest;
-import com.fasterxml.jackson.databind.JsonNode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

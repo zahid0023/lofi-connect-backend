@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.opportunity.GoHighLevelOpportunityCreateRequest;
 import org.example.loficonnect.dto.mapper.opportunity.GoHighLevelOpportunityStatusUpdateRequest;
 import org.example.loficonnect.dto.mapper.opportunity.GoHighLevelOpportunityUpdateRequest;

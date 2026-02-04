@@ -1,7 +1,7 @@
 package org.example.loficonnect.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.invoicetemplate.InvoiceTemplateCreateRequest;
 import org.example.loficonnect.dto.request.invoicetemplate.InvoiceTemplateLateFeesConfigurationUpdateRequest;
 import org.example.loficonnect.dto.request.invoicetemplate.InvoiceTemplatePaymentMethodsConfigurationUpdateRequest;

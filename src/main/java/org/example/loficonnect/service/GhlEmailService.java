@@ -5,7 +5,7 @@ import org.example.loficonnect.dto.request.emails.EmailTemplateCreateRequest;
 
 import java.util.Map;
 
-public interface EmailService {
+public interface GhlEmailService {
     JsonNode getEmailById(String id);
 
     JsonNode cancelScheduledEmail(String emailMessageId);

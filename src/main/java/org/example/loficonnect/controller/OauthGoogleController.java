@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.oauthgoogle.OauthGoogleBusinessLocationRequest;
 import org.example.loficonnect.service.OauthGoogleService;
 import org.example.loficonnect.util.MapUtil;

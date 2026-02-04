@@ -1,17 +1,17 @@
 package org.example.loficonnect.auth.serviceImpl;
 
-import com.example.springbackendtemplate1.auth.dto.request.ResetPasswordRequest;
-import com.example.springbackendtemplate1.auth.dto.response.SuccessResponse;
-import com.example.springbackendtemplate1.auth.dto.response.VerifyOtpResponse;
-import com.example.springbackendtemplate1.auth.event.PasswordResetOtpEvent;
-import com.example.springbackendtemplate1.auth.model.enitty.PasswordResetOtpEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
-import com.example.springbackendtemplate1.auth.model.mapper.OtpMapper;
-import com.example.springbackendtemplate1.auth.repository.OtpRepository;
-import com.example.springbackendtemplate1.auth.service.PasswordResetService;
-import com.example.springbackendtemplate1.auth.util.OtpGenerator;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.auth.dto.request.ResetPasswordRequest;
+import org.example.loficonnect.auth.dto.response.VerifyOtpResponse;
+import org.example.loficonnect.auth.event.PasswordResetOtpEvent;
+import org.example.loficonnect.auth.model.enitty.PasswordResetOtpEntity;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.model.mapper.OtpMapper;
+import org.example.loficonnect.auth.repository.OtpRepository;
+import org.example.loficonnect.auth.service.PasswordResetService;
+import org.example.loficonnect.auth.util.OtpGenerator;
+import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;

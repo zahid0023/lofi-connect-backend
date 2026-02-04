@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.providers.LiveChatTypingRequest;
 import org.example.loficonnect.service.ProvidersService;
 import org.springframework.http.HttpStatus;

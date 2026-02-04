@@ -1,4 +1,4 @@
-package org.example.loficonnect.config;
+package org.example.loficonnect.commons.config;
 
 import org.example.loficonnect.interceptor.AppKeyInterceptor;
 import org.springframework.context.annotation.Bean;

@@ -1,13 +1,13 @@
 package org.example.loficonnect.auth.serviceImpl;
 
-import com.example.springbackendtemplate1.auth.dto.request.role.CreateRoleRequest;
-import com.example.springbackendtemplate1.auth.dto.response.SuccessResponse;
-import com.example.springbackendtemplate1.auth.model.enitty.RoleEntity;
-import com.example.springbackendtemplate1.auth.model.mapper.RoleMapper;
-import com.example.springbackendtemplate1.auth.repository.RoleRepository;
-import com.example.springbackendtemplate1.auth.service.RoleService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.auth.dto.request.role.CreateRoleRequest;
+import org.example.loficonnect.auth.model.enitty.RoleEntity;
+import org.example.loficonnect.auth.model.mapper.RoleMapper;
+import org.example.loficonnect.auth.repository.RoleRepository;
+import org.example.loficonnect.auth.service.RoleService;
+import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.springframework.stereotype.Service;
 
 @Service

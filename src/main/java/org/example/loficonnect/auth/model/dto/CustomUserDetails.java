@@ -1,8 +1,8 @@
 package org.example.loficonnect.auth.model.dto;
 
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

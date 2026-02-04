@@ -1,9 +1,9 @@
 package org.example.loficonnect.auth.listener;
 
-import com.example.springbackendtemplate1.auth.event.PasswordResetOtpEvent;
-import com.example.springbackendtemplate1.auth.service.EmailService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.example.loficonnect.auth.event.PasswordResetOtpEvent;
+import org.example.loficonnect.auth.service.EmailService;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 

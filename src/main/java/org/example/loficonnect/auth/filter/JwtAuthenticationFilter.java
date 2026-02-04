@@ -1,12 +1,12 @@
 package org.example.loficonnect.auth.filter;
 
-import com.example.springbackendtemplate1.auth.config.JwtTokenProvider;
-import com.example.springbackendtemplate1.auth.model.dto.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.auth.config.JwtTokenProvider;
+import org.example.loficonnect.auth.model.dto.CustomUserDetails;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

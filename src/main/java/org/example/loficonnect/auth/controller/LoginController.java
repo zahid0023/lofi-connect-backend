@@ -1,14 +1,14 @@
 package org.example.loficonnect.auth.controller;
 
-import com.example.springbackendtemplate1.auth.config.JwtTokenProvider;
-import com.example.springbackendtemplate1.auth.dto.request.ForgotPasswordRequest;
-import com.example.springbackendtemplate1.auth.dto.request.LoginRequest;
-import com.example.springbackendtemplate1.auth.dto.request.ResetPasswordRequest;
-import com.example.springbackendtemplate1.auth.dto.request.VerifyOtpRequest;
-import com.example.springbackendtemplate1.auth.dto.response.LoginResponse;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
-import com.example.springbackendtemplate1.auth.service.PasswordResetService;
-import com.example.springbackendtemplate1.auth.service.UserService;
+import org.example.loficonnect.auth.config.JwtTokenProvider;
+import org.example.loficonnect.auth.dto.request.ForgotPasswordRequest;
+import org.example.loficonnect.auth.dto.request.LoginRequest;
+import org.example.loficonnect.auth.dto.request.ResetPasswordRequest;
+import org.example.loficonnect.auth.dto.request.VerifyOtpRequest;
+import org.example.loficonnect.auth.dto.response.LoginResponse;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.service.PasswordResetService;
+import org.example.loficonnect.auth.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.*;

@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.calendarevents.GoHighLevelBlockSlotCreateRequest;
 import org.example.loficonnect.dto.mapper.calendarevents.GoHighLevelAppointmentCreateRequest;
 import org.example.loficonnect.dto.mapper.calendarevents.GoHighLevelAppointmentUpdateRequest;

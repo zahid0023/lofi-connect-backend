@@ -7,6 +7,8 @@ import org.example.loficonnect.dto.response.AppKeyResponse;
 import org.example.loficonnect.feignclients.GoHighLevelOAuth2Client;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
 import org.example.loficonnect.model.entity.LofiConnectAppKeyEntity;
+import org.example.loficonnect.model.mapper.GoHighLevelTokenMapper;
+import org.example.loficonnect.model.mapper.LofiConnectAppKeyMapper;
 import org.example.loficonnect.repository.GoHighLevelTokenRepository;
 import org.example.loficonnect.repository.LofiConnectAppKeyRepository;
 import org.example.loficonnect.service.AuthorizationService;
@@ -20,6 +22,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -49,19 +52,18 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     @Override
-    public String generateAuthorizationUrl() {
-        String scopesString = String.join(" ", props.getScopes());
+    public String generateAuthorizationUrl(List<String> scopes) {
+        String scopesString = String.join(" ", scopes);
 
         return UriComponentsBuilder
                 .fromUriString(props.getBaseUrl())
-                .pathSegment(props.getCodeUrl())
+                .path(props.getCodeUrl())
                 .queryParam("response_type", "code")
                 .queryParam("redirect_uri", props.getRedirectUri())
                 .queryParam("client_id", props.getClientId())
                 .queryParam("scope", scopesString)
                 .build()
                 .toUriString();
-
     }
 
     @Override
@@ -72,7 +74,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     @Transactional
-    public AppKeyResponse generateAndSaveAppKey(Map<String, Object> parameters) {
+    public AppKeyResponse generateAndSaveAppKey(Map<String, Object> parameters, String code) {
         final String appKey = secretKeyService.generateSecretKey();
         final String locationId = parameters.get("locationId").toString();
 
@@ -80,14 +82,29 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         deactivateOldKeys(locationId);
 
         // create new app key + tokens
-        LofiConnectAppKeyEntity savedAppKey = lofiConnectAppKeyRepository.save(LofiConnectAppKeyEntity.from(appKey));
+        LofiConnectAppKeyEntity savedAppKey = lofiConnectAppKeyRepository.save(LofiConnectAppKeyMapper.toEntity(
+                appKey,
+                code,
+                parameters.get("companyId").toString(),
+                locationId,
+                parameters.get("scope").toString(),
+                parameters.get("userType").toString(),
+                parameters.get("userId").toString()
+        ));
         saveGoHighLevelTokenEntity(savedAppKey, parameters);
 
         return new AppKeyResponse(appKey);
     }
 
     private GoHighLevelTokenEntity saveGoHighLevelTokenEntity(LofiConnectAppKeyEntity savedAppKey, Map<String, Object> parameters) {
-        return goHighLevelTokenRepository.save(GoHighLevelTokenEntity.from(savedAppKey, parameters));
+        return goHighLevelTokenRepository.save(GoHighLevelTokenMapper.toEntity(
+                savedAppKey,
+                parameters.get("access_token").toString(),
+                parameters.get("token_type").toString(),
+                (Integer) parameters.get("expires_in"),
+                parameters.get("refresh_token").toString(),
+                parameters.get("refreshTokenId").toString()
+        ));
     }
 
     @Transactional
@@ -108,7 +125,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             log.info("Refreshed access token for appKey {}: {}", appKey, parameters);
         }
 
-        LocationContext.setLocationId(goHighLevelTokenEntity.getLocationId());
+        LocationContext.setLocationId(appKeyEntity.getSubAccountId());
 
         return "Bearer " + goHighLevelTokenEntity.getAccessToken();
     }
@@ -139,7 +156,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     private boolean isAccessTokenValid(GoHighLevelTokenEntity token) {
-        Instant createdAt = token.getCreatedAt();
+        OffsetDateTime createdAt = token.getCreatedAt();
         if (createdAt == null) return false;
 
         return Duration.between(createdAt, Instant.now()).toMinutes() < TOKEN_VALIDITY_MINUTES;

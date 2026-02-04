@@ -18,8 +18,7 @@ public interface LofiConnectAppKeyRepository extends JpaRepository<LofiConnectAp
     @Query("""
                 SELECT DISTINCT a
                 FROM LofiConnectAppKeyEntity a
-                JOIN a.goHighLevelTokens t
-                WHERE t.locationId = :locationId
+                WHERE a.subAccountId = :locationId
                   AND a.isActive = true
             """)
     List<LofiConnectAppKeyEntity> findAllActiveForLocationId(@Param("locationId") String locationId);

@@ -1,9 +1,9 @@
 package org.example.loficonnect.auth.dto.request.role;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import tools.jackson.databind.PropertyNamingStrategies;
-import tools.jackson.databind.annotation.JsonNaming;
 
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -2,7 +2,7 @@ package org.example.loficonnect.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.businesses.BusinessCreateRequest;
 import org.example.loficonnect.dto.request.businesses.BusinessUpdateRequest;
 import org.example.loficonnect.service.BusinessService;

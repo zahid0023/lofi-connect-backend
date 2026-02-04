@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.custommenulink.GoHighLevelCustomMenuLinkCreateRequest;
 import org.example.loficonnect.dto.mapper.custommenulink.GoHighLevelCustomMenuLinkUpdateRequest;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.searchobjectrecords.SearchObjectRecordsRequest;
 import org.example.loficonnect.service.SearchObjectRecordsService;
 import org.springframework.http.ResponseEntity;

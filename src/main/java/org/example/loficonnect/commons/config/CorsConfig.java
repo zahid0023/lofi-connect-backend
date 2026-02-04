@@ -1,4 +1,4 @@
-package org.example.loficonnect.config;
+package org.example.loficonnect.commons.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

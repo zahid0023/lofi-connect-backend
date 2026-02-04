@@ -6,7 +6,7 @@ import org.example.loficonnect.dto.request.user.UserUpdateRequest;
 
 import java.util.Map;
 
-public interface UserService {
+public interface GhlUserService {
     JsonNode getUserById(String userId);
     JsonNode updateUserById(String userId, UserUpdateRequest request);
     JsonNode deleteUserById(String userId);

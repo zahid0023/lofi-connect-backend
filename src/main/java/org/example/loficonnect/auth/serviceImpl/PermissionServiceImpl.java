@@ -1,16 +1,16 @@
 package org.example.loficonnect.auth.serviceImpl;
 
-import com.example.springbackendtemplate1.auth.dto.request.permission.CreatePermissionRequest;
-import com.example.springbackendtemplate1.auth.dto.response.SuccessResponse;
-import com.example.springbackendtemplate1.auth.model.enitty.PermissionEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserPermissionEntity;
-import com.example.springbackendtemplate1.auth.model.mapper.PermissionMapper;
-import com.example.springbackendtemplate1.auth.repository.PermissionRepository;
-import com.example.springbackendtemplate1.auth.repository.UserPermissionRepository;
-import com.example.springbackendtemplate1.auth.service.PermissionService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.auth.dto.request.permission.CreatePermissionRequest;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.model.enitty.UserPermissionEntity;
+import org.example.loficonnect.auth.model.mapper.PermissionMapper;
+import org.example.loficonnect.commons.dto.response.SuccessResponse;
+import org.example.loficonnect.auth.model.enitty.PermissionEntity;
+import org.example.loficonnect.auth.repository.PermissionRepository;
+import org.example.loficonnect.auth.repository.UserPermissionRepository;
+import org.example.loficonnect.auth.service.PermissionService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -104,6 +104,10 @@ public class PermissionServiceImpl implements PermissionService {
      * If the returned set is empty, all permissions can be assigned.
      */
     private Set<String> getUnauthorizedPermissions(UserEntity granter, Set<PermissionEntity> permissionsToAssign) {
+        if (granter.getUserPermissions().stream().anyMatch(up -> up.getPermission().getName().equals("ALL_PERMISSIONS"))) {
+            return new HashSet<>();
+        }
+
         // Check if granter has ASSIGN_PERMISSIONS
         boolean hasAssignPermission = granter.getUserPermissions().stream()
                 .filter(UserPermissionEntity::getIsActive)

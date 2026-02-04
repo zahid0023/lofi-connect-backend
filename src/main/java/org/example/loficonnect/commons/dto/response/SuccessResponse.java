@@ -1,4 +1,4 @@
-package org.example.loficonnect.dto.response;
+package org.example.loficonnect.commons.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -7,9 +7,11 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SuccessResponse {
-    private Boolean success;
+    private final Boolean success;
+    private final Long id;
 
-    public SuccessResponse(Boolean success) {
+    public SuccessResponse(final Boolean success, final Long id) {
         this.success = success;
+        this.id = id;
     }
 }

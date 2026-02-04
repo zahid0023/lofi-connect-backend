@@ -1,10 +1,10 @@
 package org.example.loficonnect.auth.service;
 
-import com.example.springbackendtemplate1.auth.dto.request.ResetPasswordRequest;
-import com.example.springbackendtemplate1.auth.dto.response.SuccessResponse;
-import com.example.springbackendtemplate1.auth.dto.response.VerifyOtpResponse;
-import com.example.springbackendtemplate1.auth.model.enitty.PasswordResetOtpEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.dto.request.ResetPasswordRequest;
+import org.example.loficonnect.auth.dto.response.VerifyOtpResponse;
+import org.example.loficonnect.auth.model.enitty.PasswordResetOtpEntity;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.commons.dto.response.SuccessResponse;
 
 public interface PasswordResetService {
     SuccessResponse forgotPassword(UserEntity userEntity);

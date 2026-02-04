@@ -1,7 +1,7 @@
 package org.example.loficonnect.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.walletcharges.WalletChargeCreateRequest;
 import org.example.loficonnect.service.WalletChargesService;
 import org.example.loficonnect.util.MapUtil;

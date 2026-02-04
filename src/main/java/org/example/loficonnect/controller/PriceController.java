@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.prices.PriceCreateRequest;
 import org.example.loficonnect.dto.request.prices.PriceInventoryUpdateRequest;
 import org.example.loficonnect.dto.request.prices.PriceUpdateRequest;

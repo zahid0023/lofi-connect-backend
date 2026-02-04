@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.customerprovider.GoHighLevelCustomProviderCreateRequest;
 import org.example.loficonnect.dto.mapper.customerprovider.GoHighLevelCustomProviderDisconnectRequest;
 import org.example.loficonnect.dto.mapper.customerprovider.GoHighLevelCustomerProviderCreateRequest;

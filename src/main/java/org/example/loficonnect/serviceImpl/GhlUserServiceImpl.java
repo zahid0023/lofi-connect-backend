@@ -9,7 +9,7 @@ import org.example.loficonnect.dto.request.user.UserCreateRequest;
 import org.example.loficonnect.dto.request.user.UserUpdateRequest;
 import org.example.loficonnect.feignclients.UserClient;
 import org.example.loficonnect.service.AuthorizationService;
-import org.example.loficonnect.service.UserService;
+import org.example.loficonnect.service.GhlUserService;
 import org.example.loficonnect.util.AppKeyContext;
 import org.example.loficonnect.util.LocationContext;
 import org.example.loficonnect.util.VersionContext;
@@ -19,15 +19,15 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class GhlUserServiceImpl implements GhlUserService {
 
     private final UserClient userClient;
     private final AuthorizationService authorizationService;
     private final ObjectMapper objectMapper;
 
-    public UserServiceImpl(UserClient userClient,
-                           AuthorizationService authorizationService,
-                           ObjectMapper objectMapper) {
+    public GhlUserServiceImpl(UserClient userClient,
+                              AuthorizationService authorizationService,
+                              ObjectMapper objectMapper) {
         this.userClient = userClient;
         this.authorizationService = authorizationService;
         this.objectMapper = objectMapper;

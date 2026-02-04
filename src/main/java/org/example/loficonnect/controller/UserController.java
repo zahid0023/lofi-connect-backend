@@ -1,9 +1,9 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.user.UserCreateRequest;
 import org.example.loficonnect.dto.request.user.UserUpdateRequest;
-import org.example.loficonnect.service.UserService;
+import org.example.loficonnect.service.GhlUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +15,16 @@ import java.util.Map;
 @RequestMapping("/api/v1/ghl")
 public class UserController {
 
-    private final UserService userService;
+    private final GhlUserService ghlUserService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(GhlUserService ghlUserService) {
+        this.ghlUserService = ghlUserService;
     }
 
     @AppKey
     @GetMapping("/users/{user-id}")
     public ResponseEntity<?> getUserById(@PathVariable("user-id") String userId) {
-        return ResponseEntity.ok(userService.getUserById(userId));
+        return ResponseEntity.ok(ghlUserService.getUserById(userId));
     }
 
     @AppKey
@@ -33,25 +33,25 @@ public class UserController {
             @PathVariable("user-id") String userId,
             @RequestBody UserUpdateRequest request
     ) {
-        return ResponseEntity.ok(userService.updateUserById(userId, request));
+        return ResponseEntity.ok(ghlUserService.updateUserById(userId, request));
     }
 
     @AppKey
     @DeleteMapping("/users/{user-id}")
     public ResponseEntity<?> deleteUserById(@PathVariable("user-id") String userId) {
-        return ResponseEntity.ok(userService.deleteUserById(userId));
+        return ResponseEntity.ok(ghlUserService.deleteUserById(userId));
     }
 
     @AppKey
     @GetMapping("/users")
     public ResponseEntity<?> getUsersByLocation() {
         Map<String, Object> queryParams = new HashMap<>();
-        return ResponseEntity.ok(userService.getUsersByLocation(queryParams));
+        return ResponseEntity.ok(ghlUserService.getUsersByLocation(queryParams));
     }
 
     @AppKey
     @PostMapping("/users")
     public ResponseEntity<?> createUser(@RequestBody UserCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.createUser(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ghlUserService.createUser(request));
     }
 }

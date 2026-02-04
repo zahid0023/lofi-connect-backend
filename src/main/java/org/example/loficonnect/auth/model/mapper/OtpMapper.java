@@ -1,8 +1,8 @@
 package org.example.loficonnect.auth.model.mapper;
 
-import com.example.springbackendtemplate1.auth.model.enitty.PasswordResetOtpEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
 import lombok.experimental.UtilityClass;
+import org.example.loficonnect.auth.model.enitty.PasswordResetOtpEntity;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package org.example.loficonnect.config;
+package org.example.loficonnect.commons.annotation;
 
 import java.lang.annotation.*;
 

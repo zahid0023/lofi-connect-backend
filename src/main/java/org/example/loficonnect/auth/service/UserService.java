@@ -1,8 +1,8 @@
 package org.example.loficonnect.auth.service;
 
-import com.example.springbackendtemplate1.auth.dto.request.RegistrationRequest;
-import com.example.springbackendtemplate1.auth.dto.response.SuccessResponse;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.dto.request.RegistrationRequest;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {

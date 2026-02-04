@@ -1,9 +1,9 @@
 package org.example.loficonnect.auth.service;
 
-import com.example.springbackendtemplate1.auth.dto.request.permission.CreatePermissionRequest;
-import com.example.springbackendtemplate1.auth.dto.response.SuccessResponse;
-import com.example.springbackendtemplate1.auth.model.enitty.PermissionEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.dto.request.permission.CreatePermissionRequest;
+import org.example.loficonnect.auth.model.enitty.PermissionEntity;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.commons.dto.response.SuccessResponse;
 
 import java.util.List;
 import java.util.Set;

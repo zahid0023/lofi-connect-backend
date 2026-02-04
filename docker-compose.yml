@@ -1,28 +1,28 @@
 version: "3.9"
 
 services:
-  lofi-connect-backend-1:
+  spring_backend:
     image: root00023/lofi-connect-backend:1.0.0
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: lofi-connect-backend-container-1
+    container_name: spring_backend
     restart: unless-stopped
     depends_on:
-      lofi-connect-database-1:
+      postgres_db:
         condition: service_healthy
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://lofi-connect-database-1:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
       SPRING_JPA_SHOW_SQL: "false"
 
-  lofi-connect-database-1:
+  postgres_db:
     image: postgres:16
-    container_name: lofi-connect-postgres-container-1
+    container_name: postgres_db
     restart: unless-stopped
     ports:
       - "${POSTGRES_PORT}:5432"

@@ -1,17 +1,17 @@
 package org.example.loficonnect.auth.serviceImpl;
 
-import com.example.springbackendtemplate1.auth.dto.request.RegistrationRequest;
-import com.example.springbackendtemplate1.auth.dto.response.SuccessResponse;
-import com.example.springbackendtemplate1.auth.model.dto.CustomUserDetails;
-import com.example.springbackendtemplate1.auth.model.enitty.RoleEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
-import com.example.springbackendtemplate1.auth.model.mapper.UserMapper;
-import com.example.springbackendtemplate1.auth.repository.RoleRepository;
-import com.example.springbackendtemplate1.auth.repository.UserRepository;
-import com.example.springbackendtemplate1.auth.service.UserService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.auth.dto.request.RegistrationRequest;
+import org.example.loficonnect.auth.model.dto.CustomUserDetails;
+import org.example.loficonnect.auth.model.enitty.RoleEntity;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.model.mapper.UserMapper;
+import org.example.loficonnect.auth.repository.RoleRepository;
+import org.example.loficonnect.auth.repository.UserRepository;
+import org.example.loficonnect.auth.service.UserService;
+import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.jspecify.annotations.NonNull;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.text2pay.Text2PayCreateRequest;
 import org.example.loficonnect.service.Text2PayService;
 import org.springframework.http.HttpStatus;

@@ -4,11 +4,13 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.loficonnect.commons.model.entity.AuditableEntity;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 @Getter
@@ -17,9 +19,7 @@ import java.util.Map;
 @Table(name = "go_high_level_tokens")
 public class GoHighLevelTokenEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "go_high_level_tokens_id_gen")
-    @SequenceGenerator(name = "go_high_level_tokens_id_gen", sequenceName = "go_high_level_tokens_id_seq", allocationSize = 1)
-    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -42,59 +42,24 @@ public class GoHighLevelTokenEntity {
     @Column(name = "refresh_token_id", nullable = false, length = Integer.MAX_VALUE)
     private String refreshTokenId;
 
-    @Column(name = "scopes", nullable = false, length = Integer.MAX_VALUE)
-    private String scopes;
-
-    @Column(name = "company_id", nullable = false)
-    private String companyId;
-
-    @Column(name = "location_id")
-    private String locationId;
-
-    @Column(name = "user_id", nullable = false)
-    private String userId;
-
-    @ColumnDefault("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
-
-    @ColumnDefault("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
-
-    @Column(name = "user_type", nullable = false)
-    private String userType;
+    @NotNull
+    @ColumnDefault("1")
+    @Column(name = "version", nullable = false)
+    private Long version = 1L;
 
     @NotNull
-    @ColumnDefault("false")
+    @ColumnDefault("true")
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 
-    @PrePersist
-    protected void onCreate() {
-        createdAt = Instant.now();
-        updatedAt = Instant.now();
-    }
+    @NotNull
+    @ColumnDefault("false")
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = Instant.now();
-    }
-
-    public static GoHighLevelTokenEntity from(LofiConnectAppKeyEntity appKeyEntity, Map<String, Object> parameters) {
-        GoHighLevelTokenEntity entity = new GoHighLevelTokenEntity();
-        entity.setAppKeyEntity(appKeyEntity);
-        entity.setAccessToken(parameters.get("access_token").toString());
-        entity.setTokenType(parameters.get("token_type").toString());
-        entity.setExpiresIn(Integer.parseInt(parameters.get("expires_in").toString()));
-        entity.setRefreshToken(parameters.get("refresh_token").toString());
-        entity.setRefreshTokenId(parameters.get("refreshTokenId").toString());
-        entity.setUserType(parameters.get("userType").toString());
-        entity.setScopes(parameters.get("scope").toString());
-        entity.setCompanyId(parameters.get("companyId").toString());
-        entity.setLocationId(parameters.get("locationId").toString());
-        entity.setUserId(parameters.get("userId").toString());
-        return entity;
-    }
+    @NotNull
+    @ColumnDefault("CURRENT_TIMESTAMP")
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
 
 }

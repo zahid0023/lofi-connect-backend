@@ -1,9 +1,9 @@
 package org.example.loficonnect.auth.model.mapper;
 
-import com.example.springbackendtemplate1.auth.dto.request.RegistrationRequest;
-import com.example.springbackendtemplate1.auth.model.enitty.RoleEntity;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
 import lombok.experimental.UtilityClass;
+import org.example.loficonnect.auth.dto.request.RegistrationRequest;
+import org.example.loficonnect.auth.model.enitty.RoleEntity;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @UtilityClass

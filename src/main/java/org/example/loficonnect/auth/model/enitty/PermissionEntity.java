@@ -1,11 +1,11 @@
 package org.example.loficonnect.auth.model.enitty;
 
-import com.example.springbackendtemplate1.commons.model.entity.AuditableEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.loficonnect.commons.model.entity.AuditableEntity;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

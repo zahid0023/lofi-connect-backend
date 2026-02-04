@@ -1,8 +1,8 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.emails.EmailTemplateCreateRequest;
-import org.example.loficonnect.service.EmailService;
+import org.example.loficonnect.service.GhlEmailService;
 import org.example.loficonnect.util.MapUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,22 +14,22 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/ghl")
 public class EmailController {
-    private final EmailService emailService;
+    private final GhlEmailService ghlEmailService;
 
-    public EmailController(EmailService emailService) {
-        this.emailService = emailService;
+    public EmailController(GhlEmailService ghlEmailService) {
+        this.ghlEmailService = ghlEmailService;
     }
 
     @AppKey
     @GetMapping("/conversations/messages/email/{id}")
     public ResponseEntity<?> getEmailById(@PathVariable("id") String id) {
-        return ResponseEntity.ok(emailService.getEmailById(id));
+        return ResponseEntity.ok(ghlEmailService.getEmailById(id));
     }
 
     @AppKey
     @DeleteMapping("/conversations/messages/email/{email-message-id}/schedule")
     public ResponseEntity<?> cancelScheduledEmail(@PathVariable("email-message-id") String emailMessageId) {
-        return ResponseEntity.ok(emailService.cancelScheduledEmail(emailMessageId));
+        return ResponseEntity.ok(ghlEmailService.cancelScheduledEmail(emailMessageId));
     }
 
     @AppKey
@@ -60,13 +60,13 @@ public class EmailController {
         MapUtil.putIfNotNull(queryParams, "status", status);
         MapUtil.putIfNotNull(queryParams, "locationId", locationId);
 
-        return ResponseEntity.ok(emailService.getCampaigns(queryParams));
+        return ResponseEntity.ok(ghlEmailService.getCampaigns(queryParams));
     }
 
     @AppKey
     @PostMapping("/builder")
     public ResponseEntity<?> createEmailTemplate(@RequestBody EmailTemplateCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(emailService.createEmailTemplate(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ghlEmailService.createEmailTemplate(request));
     }
 
     @GetMapping("/email/builder")
@@ -83,7 +83,7 @@ public class EmailController {
             @RequestParam Boolean templatesOnly,
             @RequestParam String locationId
     ) {
-        return ResponseEntity.ok(emailService.fetchEmailTemplates(
+        return ResponseEntity.ok(ghlEmailService.fetchEmailTemplates(
                 archived, builderVersion, limit, name, offset,
                 originId, parentId, search, sortByDate, templatesOnly, locationId
         ));
@@ -95,7 +95,7 @@ public class EmailController {
             @PathVariable("locationId") String locationId,
             @PathVariable("templateId") String templateId
     ) {
-        return ResponseEntity.ok(emailService.deleteTemplate(locationId, templateId));
+        return ResponseEntity.ok(ghlEmailService.deleteTemplate(locationId, templateId));
     }
 
 

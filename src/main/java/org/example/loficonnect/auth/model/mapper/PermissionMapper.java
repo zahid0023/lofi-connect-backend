@@ -1,8 +1,8 @@
 package org.example.loficonnect.auth.model.mapper;
 
-import com.example.springbackendtemplate1.auth.dto.request.permission.CreatePermissionRequest;
-import com.example.springbackendtemplate1.auth.model.enitty.PermissionEntity;
 import lombok.experimental.UtilityClass;
+import org.example.loficonnect.auth.dto.request.permission.CreatePermissionRequest;
+import org.example.loficonnect.auth.model.enitty.PermissionEntity;
 
 @UtilityClass
 public class PermissionMapper {

@@ -1,8 +1,8 @@
 package org.example.loficonnect.auth.model.mapper;
 
-import com.example.springbackendtemplate1.auth.dto.request.role.CreateRoleRequest;
-import com.example.springbackendtemplate1.auth.model.enitty.RoleEntity;
 import lombok.experimental.UtilityClass;
+import org.example.loficonnect.auth.dto.request.role.CreateRoleRequest;
+import org.example.loficonnect.auth.model.enitty.RoleEntity;
 
 @UtilityClass
 public class RoleMapper {

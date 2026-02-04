@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.calendargroups.GoHighLevelCalendarGroupCreateRequest;
 import org.example.loficonnect.dto.mapper.calendargroups.GoHighLevelCalendarGroupStatusUpdateRequest;
 import org.example.loficonnect.dto.mapper.calendargroups.GoHighLevelCalendarGroupUpdateRequest;

@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.csv.CsvFinalizeRequest;
 import org.example.loficonnect.dto.request.csv.CsvSetAccountsRequest;
 import org.example.loficonnect.dto.request.csv.CsvUploadRequest;

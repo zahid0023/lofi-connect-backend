@@ -1,8 +1,7 @@
 package org.example.loficonnect.auth.controller;
 
-import com.example.springbackendtemplate1.auth.dto.request.RegistrationRequest;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
-import com.example.springbackendtemplate1.auth.service.UserService;
+import org.example.loficonnect.auth.dto.request.RegistrationRequest;
+import org.example.loficonnect.auth.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

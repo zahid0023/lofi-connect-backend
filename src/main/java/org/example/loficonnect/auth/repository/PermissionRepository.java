@@ -1,6 +1,6 @@
 package org.example.loficonnect.auth.repository;
 
-import com.example.springbackendtemplate1.auth.model.enitty.PermissionEntity;
+import org.example.loficonnect.auth.model.enitty.PermissionEntity;
 import org.jspecify.annotations.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 

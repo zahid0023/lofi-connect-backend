@@ -1,14 +1,14 @@
 package org.example.loficonnect.auth.config;
 
-import com.example.springbackendtemplate1.auth.dto.request.permission.CreatePermissionRequest;
-import com.example.springbackendtemplate1.auth.dto.request.role.CreateRoleRequest;
-import com.example.springbackendtemplate1.auth.dto.request.RegistrationRequest;
-import com.example.springbackendtemplate1.auth.model.enitty.UserEntity;
-import com.example.springbackendtemplate1.auth.service.PermissionService;
-import com.example.springbackendtemplate1.auth.service.RoleService;
-import com.example.springbackendtemplate1.auth.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.auth.dto.request.RegistrationRequest;
+import org.example.loficonnect.auth.dto.request.permission.CreatePermissionRequest;
+import org.example.loficonnect.auth.dto.request.role.CreateRoleRequest;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
+import org.example.loficonnect.auth.service.PermissionService;
+import org.example.loficonnect.auth.service.RoleService;
+import org.example.loficonnect.auth.service.UserService;
 import org.jspecify.annotations.NonNull;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -47,10 +47,12 @@ public class AdminBootstrapRunner implements ApplicationRunner {
     private final PermissionService permissionService;
     private final RoleService roleService;
     private final String SUPER_ADMIN = "superadmin";
+
     Map<String, String> SUPER_ADMIN_PERMISSIONS = Map.of(
             "CREATE_ADMIN", "Create new admin",
             "ACTIVATE_ADMIN", "Activate admin account",
-            "ASSIGN_PERMISSIONS", "Assign permissions to admin"
+            "ASSIGN_PERMISSIONS", "Assign permissions to admin",
+            "ALL_PERMISSIONS", "All permissions"
     );
 
     /**

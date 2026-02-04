@@ -1,14 +1,12 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.opportunityfollower.OpportunityFollowerRequest;
 import org.example.loficonnect.dto.request.opportunityfollower.OpportunityRemoveFollowersRequest;
 import org.example.loficonnect.service.OpportunityFollowerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/ghl")

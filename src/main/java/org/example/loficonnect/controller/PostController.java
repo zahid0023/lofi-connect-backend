@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.post.BulkPostDeleteRequest;
 import org.example.loficonnect.dto.request.post.PostCreateRequest;
 import org.example.loficonnect.dto.request.post.PostListRequest;

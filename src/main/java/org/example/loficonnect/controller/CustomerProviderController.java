@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.customerprovider.CustomProviderCreateRequest;
 import org.example.loficonnect.dto.request.customerprovider.CustomProviderDisconnectRequest;
 import org.example.loficonnect.dto.request.customerprovider.CustomerProviderCreateRequest;

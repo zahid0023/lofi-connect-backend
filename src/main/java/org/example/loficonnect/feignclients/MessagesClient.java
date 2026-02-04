@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.messages.GoHighLevelInboundMessageCreateRequest;
 import org.example.loficonnect.dto.mapper.messages.GoHighLevelMessageCreateRequest;
 import org.example.loficonnect.dto.mapper.messages.GoHighLevelMessageStatusUpdateRequest;
@@ -9,7 +9,6 @@ import org.example.loficonnect.dto.mapper.messages.GoHighLevelOutboundCallCreate
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;

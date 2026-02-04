@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.custom.fields.CustomFieldCreateRequest;
 import org.example.loficonnect.dto.request.custom.fields.CustomFieldUpdateRequest;
 import org.example.loficonnect.dto.request.custom.fields.UploadCustomFieldFileRequest;

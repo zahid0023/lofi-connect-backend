@@ -1,12 +1,15 @@
 package org.example.loficonnect.auth.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.auth.service.ScopeService;
 import org.example.loficonnect.dto.response.AppKeyResponse;
 import org.example.loficonnect.service.AuthorizationService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -14,14 +17,21 @@ import java.util.Map;
 @Slf4j
 public class AuthorizationController {
     private final AuthorizationService authorizationService;
+    private final ScopeService scopeService;
+    private final String frontendUrl;
 
-    public AuthorizationController(AuthorizationService authorizationService) {
+    public AuthorizationController(AuthorizationService authorizationService,
+                                   ScopeService scopeService,
+                                   @Value("${FRONT_END_URL}") String frontendUrl) {
         this.authorizationService = authorizationService;
+        this.scopeService = scopeService;
+        this.frontendUrl = frontendUrl;
     }
 
     @GetMapping("/init")
     public ResponseEntity<Void> initAuthorization() {
-        String url = authorizationService.generateAuthorizationUrl();
+        List<String> scopes = scopeService.getAllScopesNames();
+        String url = authorizationService.generateAuthorizationUrl(scopes);
         log.info("Redirecting user to authorization URL: {}", url);
         return ResponseEntity.status(302)
                 .header(HttpHeaders.LOCATION, url)
@@ -31,13 +41,14 @@ public class AuthorizationController {
     @GetMapping("/redirect")
     public ResponseEntity<?> handleRedirect(@RequestParam("code") String code) {
         Map<String, Object> apiResponse = authorizationService.exchangeCodeForToken(code);
-        AppKeyResponse appKey = authorizationService.generateAndSaveAppKey(apiResponse);
+        AppKeyResponse appKey = authorizationService.generateAndSaveAppKey(apiResponse, code);
 
-        String frontendUrl = "http://localhost:5173/api-keys?appKey=" + appKey.getSecretKey();
-
-        return ResponseEntity.status(302)
-                .header(HttpHeaders.LOCATION, frontendUrl)
-                .build();
+//        String redirectUrl = frontendUrl + appKey.getSecretKey();
+//
+//        return ResponseEntity.status(302)
+//                .header(HttpHeaders.LOCATION, redirectUrl)
+//                .build();
+        return ResponseEntity.ok(appKey);
     }
 
     @GetMapping("/ping")

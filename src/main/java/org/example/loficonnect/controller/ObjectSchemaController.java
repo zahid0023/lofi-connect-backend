@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.objectschema.CustomObjectCreateRequest;
 import org.example.loficonnect.dto.request.objectschema.ObjectSchemaUpdateRequest;
 import org.example.loficonnect.service.ObjectSchemaService;

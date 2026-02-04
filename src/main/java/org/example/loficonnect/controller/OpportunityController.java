@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.opportunity.OpportunityCreateRequest;
 import org.example.loficonnect.dto.request.opportunity.OpportunityStatusUpdateRequest;
 import org.example.loficonnect.dto.request.opportunity.OpportunityUpdateRequest;

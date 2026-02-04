@@ -2,7 +2,7 @@ package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.records.GoHighLevelCreateRecordRequest;
 import org.example.loficonnect.dto.mapper.records.GoHighLevelUpdateRecordRequest;
 import org.springframework.cloud.openfeign.FeignClient;

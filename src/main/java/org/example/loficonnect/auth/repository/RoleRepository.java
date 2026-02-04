@@ -1,6 +1,6 @@
 package org.example.loficonnect.auth.repository;
 
-import com.example.springbackendtemplate1.auth.model.enitty.RoleEntity;
+import org.example.loficonnect.auth.model.enitty.RoleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

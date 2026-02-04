@@ -1,74 +1,69 @@
 package org.example.loficonnect.model.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.loficonnect.commons.model.entity.AuditableEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "lofi_connect_app_key")
-public class LofiConnectAppKeyEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "lofi_connect_app_key_id_gen")
-    @SequenceGenerator(name = "lofi_connect_app_key_id_gen", sequenceName = "lofi_connect_app_key_id_seq", allocationSize = 1)
-    @Column(name = "id", nullable = false)
-    private Long id;
+public class LofiConnectAppKeyEntity extends AuditableEntity {
 
     @Column(name = "app_key", nullable = false, length = Integer.MAX_VALUE)
     private String appKey;
 
-    @Column(name = "created_by", nullable = false)
-    private String createdBy;
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "connection_name", nullable = false, length = Integer.MAX_VALUE)
+    private String connectionName;
 
-    @Column(name = "updated_by", nullable = false)
-    private String updatedBy;
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "company_id", nullable = false, length = Integer.MAX_VALUE)
+    private String companyId;
 
-    @ColumnDefault("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "subaccount_name", nullable = false, length = Integer.MAX_VALUE)
+    private String subaccountName;
 
-    @ColumnDefault("(CURRENT_TIMESTAMP AT TIME ZONE 'UTC')")
-    @Column(name = "updated_at", nullable = false)
-    private Instant updatedAt;
-
-    @ColumnDefault("true")
-    @Column(name = "is_active")
-    private Boolean isActive;
+    @NotNull
+    @ColumnDefault("ARRAY[]")
+    @Column(name = "scopes", nullable = false)
+    private List<String> scopes;
 
     @OneToMany(mappedBy = "appKeyEntity")
     private Set<GoHighLevelTokenEntity> goHighLevelTokens = new LinkedHashSet<>();
 
-    @ColumnDefault("1")
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
+    @Size(max = 255)
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "user_type", nullable = false)
+    private String userType;
 
-    @PrePersist
-    protected void onCreate() {
-        createdBy = "root";
-        updatedBy = "root";
-        createdAt = Instant.now();
-        updatedAt = Instant.now();
-    }
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "user_id", nullable = false, length = Integer.MAX_VALUE)
+    private String userId;
 
-    @PreUpdate
-    protected void onUpdate() {
-        updatedBy = "root";
-        updatedAt = Instant.now();
-    }
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "sub_account_id", nullable = false, length = Integer.MAX_VALUE)
+    private String subAccountId;
 
-
-    public static LofiConnectAppKeyEntity from(String appKey) {
-        LofiConnectAppKeyEntity entity = new LofiConnectAppKeyEntity();
-        entity.setAppKey(appKey);
-        entity.setIsActive(true);
-        entity.setUserId(1L);
-        return entity;
-    }
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "code", nullable = false, length = Integer.MAX_VALUE)
+    private String code;
 
 }

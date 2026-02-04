@@ -6,7 +6,7 @@ import org.example.loficonnect.dto.mapper.emails.GoHighLevelEmailTemplateCreateR
 import org.example.loficonnect.dto.request.emails.EmailTemplateCreateRequest;
 import org.example.loficonnect.feignclients.EmailClient;
 import org.example.loficonnect.service.AuthorizationService;
-import org.example.loficonnect.service.EmailService;
+import org.example.loficonnect.service.GhlEmailService;
 import org.example.loficonnect.util.AppKeyContext;
 import org.example.loficonnect.util.VersionContext;
 import org.springframework.stereotype.Service;
@@ -15,11 +15,11 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class EmailServiceImpl implements EmailService {
+public class GhlEmailServiceImpl implements GhlEmailService {
     private final AuthorizationService authorizationService;
     private final EmailClient emailClient;
 
-    public EmailServiceImpl(AuthorizationService authorizationService, EmailClient emailClient) {
+    public GhlEmailServiceImpl(AuthorizationService authorizationService, EmailClient emailClient) {
         this.authorizationService = authorizationService;
         this.emailClient = emailClient;
     }

@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.tags.GoHighLevelContactTagCreateRequest;
 import org.example.loficonnect.dto.mapper.tags.GoHighLevelContactTagDeleteRequest;
 import org.example.loficonnect.dto.mapper.tags.GoHighLevelTagCreateRequest;

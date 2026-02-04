@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.search.ContactSearchRequest;
 import org.example.loficonnect.dto.request.search.TaskSearchRequest;
 import org.example.loficonnect.service.SearchService;

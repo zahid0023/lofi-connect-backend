@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.contact.ContactCreateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpdateRequest;
 import org.example.loficonnect.dto.request.contact.ContactUpsertRequest;

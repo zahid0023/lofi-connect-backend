@@ -1,6 +1,6 @@
 package org.example.loficonnect.controller;
 
-import org.example.loficonnect.config.AppKey;
+import org.example.loficonnect.commons.annotation.AppKey;
 import org.example.loficonnect.dto.request.custommenulink.CustomMenuLinkCreateRequest;
 import org.example.loficonnect.dto.request.custommenulink.CustomMenuLinkUpdateRequest;
 import org.example.loficonnect.service.CustomMenuLinkService;

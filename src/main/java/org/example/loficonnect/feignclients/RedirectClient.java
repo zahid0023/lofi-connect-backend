@@ -1,7 +1,7 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.redirect.GoHighLevelRedirectCreateRequest;
 import org.example.loficonnect.dto.mapper.redirect.GoHighLevelRedirectUpdateRequest;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -1,4 +1,4 @@
-package org.example.loficonnect.config;
+package org.example.loficonnect.commons.config;
 
 import feign.Logger;
 import org.springframework.context.annotation.Bean;

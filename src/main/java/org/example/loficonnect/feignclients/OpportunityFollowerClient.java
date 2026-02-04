@@ -1,14 +1,12 @@
 package org.example.loficonnect.feignclients;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.example.loficonnect.config.FeignLoggingConfig;
+import org.example.loficonnect.commons.config.FeignLoggingConfig;
 import org.example.loficonnect.dto.mapper.opportunityfollower.GoHighLevelOpportunityFollowerRequest;
 import org.example.loficonnect.dto.mapper.opportunityfollower.GoHighLevelOpportunityRemoveFollowersRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @FeignClient(name = "opportunityFollowerClient", url = "https://services.leadconnectorhq.com", configuration = FeignLoggingConfig.class)
 public interface OpportunityFollowerClient {

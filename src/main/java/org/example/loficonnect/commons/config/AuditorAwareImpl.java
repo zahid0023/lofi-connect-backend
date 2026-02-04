@@ -21,7 +21,7 @@ public class AuditorAwareImpl implements AuditorAware<@NonNull Long> {
         }
 
         if (Objects.equals(auth.getPrincipal(), "anonymousUser")) {
-            return Optional.empty();
+            return Optional.of(1L);
         }
 
         // Assume your UserDetails has the user ID

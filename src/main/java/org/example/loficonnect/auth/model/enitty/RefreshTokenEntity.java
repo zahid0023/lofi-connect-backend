@@ -1,9 +1,9 @@
 package org.example.loficonnect.auth.model.enitty;
 
-import com.example.springbackendtemplate1.commons.model.entity.AuditableEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.example.loficonnect.commons.model.entity.AuditableEntity;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
