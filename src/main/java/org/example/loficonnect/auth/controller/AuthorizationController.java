@@ -43,12 +43,16 @@ public class AuthorizationController {
         Map<String, Object> apiResponse = authorizationService.exchangeCodeForToken(code);
         AppKeyResponse appKey = authorizationService.generateAndSaveAppKey(apiResponse, code);
 
-//        String redirectUrl = frontendUrl + appKey.getSecretKey();
-//
-//        return ResponseEntity.status(302)
-//                .header(HttpHeaders.LOCATION, redirectUrl)
-//                .build();
-        return ResponseEntity.ok(appKey);
+        String redirectUrl = frontendUrl + appKey.getSecretKey() + "&code=" + code;
+
+        return ResponseEntity.status(302)
+                .header(HttpHeaders.LOCATION, redirectUrl)
+                .build();
+    }
+
+    @PostMapping("/activate")
+    public ResponseEntity<?> activate(@RequestParam("code") String code, @RequestParam("connection-name") String connectionName) {
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/ping")
