@@ -8,9 +8,7 @@ import lombok.Setter;
 import org.example.loficonnect.commons.model.entity.AuditableEntity;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -38,9 +36,8 @@ public class LofiConnectAppKeyEntity extends AuditableEntity {
     private String subaccountName;
 
     @NotNull
-    @ColumnDefault("ARRAY[]")
     @Column(name = "scopes", nullable = false)
-    private List<String> scopes;
+    private String scopes;
 
     @OneToMany(mappedBy = "appKeyEntity")
     private Set<GoHighLevelTokenEntity> goHighLevelTokens = new LinkedHashSet<>();

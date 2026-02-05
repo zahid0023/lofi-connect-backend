@@ -111,7 +111,7 @@ CREATE TABLE IF NOT EXISTS lofi_connect_app_key
     connection_name text                                               not null default '',
     company_id      text                                               not null default '',
     subaccount_name text                                               not null default '',
-    scopes          text[]                                             not null default array []::text[],
+    scopes          text                                               not null default '',
 
     created_by      bigint                                             not null references users (id),
     created_at      timestamp with time zone default CURRENT_TIMESTAMP not null,

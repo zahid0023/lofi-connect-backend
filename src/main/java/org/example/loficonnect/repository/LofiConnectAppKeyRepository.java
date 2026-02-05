@@ -22,4 +22,6 @@ public interface LofiConnectAppKeyRepository extends JpaRepository<LofiConnectAp
                   AND a.isActive = true
             """)
     List<LofiConnectAppKeyEntity> findAllActiveForLocationId(@Param("locationId") String locationId);
+
+    Optional<LofiConnectAppKeyEntity> findByCodeAndIsActiveAndIsDeleted(String code, Boolean isActive, Boolean isDeleted);
 }

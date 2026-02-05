@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.config.GoHighLevelProperties;
 import org.example.loficonnect.dto.response.AppKeyResponse;
 import org.example.loficonnect.feignclients.GoHighLevelOAuth2Client;
+import org.example.loficonnect.model.dto.LofiConnectAppKeyDTO;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
 import org.example.loficonnect.model.entity.LofiConnectAppKeyEntity;
 import org.example.loficonnect.model.mapper.GoHighLevelTokenMapper;
@@ -74,12 +75,9 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     @Transactional
-    public AppKeyResponse generateAndSaveAppKey(Map<String, Object> parameters, String code) {
+    public void generateAndSaveAppKey(Map<String, Object> parameters, String code) {
         final String appKey = secretKeyService.generateSecretKey();
         final String locationId = parameters.get("locationId").toString();
-
-        // deactivate old keys
-        deactivateOldKeys(locationId);
 
         // create new app key + tokens
         LofiConnectAppKeyEntity savedAppKey = lofiConnectAppKeyRepository.save(LofiConnectAppKeyMapper.toEntity(
@@ -91,9 +89,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 parameters.get("userType").toString(),
                 parameters.get("userId").toString()
         ));
-        saveGoHighLevelTokenEntity(savedAppKey, parameters);
 
-        return new AppKeyResponse(appKey);
+        saveGoHighLevelTokenEntity(savedAppKey, parameters);
     }
 
     private GoHighLevelTokenEntity saveGoHighLevelTokenEntity(LofiConnectAppKeyEntity savedAppKey, Map<String, Object> parameters) {
@@ -134,6 +131,21 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     public Map<String, Object> refreshAccessToken(String refreshToken) {
         return oAuth2Client.getAccessToken(buildTokenRequest(GRANT_TYPE_REFRESH,
                 Map.of("refresh_token", refreshToken)));
+    }
+
+    @Override
+    @Transactional
+    public AppKeyResponse activateAppKey(String code, String connectionName) {
+        LofiConnectAppKeyEntity lofiConnectAppKeyEntity = lofiConnectAppKeyRepository.findByCodeAndIsActiveAndIsDeleted(code, false, false)
+                .orElseThrow(() -> new EntityNotFoundException("App key not found"));
+
+        // deactivate old keys
+        deactivateOldKeys(lofiConnectAppKeyEntity.getSubAccountId());
+
+        LofiConnectAppKeyMapper.update(lofiConnectAppKeyEntity, connectionName, "Test Account Name", true);
+        lofiConnectAppKeyEntity = lofiConnectAppKeyRepository.save(lofiConnectAppKeyEntity);
+        LofiConnectAppKeyDTO dto = LofiConnectAppKeyMapper.toDto(lofiConnectAppKeyEntity);
+        return new AppKeyResponse(dto);
     }
 
     // -------------------- Private Helpers --------------------

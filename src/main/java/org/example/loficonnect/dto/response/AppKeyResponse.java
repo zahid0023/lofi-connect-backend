@@ -1,12 +1,13 @@
 package org.example.loficonnect.dto.response;
 
 import lombok.Data;
+import org.example.loficonnect.model.dto.LofiConnectAppKeyDTO;
 
 @Data
 public class AppKeyResponse {
-    private final String secretKey;
+    private final LofiConnectAppKeyDTO data;
 
-    public AppKeyResponse(String secretKey) {
-        this.secretKey = secretKey;
+    public AppKeyResponse(LofiConnectAppKeyDTO data) {
+        this.data = data;
     }
 }

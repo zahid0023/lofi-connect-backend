@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   spring_backend:
-    image: root00023/lofi-connect-backend:1.0.0
+    image: root00023/lofi-connect-backend:4.0.0
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/${POSTGRES_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: none

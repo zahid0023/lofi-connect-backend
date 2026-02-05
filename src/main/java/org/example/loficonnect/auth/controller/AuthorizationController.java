@@ -2,7 +2,6 @@ package org.example.loficonnect.auth.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.auth.service.ScopeService;
-import org.example.loficonnect.dto.response.AppKeyResponse;
 import org.example.loficonnect.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/authorization")
@@ -41,18 +41,18 @@ public class AuthorizationController {
     @GetMapping("/redirect")
     public ResponseEntity<?> handleRedirect(@RequestParam("code") String code) {
         Map<String, Object> apiResponse = authorizationService.exchangeCodeForToken(code);
-        AppKeyResponse appKey = authorizationService.generateAndSaveAppKey(apiResponse, code);
+        authorizationService.generateAndSaveAppKey(apiResponse, code);
 
-        String redirectUrl = frontendUrl + appKey.getSecretKey() + "&code=" + code;
+        String redirectUrl = frontendUrl + UUID.randomUUID() + "&code=" + code;
 
         return ResponseEntity.status(302)
                 .header(HttpHeaders.LOCATION, redirectUrl)
                 .build();
     }
 
-    @PostMapping("/activate")
+    @PutMapping("/activate")
     public ResponseEntity<?> activate(@RequestParam("code") String code, @RequestParam("connection-name") String connectionName) {
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(authorizationService.activateAppKey(code, connectionName));
     }
 
     @GetMapping("/ping")
