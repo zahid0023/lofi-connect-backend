@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   spring_backend:
-    image: root00023/lofi-connect-backend:4.0.0
+    image: root00023/lofi-connect-backend:4.0.3
     build:
       context: .
       dockerfile: Dockerfile

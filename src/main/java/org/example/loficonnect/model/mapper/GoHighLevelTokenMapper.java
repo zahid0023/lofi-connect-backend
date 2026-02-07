@@ -4,7 +4,7 @@ import lombok.experimental.UtilityClass;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
 import org.example.loficonnect.model.entity.LofiConnectAppKeyEntity;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 
 @UtilityClass
 public class GoHighLevelTokenMapper {
@@ -23,7 +23,7 @@ public class GoHighLevelTokenMapper {
         entity.setRefreshTokenId(refreshTokenId);
         entity.setIsActive(true);
         entity.setIsDeleted(false);
-        entity.setCreatedAt(OffsetDateTime.now());
+        entity.setCreatedAt(Instant.now());
         return entity;
     }
 }

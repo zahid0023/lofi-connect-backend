@@ -46,10 +46,12 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/v1/authorization/init",
                                 "/api/v1/authorization/redirect",
-                                "/api/v1/authorization/ping"
+                                "/api/v1/authorization/ping",
+                                "/api/v1/authorization/activate"
                         ).permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/ghl/**").permitAll()
                         .requestMatchers("/api/v1/admins/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/users/**").hasRole("USER")
                         .anyRequest().authenticated()

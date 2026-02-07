@@ -168,7 +168,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     private boolean isAccessTokenValid(GoHighLevelTokenEntity token) {
-        OffsetDateTime createdAt = token.getCreatedAt();
+        Instant createdAt = token.getCreatedAt();
         if (createdAt == null) return false;
 
         return Duration.between(createdAt, Instant.now()).toMinutes() < TOKEN_VALIDITY_MINUTES;
