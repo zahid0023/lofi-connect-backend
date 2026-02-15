@@ -43,8 +43,9 @@ public class LoginController {
                     )
             );
 
-            String token = jwtTokenProvider.generateToken(authentication);
-            return ResponseEntity.ok(new LoginResponse(token));
+            String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+            String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+            return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
         } catch (BadCredentialsException ex) {
             return ResponseEntity
                     .status(HttpStatus.UNAUTHORIZED)

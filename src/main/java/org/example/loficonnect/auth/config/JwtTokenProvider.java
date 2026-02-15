@@ -34,13 +34,20 @@ public class JwtTokenProvider {
     /**
      * Generate a JWT token with custom claims (user_id + roles)
      */
-    public String generateToken(Authentication authentication) {
+    public String generateAccessToken(Authentication authentication) {
+        return getToken(authentication);
+    }
+
+    public String generateRefreshToken(Authentication authentication) {
+        return getToken(authentication);
+    }
+
+    private String getToken(Authentication authentication) {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         assert user != null;
 
         Date now = new Date();
         Date expiry = new Date(now.getTime() + expirationMs);
-
         return Jwts.builder()
                 .subject(user.getUsername())
                 .issuedAt(now)
