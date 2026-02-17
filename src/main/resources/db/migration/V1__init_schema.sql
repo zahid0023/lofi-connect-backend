@@ -57,26 +57,6 @@ create table if not exists users
     deleted_at timestamp with time zone
 );
 
-create table if not exists refresh_tokens
-(
-    id         bigserial
-        primary key,
-    user_id    bigint                                             not null
-        references users
-            on delete cascade,
-    token      varchar(500)                                       not null,
-    expires_at timestamp with time zone                           not null,
-    created_by bigint                                             not null,
-    created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    updated_by bigint                                             not null,
-    updated_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    version    bigint                   default 0                 not null,
-    is_active  boolean                  default true              not null,
-    is_deleted boolean                  default false             not null,
-    deleted_by bigint,
-    deleted_at timestamp with time zone
-);
-
 create table if not exists user_permissions
 (
     id            bigserial
@@ -103,42 +83,65 @@ insert into roles(name, created_by, updated_by)
 values ('USER', 1, 1)
 on conflict do nothing;
 
-CREATE TABLE IF NOT EXISTS lofi_connect_app_key
+create table if not exists refresh_tokens
 (
-    id              bigserial PRIMARY KEY,
+    id         bigserial
+        primary key,
+    user_id    bigint                                             not null
+        references users
+            on delete cascade,
 
-    app_key         text                                               not null,
-    connection_name text                                               not null default '',
-    company_id      text                                               not null default '',
-    subaccount_name text                                               not null default '',
-    scopes          text                                               not null default '',
+    token      varchar(500)                                       not null,
 
-    created_by      bigint                                             not null references users (id),
-    created_at      timestamp with time zone default CURRENT_TIMESTAMP not null,
-    updated_by      bigint                                             not null,
-    updated_at      timestamp with time zone default CURRENT_TIMESTAMP not null,
-    version         bigint                   default 0                 not null,
-    is_active       boolean                  default true              not null,
-    is_deleted      boolean                  default false             not null,
-    deleted_by      bigint,
-    deleted_at      timestamp with time zone
+    expires_at timestamp with time zone                           not null,
+    created_by bigint                                             not null,
+    created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
+    updated_by bigint                                             not null,
+    updated_at timestamp with time zone default CURRENT_TIMESTAMP not null,
+    version    bigint                   default 0                 not null,
+    is_active  boolean                  default true              not null,
+    is_deleted boolean                  default false             not null,
+    deleted_by bigint,
+    deleted_at timestamp with time zone
 );
 
-CREATE TABLE IF NOT EXISTS go_high_level_tokens
+create table if not exists lofi_connect_app_key
 (
-    id               BIGSERIAL PRIMARY KEY,
+    id         bigserial primary key,
 
-    app_key_id       BIGINT REFERENCES lofi_connect_app_key (id),
+    app_key    text                                               not null unique,
+    name       text                                               not null default '',
 
-    access_token     TEXT                  NOT NULL,
-    token_type       VARCHAR(50)           NOT NULL,
-    expires_in       INTEGER               NOT NULL,
-    refresh_token    TEXT                  NOT NULL,
-    refresh_token_id TEXT                  NOT NULL,
+    created_by bigint                                             not null references users (id),
+    created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
+    updated_by bigint                                             not null,
+    updated_at timestamp with time zone default CURRENT_TIMESTAMP not null,
+    version    bigint                   default 0                 not null,
+    is_active  boolean                  default true              not null,
+    is_deleted boolean                  default false             not null,
+    deleted_by bigint,
+    deleted_at timestamp with time zone,
+    unique (name, created_by)
+);
 
-    version          bigint  default 0     not null,
-    is_active        boolean default true  not null,
-    is_deleted       boolean default false not null
+create table if not exists go_high_level_tokens
+(
+    id               bigserial primary key,
+
+    app_key_id       bigint references lofi_connect_app_key (id),
+
+    access_token     text        not null,
+    token_type       varchar(50) not null,
+    expires_in       integer     not null,
+    refresh_token    text        not null,
+    refresh_token_id text        not null,
+    company_id       text        not null default '',
+    subaccount_name  text        not null default '',
+    scopes           text        not null default '',
+
+    version          bigint               default 0 not null,
+    is_active        boolean              default true not null,
+    is_deleted       boolean              default false not null
 );
 
 create table if not exists scopes
@@ -158,21 +161,18 @@ create table if not exists scopes
     deleted_at  timestamp with time zone
 );
 
-alter table lofi_connect_app_key
-    add column if not exists user_type varchar(255) not null default '';
-
-alter table lofi_connect_app_key
-    add column if not exists user_id text not null default '';
-
-alter table lofi_connect_app_key
-    add column if not exists sub_account_id text not null default '';
-
-alter table go_high_level_tokens
-    add column if not exists created_at timestamp with time zone default CURRENT_TIMESTAMP not null;
-
-alter table lofi_connect_app_key
-    add column if not exists code text not null default '';
-
 insert into permissions(name, description, created_by, updated_by)
 values ('CREATE_SCOPE', 'Create a new scope', '0', '0')
 on conflict (name) do nothing;
+
+alter table go_high_level_tokens
+    add column if not exists user_type varchar(255);
+
+alter table go_high_level_tokens
+    add column if not exists user_id text;
+
+alter table go_high_level_tokens
+    add column if not exists created_at timestamp with time zone;
+
+alter table go_high_level_tokens
+    add column if not exists location_id text not null default '0';

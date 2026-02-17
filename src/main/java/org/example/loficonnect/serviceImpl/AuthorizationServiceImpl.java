@@ -3,17 +3,13 @@ package org.example.loficonnect.serviceImpl;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.config.GoHighLevelProperties;
-import org.example.loficonnect.dto.response.AppKeyResponse;
 import org.example.loficonnect.feignclients.GoHighLevelOAuth2Client;
-import org.example.loficonnect.model.dto.LofiConnectAppKeyDTO;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
-import org.example.loficonnect.model.entity.LofiConnectAppKeyEntity;
+import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
 import org.example.loficonnect.model.mapper.GoHighLevelTokenMapper;
-import org.example.loficonnect.model.mapper.LofiConnectAppKeyMapper;
 import org.example.loficonnect.repository.GoHighLevelTokenRepository;
 import org.example.loficonnect.repository.LofiConnectAppKeyRepository;
 import org.example.loficonnect.service.AuthorizationService;
-import org.example.loficonnect.service.SecretKeyService;
 import org.example.loficonnect.util.LocationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,9 +19,10 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -38,22 +35,19 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final GoHighLevelOAuth2Client oAuth2Client;
     private final GoHighLevelTokenRepository goHighLevelTokenRepository;
     private final LofiConnectAppKeyRepository lofiConnectAppKeyRepository;
-    private final SecretKeyService secretKeyService;
 
     public AuthorizationServiceImpl(GoHighLevelProperties props,
                                     GoHighLevelOAuth2Client oauth2Client,
                                     GoHighLevelTokenRepository goHighLevelTokenRepository,
-                                    LofiConnectAppKeyRepository lofiConnectAppKeyRepository,
-                                    SecretKeyService secretKeyService) {
+                                    LofiConnectAppKeyRepository lofiConnectAppKeyRepository) {
         this.props = props;
         this.oAuth2Client = oauth2Client;
         this.goHighLevelTokenRepository = goHighLevelTokenRepository;
         this.lofiConnectAppKeyRepository = lofiConnectAppKeyRepository;
-        this.secretKeyService = secretKeyService;
     }
 
     @Override
-    public String generateAuthorizationUrl(List<String> scopes) {
+    public String generateAuthorizationUrl(List<String> scopes, Long apiKeyId) {
         String scopesString = String.join(" ", scopes);
 
         return UriComponentsBuilder
@@ -63,6 +57,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 .queryParam("redirect_uri", props.getRedirectUri())
                 .queryParam("client_id", props.getClientId())
                 .queryParam("scope", scopesString)
+                .queryParam("state", apiKeyId)
                 .build()
                 .toUriString();
     }
@@ -75,22 +70,15 @@ public class AuthorizationServiceImpl implements AuthorizationService {
 
     @Override
     @Transactional
-    public void generateAndSaveAppKey(Map<String, Object> parameters, String code) {
-        final String appKey = secretKeyService.generateSecretKey();
-        final String locationId = parameters.get("locationId").toString();
+    public void saveGoHighLevelToken(LofiConnectAppKeyEntity entity, Map<String, Object> parameters) {
+        // deactivate all previous tokens for this app key
+        Set<GoHighLevelTokenEntity> entities = entity.getGoHighLevelTokens().stream()
+                .peek(goHighLevelTokenEntity -> goHighLevelTokenEntity.setIsActive(false))
+                .collect(Collectors.toSet());
+        goHighLevelTokenRepository.saveAll(entities);
 
-        // create new app key + tokens
-        LofiConnectAppKeyEntity savedAppKey = lofiConnectAppKeyRepository.save(LofiConnectAppKeyMapper.toEntity(
-                appKey,
-                code,
-                parameters.get("companyId").toString(),
-                locationId,
-                parameters.get("scope").toString(),
-                parameters.get("userType").toString(),
-                parameters.get("userId").toString()
-        ));
-
-        saveGoHighLevelTokenEntity(savedAppKey, parameters);
+        // save a new token for this app key
+        saveGoHighLevelTokenEntity(entity, parameters);
     }
 
     private GoHighLevelTokenEntity saveGoHighLevelTokenEntity(LofiConnectAppKeyEntity savedAppKey, Map<String, Object> parameters) {
@@ -100,16 +88,23 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 parameters.get("token_type").toString(),
                 (Integer) parameters.get("expires_in"),
                 parameters.get("refresh_token").toString(),
-                parameters.get("refreshTokenId").toString()
+                parameters.get("refreshTokenId").toString(),
+                parameters.get("companyId").toString(),
+                parameters.get("locationId").toString(),
+                "",
+                parameters.get("scope").toString(),
+                parameters.get("userType").toString(),
+                parameters.get("userId").toString()
         ));
     }
 
     @Transactional
     @Override
     public String getAccessToken(String appKey) {
-        LofiConnectAppKeyEntity appKeyEntity = lofiConnectAppKeyRepository.findByAppKeyAndIsActive(appKey, true).orElseThrow(() -> new EntityNotFoundException("App key not found"));
+        LofiConnectAppKeyEntity appKeyEntity = lofiConnectAppKeyRepository.findByAppKeyAndIsActiveAndIsDeleted(appKey, true, false).orElseThrow(() -> new EntityNotFoundException("App key not found"));
 
-        GoHighLevelTokenEntity goHighLevelTokenEntity = goHighLevelTokenRepository.findFirstByAppKeyEntityAndIsActive(appKeyEntity, true).orElseThrow(() -> new EntityNotFoundException("Active token not found"));
+        GoHighLevelTokenEntity goHighLevelTokenEntity = goHighLevelTokenRepository.findByAppKeyEntityAndIsActiveAndIsDeleted(appKeyEntity, true, false)
+                .orElseThrow(() -> new EntityNotFoundException("GoHighLevelTokenEntity not found"));
 
         if (!isAccessTokenValid(goHighLevelTokenEntity)) {
             log.info("Access token is not valid");
@@ -122,7 +117,7 @@ public class AuthorizationServiceImpl implements AuthorizationService {
             log.info("Refreshed access token for appKey {}: {}", appKey, parameters);
         }
 
-        LocationContext.setLocationId(appKeyEntity.getSubAccountId());
+        LocationContext.setLocationId(goHighLevelTokenEntity.getLocationId());
 
         return "Bearer " + goHighLevelTokenEntity.getAccessToken();
     }
@@ -131,21 +126,6 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     public Map<String, Object> refreshAccessToken(String refreshToken) {
         return oAuth2Client.getAccessToken(buildTokenRequest(GRANT_TYPE_REFRESH,
                 Map.of("refresh_token", refreshToken)));
-    }
-
-    @Override
-    @Transactional
-    public AppKeyResponse activateAppKey(String code, String connectionName) {
-        LofiConnectAppKeyEntity lofiConnectAppKeyEntity = lofiConnectAppKeyRepository.findByCodeAndIsActiveAndIsDeleted(code, false, false)
-                .orElseThrow(() -> new EntityNotFoundException("App key not found"));
-
-        // deactivate old keys
-        deactivateOldKeys(lofiConnectAppKeyEntity.getSubAccountId());
-
-        LofiConnectAppKeyMapper.update(lofiConnectAppKeyEntity, connectionName, "Test Account Name", true);
-        lofiConnectAppKeyEntity = lofiConnectAppKeyRepository.save(lofiConnectAppKeyEntity);
-        LofiConnectAppKeyDTO dto = LofiConnectAppKeyMapper.toDto(lofiConnectAppKeyEntity);
-        return new AppKeyResponse(dto);
     }
 
     // -------------------- Private Helpers --------------------
@@ -161,14 +141,8 @@ public class AuthorizationServiceImpl implements AuthorizationService {
         return formData;
     }
 
-    private void deactivateOldKeys(String locationId) {
-        List<LofiConnectAppKeyEntity> activeKeys = lofiConnectAppKeyRepository.findAllActiveForLocationId(locationId);
-        activeKeys.forEach(k -> k.setIsActive(false));
-        lofiConnectAppKeyRepository.saveAll(activeKeys);
-    }
-
     private boolean isAccessTokenValid(GoHighLevelTokenEntity token) {
-        Instant createdAt = token.getCreatedAt();
+        Instant createdAt = Instant.now();
         if (createdAt == null) return false;
 
         return Duration.between(createdAt, Instant.now()).toMinutes() < TOKEN_VALIDITY_MINUTES;

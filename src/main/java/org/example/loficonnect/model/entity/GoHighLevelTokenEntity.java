@@ -2,16 +2,15 @@ package org.example.loficonnect.model.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.loficonnect.commons.model.entity.AuditableEntity;
+import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.time.Instant;
 import java.time.OffsetDateTime;
-import java.util.Map;
 
 @Getter
 @Setter
@@ -58,8 +57,33 @@ public class GoHighLevelTokenEntity {
     private Boolean isDeleted = false;
 
     @NotNull
-    @ColumnDefault("CURRENT_TIMESTAMP")
-    @Column(name = "created_at", nullable = false)
-    private Instant createdAt;
+    @ColumnDefault("''")
+    @Column(name = "company_id", nullable = false, length = Integer.MAX_VALUE)
+    private String companyId;
+
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "subaccount_name", nullable = false, length = Integer.MAX_VALUE)
+    private String subaccountName;
+
+    @NotNull
+    @ColumnDefault("''")
+    @Column(name = "scopes", nullable = false, length = Integer.MAX_VALUE)
+    private String scopes;
+
+    @Size(max = 255)
+    @Column(name = "user_type")
+    private String userType;
+
+    @Column(name = "user_id", length = Integer.MAX_VALUE)
+    private String userId;
+
+    @Column(name = "created_at")
+    private OffsetDateTime createdAt;
+
+    @NotNull
+    @ColumnDefault("'0'")
+    @Column(name = "location_id", nullable = false, length = Integer.MAX_VALUE)
+    private String locationId;
 
 }

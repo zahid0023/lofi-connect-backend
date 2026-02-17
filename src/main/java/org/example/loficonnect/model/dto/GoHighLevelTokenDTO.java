@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class LofiConnectAppKeyDTO {
-    private Long id;
-    private String appKey;
-    private String connectionName;
+public class GoHighLevelTokenDTO {
+    private String companyId;
+    private Boolean isAgency;
+    private String subAccountId;
     private String subAccountName;
     private String scopes;
-    private String subAccountId;
+    private String userId;
 }

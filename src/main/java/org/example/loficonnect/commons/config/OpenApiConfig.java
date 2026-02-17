@@ -50,6 +50,18 @@ public class OpenApiConfig {
     }
 
     @Bean
+    public GroupedOpenApi appKeyApi() {
+        return GroupedOpenApi.builder()
+                .group("App Key APIs") // dropdown name in Swagger UI
+                .pathsToMatch("/api/v1/app-keys/**") // your path pattern
+                .addOpenApiCustomizer(openApi -> openApi.info(new Info()
+                        .title("App Key API Documentation")
+                        .description("Endpoints for managing App Keys")
+                        .version("v1")))
+                .build();
+    }
+
+    @Bean
     public GroupedOpenApi ghlContactsApi() {
         return GroupedOpenApi.builder()
                 .group("GHL Contacts APIs") // dropdown name in Swagger UI

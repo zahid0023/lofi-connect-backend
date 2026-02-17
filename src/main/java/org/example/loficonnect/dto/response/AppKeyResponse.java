@@ -1,7 +1,7 @@
 package org.example.loficonnect.dto.response;
 
 import lombok.Data;
-import org.example.loficonnect.model.dto.LofiConnectAppKeyDTO;
+import org.example.loficonnect.auth.model.dto.LofiConnectAppKeyDTO;
 
 @Data
 public class AppKeyResponse {

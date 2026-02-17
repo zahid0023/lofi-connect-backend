@@ -1,10 +1,9 @@
 package org.example.loficonnect.model.mapper;
 
 import lombok.experimental.UtilityClass;
+import org.example.loficonnect.model.dto.GoHighLevelTokenDTO;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
-import org.example.loficonnect.model.entity.LofiConnectAppKeyEntity;
-
-import java.time.Instant;
+import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
 
 @UtilityClass
 public class GoHighLevelTokenMapper {
@@ -13,7 +12,13 @@ public class GoHighLevelTokenMapper {
                                                   String tokenType,
                                                   Integer expiresIn,
                                                   String refreshToken,
-                                                  String refreshTokenId) {
+                                                  String refreshTokenId,
+                                                  String companyId,
+                                                  String locationId,
+                                                  String subAccountName,
+                                                  String scopes,
+                                                  String userType,
+                                                  String userId) {
         GoHighLevelTokenEntity entity = new GoHighLevelTokenEntity();
         entity.setAppKeyEntity(appKeyEntity);
         entity.setAccessToken(accessToken);
@@ -23,7 +28,23 @@ public class GoHighLevelTokenMapper {
         entity.setRefreshTokenId(refreshTokenId);
         entity.setIsActive(true);
         entity.setIsDeleted(false);
-        entity.setCreatedAt(Instant.now());
+        entity.setCompanyId(companyId);
+        entity.setLocationId(locationId);
+        entity.setSubaccountName(subAccountName);
+        entity.setScopes(scopes);
+        entity.setUserType(userType);
+        entity.setUserId(userId);
         return entity;
+    }
+
+    public static GoHighLevelTokenDTO toDTO(GoHighLevelTokenEntity entity) {
+        GoHighLevelTokenDTO dto = new GoHighLevelTokenDTO();
+        dto.setCompanyId(entity.getCompanyId());
+        dto.setIsAgency(false);
+        dto.setSubAccountId("");
+        dto.setSubAccountName(entity.getSubaccountName());
+        dto.setScopes(entity.getScopes());
+        dto.setUserId(entity.getUserId());
+        return dto;
     }
 }
