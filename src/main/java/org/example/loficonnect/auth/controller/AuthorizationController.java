@@ -25,7 +25,7 @@ public class AuthorizationController {
     public AuthorizationController(AuthorizationService authorizationService,
                                    ScopeService scopeService,
                                    AppKeyService appKeyService,
-                                   @Value("${FRONT_END_URL}") String frontendUrl) {
+                                   @Value("${frontend.url}") String frontendUrl) {
         this.authorizationService = authorizationService;
         this.scopeService = scopeService;
         this.appKeyService = appKeyService;

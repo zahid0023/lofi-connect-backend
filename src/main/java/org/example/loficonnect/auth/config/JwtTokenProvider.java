@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 import java.util.Date;
 
 @Component
@@ -20,11 +21,14 @@ public class JwtTokenProvider {
 
     private SecretKey signingKey;
 
-    @Value("${JWT_SECRET}")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${JWT_EXPIRATION}")
-    private long expirationMs;
+    @Value("${jwt.access-token-expiration-minutes}")
+    private Integer accessTokenExpirationMinutes;
+
+    @Value("${jwt.refresh-token-expiration-days}")
+    private Integer refreshTokenExpirationDays;
 
     @PostConstruct
     public void init() {
@@ -35,14 +39,14 @@ public class JwtTokenProvider {
      * Generate a JWT token with custom claims (user_id + roles)
      */
     public String generateAccessToken(Authentication authentication) {
-        return getToken(authentication);
+        return getToken(authentication, Duration.ofMinutes(accessTokenExpirationMinutes).toMillis());
     }
 
     public String generateRefreshToken(Authentication authentication) {
-        return getToken(authentication);
+        return getToken(authentication, Duration.ofDays(refreshTokenExpirationDays).toMillis());
     }
 
-    private String getToken(Authentication authentication) {
+    private String getToken(Authentication authentication, long expirationMs) {
         CustomUserDetails user = (CustomUserDetails) authentication.getPrincipal();
         assert user != null;
 

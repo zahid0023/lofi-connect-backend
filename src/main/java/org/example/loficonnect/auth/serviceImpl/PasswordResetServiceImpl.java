@@ -14,7 +14,6 @@ import org.example.loficonnect.auth.util.OtpGenerator;
 import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,17 +21,14 @@ import org.springframework.stereotype.Service;
 public class PasswordResetServiceImpl implements PasswordResetService {
     private final OtpRepository otpRepository;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final PasswordEncoder passwordEncoder;
 
-    @Value("${OTP_EXPIRY_DURATION_MINUTES}")
+    @Value("${jwt.otp.expiration-minutes}")
     private Integer otpExpiryTimeMinutes;
 
     public PasswordResetServiceImpl(OtpRepository otpRepository,
-                                    PasswordEncoder passwordEncoder,
                                     ApplicationEventPublisher applicationEventPublisher) {
         this.otpRepository = otpRepository;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
