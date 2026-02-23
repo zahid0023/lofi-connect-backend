@@ -1,9 +1,11 @@
 package org.example.loficonnect.serviceImpl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.config.GoHighLevelProperties;
 import org.example.loficonnect.feignclients.GoHighLevelOAuth2Client;
+import org.example.loficonnect.feignclients.SubAccountClient;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
 import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
 import org.example.loficonnect.model.mapper.GoHighLevelTokenMapper;
@@ -35,15 +37,18 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     private final GoHighLevelOAuth2Client oAuth2Client;
     private final GoHighLevelTokenRepository goHighLevelTokenRepository;
     private final LofiConnectAppKeyRepository lofiConnectAppKeyRepository;
+    private final SubAccountClient subAccountClient;
 
     public AuthorizationServiceImpl(GoHighLevelProperties props,
                                     GoHighLevelOAuth2Client oauth2Client,
                                     GoHighLevelTokenRepository goHighLevelTokenRepository,
-                                    LofiConnectAppKeyRepository lofiConnectAppKeyRepository) {
+                                    LofiConnectAppKeyRepository lofiConnectAppKeyRepository,
+                                    SubAccountClient subAccountClient) {
         this.props = props;
         this.oAuth2Client = oauth2Client;
         this.goHighLevelTokenRepository = goHighLevelTokenRepository;
         this.lofiConnectAppKeyRepository = lofiConnectAppKeyRepository;
+        this.subAccountClient = subAccountClient;
     }
 
     @Override
@@ -76,26 +81,35 @@ public class AuthorizationServiceImpl implements AuthorizationService {
                 .peek(goHighLevelTokenEntity -> goHighLevelTokenEntity.setIsActive(false))
                 .collect(Collectors.toSet());
         goHighLevelTokenRepository.saveAll(entities);
-
         // save a new token for this app key
         saveGoHighLevelTokenEntity(entity, parameters);
     }
 
     private GoHighLevelTokenEntity saveGoHighLevelTokenEntity(LofiConnectAppKeyEntity savedAppKey, Map<String, Object> parameters) {
+        String accessToken = parameters.get("access_token").toString();
+        String locationId = parameters.get("locationId").toString();
+        String locationName = getLocationName(accessToken, locationId);
+
         return goHighLevelTokenRepository.save(GoHighLevelTokenMapper.toEntity(
                 savedAppKey,
-                parameters.get("access_token").toString(),
+                accessToken,
                 parameters.get("token_type").toString(),
                 (Integer) parameters.get("expires_in"),
                 parameters.get("refresh_token").toString(),
                 parameters.get("refreshTokenId").toString(),
                 parameters.get("companyId").toString(),
-                parameters.get("locationId").toString(),
-                "",
+                locationId,
+                locationName,
                 parameters.get("scope").toString(),
                 parameters.get("userType").toString(),
                 parameters.get("userId").toString()
         ));
+    }
+
+    private String getLocationName(String accessToken, String locationId) {
+        String version = "2021-07-28";
+        JsonNode response = subAccountClient.getLocation("Bearer " + accessToken, version, locationId);
+        return response.path("location").path("name").asText("");
     }
 
     @Transactional

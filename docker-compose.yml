@@ -2,7 +2,10 @@ version: "3.9"
 
 services:
   spring_backend:
-    image: root00023/lofi-connect-backend:4.0.3
+    env_file:
+      - /opt/lofi-connect.env   # <-- load environment variables from here
+      - .env
+    image: root00023/lofi-connect-backend:1.0.1
     build:
       context: .
       dockerfile: Dockerfile

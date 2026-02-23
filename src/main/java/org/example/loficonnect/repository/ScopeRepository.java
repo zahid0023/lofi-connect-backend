@@ -1,4 +1,4 @@
-package org.example.loficonnect.auth.repository;
+package org.example.loficonnect.repository;
 
 import org.example.loficonnect.model.entity.ScopeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

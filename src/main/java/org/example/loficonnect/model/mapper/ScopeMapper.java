@@ -1,7 +1,7 @@
-package org.example.loficonnect.auth.model.mapper;
+package org.example.loficonnect.model.mapper;
 
 import lombok.experimental.UtilityClass;
-import org.example.loficonnect.auth.dto.request.scope.CreateScopeRequest;
+import org.example.loficonnect.dto.request.scope.CreateScopeRequest;
 import org.example.loficonnect.model.entity.ScopeEntity;
 
 @UtilityClass

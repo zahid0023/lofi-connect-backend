@@ -1,10 +1,10 @@
-package org.example.loficonnect.auth.serviceImpl;
+package org.example.loficonnect.serviceImpl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.example.loficonnect.auth.dto.request.scope.CreateScopeRequest;
-import org.example.loficonnect.auth.model.mapper.ScopeMapper;
-import org.example.loficonnect.auth.repository.ScopeRepository;
-import org.example.loficonnect.auth.service.ScopeService;
+import org.example.loficonnect.dto.request.scope.CreateScopeRequest;
+import org.example.loficonnect.model.mapper.ScopeMapper;
+import org.example.loficonnect.repository.ScopeRepository;
+import org.example.loficonnect.service.ScopeService;
 import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.example.loficonnect.model.entity.ScopeEntity;
 import org.springframework.stereotype.Service;

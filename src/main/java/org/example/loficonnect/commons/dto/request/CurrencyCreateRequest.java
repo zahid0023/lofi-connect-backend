@@ -1,4 +1,4 @@
-package org.example.loficonnect.auth.dto.request.scope;
+package org.example.loficonnect.commons.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -8,5 +8,5 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CreateScopeRequest extends ScopeRequest{
+public class CurrencyCreateRequest extends CurrencyRequest {
 }

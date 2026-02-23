@@ -14,6 +14,4 @@ public interface SubAccountService {
     JsonNode deleteLocation(String locationId, Map<String, Object> queryParams);
 
     JsonNode createLocation(LocationCreateRequest request);
-
-
 }

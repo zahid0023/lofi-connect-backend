@@ -44,10 +44,9 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/webjars/**",
-                                "/api/v1/authorization/init",
+                                "/api/v1/authorization/ghl/init",
                                 "/api/v1/authorization/redirect",
-                                "/api/v1/authorization/ping",
-                                "/api/v1/authorization/activate"
+                                "/api/v1/authorization/ghl/ping"
                         ).permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()

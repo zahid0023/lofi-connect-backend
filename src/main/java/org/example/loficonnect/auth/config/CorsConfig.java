@@ -18,7 +18,7 @@ public class CorsConfig {
 
         // Allow your frontend origin(s)
         configuration.setAllowedOrigins(Arrays.asList(
-                "https://loficonnect.lofistack.com",
+                "https://backend.loficonnect.com",
                 "http://localhost:3000",
                 "http://localhost:8080"
         ));

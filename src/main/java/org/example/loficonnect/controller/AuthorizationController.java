@@ -1,8 +1,8 @@
-package org.example.loficonnect.auth.controller;
+package org.example.loficonnect.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.auth.service.AppKeyService;
-import org.example.loficonnect.auth.service.ScopeService;
+import org.example.loficonnect.service.ScopeService;
 import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
 import org.example.loficonnect.service.AuthorizationService;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class AuthorizationController {
         this.frontendUrl = frontendUrl;
     }
 
-    @GetMapping("/init")
+    @GetMapping("/ghl/init")
     public ResponseEntity<Void> initAuthorization(@RequestParam("app-key-id") Long appKeyId) {
         List<String> scopes = scopeService.getAllScopesNames();
 
@@ -61,7 +61,7 @@ public class AuthorizationController {
                 .build();
     }
 
-    @GetMapping("/ping")
+    @GetMapping("/ghl/ping")
     public ResponseEntity<?> ping() {
         return ResponseEntity.ok().build();
     }

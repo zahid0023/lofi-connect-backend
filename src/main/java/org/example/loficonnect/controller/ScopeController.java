@@ -1,7 +1,7 @@
-package org.example.loficonnect.auth.controller;
+package org.example.loficonnect.controller;
 
-import org.example.loficonnect.auth.dto.request.scope.CreateScopeRequest;
-import org.example.loficonnect.auth.service.ScopeService;
+import org.example.loficonnect.dto.request.scope.CreateScopeRequest;
+import org.example.loficonnect.service.ScopeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

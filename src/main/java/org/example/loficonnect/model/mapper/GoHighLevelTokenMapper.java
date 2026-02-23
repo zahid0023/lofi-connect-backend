@@ -41,7 +41,7 @@ public class GoHighLevelTokenMapper {
         GoHighLevelTokenDTO dto = new GoHighLevelTokenDTO();
         dto.setCompanyId(entity.getCompanyId());
         dto.setIsAgency(false);
-        dto.setSubAccountId("");
+        dto.setSubAccountId(entity.getLocationId());
         dto.setSubAccountName(entity.getSubaccountName());
         dto.setScopes(entity.getScopes());
         dto.setUserId(entity.getUserId());
