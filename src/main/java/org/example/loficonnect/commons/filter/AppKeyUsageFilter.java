@@ -78,9 +78,9 @@ public class AppKeyUsageFilter extends OncePerRequestFilter {
                     request.getMethod(),
                     response.getStatus()
             );
-        } catch (Exception e) {
+        } catch (Exception ex) {
             log.error("Failed to record usage for tenant={} appKey={}",
-                    result.tenant().getId(), result.appKey().getId(), e);
+                    result.tenant().getId(), result.appKey().getId(), ex);
         }
     }
 
