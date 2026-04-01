@@ -8,7 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.commons.dto.response.ApiErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.example.loficonnect.commons.exception.ActiveSubscriptionExistsException;
+import org.example.loficonnect.commons.exception.AppKeyInvalidException;
 import org.example.loficonnect.commons.exception.NoActiveSubscriptionException;
+import org.example.loficonnect.commons.exception.QuotaExceededException;
 import org.example.loficonnect.commons.exception.SubscriptionInvalidException;
 import org.example.loficonnect.commons.exception.PlanLimitExceededException;
 import org.springframework.http.HttpStatus;
@@ -126,6 +128,22 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return build(ex, HttpStatus.BAD_REQUEST, "NO_ACTIVE_SUBSCRIPTION", request);
+    }
+
+    @ExceptionHandler(AppKeyInvalidException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleAppKeyInvalid(
+            AppKeyInvalidException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.UNAUTHORIZED, "INVALID_APP_KEY", request);
+    }
+
+    @ExceptionHandler(QuotaExceededException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleQuotaExceeded(
+            QuotaExceededException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.TOO_MANY_REQUESTS, "QUOTA_EXCEEDED", request);
     }
 
     @ExceptionHandler(SubscriptionInvalidException.class)

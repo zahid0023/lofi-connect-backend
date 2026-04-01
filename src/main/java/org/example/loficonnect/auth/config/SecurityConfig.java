@@ -3,7 +3,6 @@ package org.example.loficonnect.auth.config;
 import org.example.loficonnect.auth.exception.CustomAccessDeniedHandler;
 import org.example.loficonnect.auth.exception.CustomAuthenticationEntryPoint;
 import org.example.loficonnect.auth.filter.JwtAuthenticationFilter;
-import org.example.loficonnect.commons.filter.AppKeyUsageFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,11 +20,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtFilter;
-    private final AppKeyUsageFilter appKeyUsageFilter;
 
-    public SecurityConfig(JwtAuthenticationFilter jwtFilter, AppKeyUsageFilter appKeyUsageFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtFilter) {
         this.jwtFilter = jwtFilter;
-        this.appKeyUsageFilter = appKeyUsageFilter;
     }
 
     @Bean
@@ -58,7 +55,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/v1/users/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(appKeyUsageFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

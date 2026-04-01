@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.OffsetDateTime;
 
@@ -31,12 +29,6 @@ public class TenantUsageEntity extends AuditableEntity {
     @ColumnDefault("0")
     @Column(name = "usage_count", nullable = false)
     private Long usageCount;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "tenant_subscription_id", nullable = false)
-    private TenantSubscriptionEntity tenantSubscriptionEntity;
 
     @NotNull
     @Column(name = "window_start", nullable = false)

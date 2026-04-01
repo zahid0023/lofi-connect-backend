@@ -26,5 +26,7 @@ public interface UsageEnforcementService {
             UserEntity tenant,
             LofiConnectAppKeyEntity appKey,
             TenantSubscriptionEntity subscription
-    ) {}
+    ) {
+        public static final String REQUEST_ATTR = "lofi.enforcement.result";
+    }
 }
