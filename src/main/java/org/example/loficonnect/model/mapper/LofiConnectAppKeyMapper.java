@@ -5,14 +5,16 @@ import org.example.loficonnect.auth.dto.request.appkey.CreateAppKeyRequest;
 import org.example.loficonnect.auth.util.AppKeyGenerator;
 import org.example.loficonnect.auth.model.dto.LofiConnectAppKeyDTO;
 import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
+import org.example.loficonnect.commons.model.entity.TenantSubscriptionEntity;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
 
 @UtilityClass
 public class LofiConnectAppKeyMapper {
-    public static LofiConnectAppKeyEntity toEntity(CreateAppKeyRequest request) {
+    public static LofiConnectAppKeyEntity fromRequest(CreateAppKeyRequest request, TenantSubscriptionEntity subscription) {
         LofiConnectAppKeyEntity entity = new LofiConnectAppKeyEntity();
         entity.setAppKey(AppKeyGenerator.generateAppKey());
         entity.setName(request.getName());
+        entity.setTenantSubscriptionEntity(subscription);
         return entity;
     }
 
@@ -25,6 +27,12 @@ public class LofiConnectAppKeyMapper {
         dto.setStatus("active");
         dto.setCreatedAt(entity.getCreatedAt().toString());
         dto.setUpdatedAt(entity.getUpdatedAt().toString());
+
+        if (entity.getTenantSubscriptionEntity() != null) {
+            dto.setSubscriptionId(entity.getTenantSubscriptionEntity().getId());
+            dto.setSubscriptionPlanId(entity.getTenantSubscriptionEntity().getSubscriptionPlanEntity().getId());
+            dto.setSubscriptionPlanName(entity.getTenantSubscriptionEntity().getSubscriptionPlanEntity().getName());
+        }
 
         GoHighLevelTokenEntity goHighLevelTokenEntity = entity.getGoHighLevelTokens().stream().filter(GoHighLevelTokenEntity::getIsActive).findFirst().orElse(null);
 

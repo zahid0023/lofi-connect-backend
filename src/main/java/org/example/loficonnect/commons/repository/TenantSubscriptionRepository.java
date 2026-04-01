@@ -10,5 +10,11 @@ import java.util.Optional;
 
 public interface TenantSubscriptionRepository extends JpaRepository<@NonNull TenantSubscriptionEntity, @NonNull Long> {
     Optional<TenantSubscriptionEntity> findFirstByTenantEntityAndStatusAndEndAtAfterAndIsActiveAndIsDeleted(
-            UserEntity tenant, String status, OffsetDateTime now, Boolean isActive, Boolean isDeleted);
+            UserEntity userEntity, String status, OffsetDateTime now, Boolean isActive, Boolean isDeleted);
+
+    boolean existsByTenantEntityAndStatusAndEndAtAfterAndIsActiveAndIsDeleted(
+            UserEntity userEntity, String status, OffsetDateTime now, Boolean isActive, Boolean isDeleted);
+
+    Optional<TenantSubscriptionEntity> findFirstByTenantEntityAndStatusAndEndAtAfterAndIsActiveAndIsDeletedOrderByStartAtDesc(
+            UserEntity userEntity, String status, OffsetDateTime now, Boolean isActive, Boolean isDeleted);
 }

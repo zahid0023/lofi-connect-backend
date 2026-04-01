@@ -22,7 +22,8 @@ public class AppKeyController {
 
     @PostMapping("/generate")
     public ResponseEntity<?> generateAppKey(@RequestBody CreateAppKeyRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(appKeyService.generateAppKey(request));
+        UserEntity userEntity = userService.getAuthenticatedUserEntity();
+        return ResponseEntity.status(HttpStatus.CREATED).body(appKeyService.generateAppKey(userEntity,request));
     }
 
     @GetMapping

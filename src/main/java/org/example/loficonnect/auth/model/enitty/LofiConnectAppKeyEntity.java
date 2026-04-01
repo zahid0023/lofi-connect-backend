@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.loficonnect.commons.model.entity.AuditableEntity;
+import org.example.loficonnect.commons.model.entity.TenantSubscriptionEntity;
 import org.example.loficonnect.model.entity.GoHighLevelTokenEntity;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -27,5 +28,9 @@ public class LofiConnectAppKeyEntity extends AuditableEntity {
     @ColumnDefault("''")
     @Column(name = "name", nullable = false, length = Integer.MAX_VALUE)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tenant_subscription_id")
+    private TenantSubscriptionEntity tenantSubscriptionEntity;
 
 }

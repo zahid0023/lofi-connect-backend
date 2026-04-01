@@ -7,6 +7,10 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.commons.dto.response.ApiErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.example.loficonnect.commons.exception.ActiveSubscriptionExistsException;
+import org.example.loficonnect.commons.exception.NoActiveSubscriptionException;
+import org.example.loficonnect.commons.exception.SubscriptionInvalidException;
+import org.example.loficonnect.commons.exception.PlanLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -106,6 +110,38 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(ActiveSubscriptionExistsException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleActiveSubscriptionExists(
+            ActiveSubscriptionExistsException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.CONFLICT, "ACTIVE_SUBSCRIPTION_EXISTS", request);
+    }
+
+    @ExceptionHandler(NoActiveSubscriptionException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleNoActiveSubscription(
+            NoActiveSubscriptionException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.BAD_REQUEST, "NO_ACTIVE_SUBSCRIPTION", request);
+    }
+
+    @ExceptionHandler(SubscriptionInvalidException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleSubscriptionInvalid(
+            SubscriptionInvalidException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.FORBIDDEN, "SUBSCRIPTION_REQUIRED", request);
+    }
+
+    @ExceptionHandler(PlanLimitExceededException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handlePlanLimitExceeded(
+            PlanLimitExceededException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.PAYMENT_REQUIRED, "PLAN_LIMIT_EXCEEDED", request);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

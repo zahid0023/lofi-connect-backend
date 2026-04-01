@@ -15,5 +15,8 @@ public class LofiConnectAppKeyDTO {
     private String status;
     private String createdAt;
     private String updatedAt;
+    private Long subscriptionId;
+    private Long subscriptionPlanId;
+    private String subscriptionPlanName;
     private GoHighLevelTokenDTO ghlConnection;
 }

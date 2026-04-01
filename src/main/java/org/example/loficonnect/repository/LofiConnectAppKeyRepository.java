@@ -16,4 +16,6 @@ public interface LofiConnectAppKeyRepository extends JpaRepository<LofiConnectAp
     List<LofiConnectAppKeyEntity> findByCreatedByAndIsActiveAndIsDeleted(Long createdBy, Boolean isActive, Boolean isDeleted);
 
     Optional<LofiConnectAppKeyEntity> findByIdAndIsActiveAndIsDeleted(Long id, Boolean isActive, Boolean isDeleted);
+
+    long countByCreatedByAndIsActiveAndIsDeleted(Long createdBy, Boolean isActive, Boolean isDeleted);
 }

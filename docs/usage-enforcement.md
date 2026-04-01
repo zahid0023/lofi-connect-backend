@@ -564,7 +564,8 @@ After 1 minute, `windowEnd` passes → next request resets the counter to 0 and 
 
 | File | Change |
 |---|---|
-| `TenantSubscriptionRepository.java` | Added `findFirstByTenantEntityAndStatusAndEndAtAfterAndIsActiveAndIsDeleted()` |
+| `TenantSubscriptionRepository.java` | Added `findFirstByTenantEntityAndStatusAndEndAtAfterAndIsActiveAndIsDeleted()` and `existsByTenantEntityAndStatusAndEndAtAfterAndIsActiveAndIsDeleted()` (one-active-subscription guard) |
+| `GlobalExceptionHandler.java` | Registered handlers for `SubscriptionInvalidException`, `PlanLimitExceededException`, and `ActiveSubscriptionExistsException` |
 | `SecurityConfig.java` | Registered `AppKeyUsageFilter` before `JwtAuthenticationFilter` |
 
 ### Pre-existing Files Used

@@ -4,9 +4,10 @@ import org.example.loficonnect.auth.dto.request.appkey.CreateAppKeyRequest;
 import org.example.loficonnect.auth.dto.response.appkey.AppKeyListResponse;
 import org.example.loficonnect.auth.dto.response.appkey.GenerateAppKeyResponse;
 import org.example.loficonnect.auth.model.enitty.LofiConnectAppKeyEntity;
+import org.example.loficonnect.auth.model.enitty.UserEntity;
 
 public interface AppKeyService {
-    GenerateAppKeyResponse generateAppKey(CreateAppKeyRequest request);
+    GenerateAppKeyResponse generateAppKey(UserEntity userEntity, CreateAppKeyRequest request);
 
     AppKeyListResponse getAllAppKeys(Long userId);
 

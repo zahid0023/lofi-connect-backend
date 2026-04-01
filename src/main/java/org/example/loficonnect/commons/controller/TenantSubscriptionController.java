@@ -34,4 +34,12 @@ public class TenantSubscriptionController {
         SubscriptionPlanEntity subscriptionPlanEntity = subscriptionPlanService.getSubscriptionPlanEntityById(request.getSubscriptionPlanId());
         return ResponseEntity.status(HttpStatus.CREATED).body(tenantSubscriptionService.subscribePlan(request, userEntity, subscriptionPlanEntity));
     }
+
+    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/upgrade")
+    public ResponseEntity<?> upgradePlan(@RequestBody TenantSubscriptionCreateRequest request) {
+        UserEntity userEntity = userService.getAuthenticatedUserEntity();
+        SubscriptionPlanEntity newPlanEntity = subscriptionPlanService.getSubscriptionPlanEntityById(request.getSubscriptionPlanId());
+        return ResponseEntity.ok(tenantSubscriptionService.upgradePlan(request, userEntity, newPlanEntity));
+    }
 }

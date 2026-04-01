@@ -10,9 +10,7 @@ import org.example.loficonnect.commons.exception.QuotaExceededException;
 import org.example.loficonnect.commons.exception.SubscriptionInvalidException;
 import org.example.loficonnect.commons.model.entity.LimitKeyEntity;
 import org.example.loficonnect.commons.model.entity.TenantSubscriptionEntity;
-import org.example.loficonnect.commons.model.entity.TenantSubscriptionLimitEntity;
 import org.example.loficonnect.commons.model.entity.TenantUsageEntity;
-import org.example.loficonnect.commons.repository.TenantSubscriptionLimitRepository;
 import org.example.loficonnect.commons.repository.TenantSubscriptionRepository;
 import org.example.loficonnect.commons.repository.TenantUsageRepository;
 import org.example.loficonnect.commons.service.UsageEnforcementService;
@@ -29,18 +27,15 @@ public class UsageEnforcementServiceImpl implements UsageEnforcementService {
     private final AppKeyService appKeyService;
     private final UserService userService;
     private final TenantSubscriptionRepository subscriptionRepository;
-    private final TenantSubscriptionLimitRepository subscriptionLimitRepository;
     private final TenantUsageRepository usageRepository;
 
     public UsageEnforcementServiceImpl(AppKeyService appKeyService,
-                                        UserService userService,
-                                        TenantSubscriptionRepository subscriptionRepository,
-                                        TenantSubscriptionLimitRepository subscriptionLimitRepository,
-                                        TenantUsageRepository usageRepository) {
+                                       UserService userService,
+                                       TenantSubscriptionRepository subscriptionRepository,
+                                       TenantUsageRepository usageRepository) {
         this.appKeyService = appKeyService;
         this.userService = userService;
         this.subscriptionRepository = subscriptionRepository;
-        this.subscriptionLimitRepository = subscriptionLimitRepository;
         this.usageRepository = usageRepository;
     }
 
@@ -48,44 +43,18 @@ public class UsageEnforcementServiceImpl implements UsageEnforcementService {
     @Transactional
     public EnforcementResult enforce(String appKeyValue) {
         // 1. Validate app key
-        LofiConnectAppKeyEntity appKey = resolveAppKey(appKeyValue);
+        LofiConnectAppKeyEntity appKeyEntity = resolveAppKey(appKeyValue);
 
         // 2. Resolve tenant from app key owner
-        UserEntity tenant = userService.getUserById(appKey.getCreatedBy());
+        UserEntity tenantEntity = userService.getUserById(appKeyEntity.getCreatedBy());
 
         // 3. Verify active subscription
-        TenantSubscriptionEntity subscription = subscriptionRepository
+        TenantSubscriptionEntity subscriptionEntity = subscriptionRepository
                 .findFirstByTenantEntityAndStatusAndEndAtAfterAndIsActiveAndIsDeleted(
-                        tenant, "ACTIVE", OffsetDateTime.now(), true, false)
+                        tenantEntity, "ACTIVE", OffsetDateTime.now(), true, false)
                 .orElseThrow(() -> new SubscriptionInvalidException(
                         "No active subscription found. Please subscribe to a plan."));
-
-        // 4. Load subscription limits
-        List<TenantSubscriptionLimitEntity> limits = subscriptionLimitRepository
-                .findAllByTenantSubscriptionEntityAndIsActiveAndIsDeleted(subscription, true, false);
-
-        // 5. Enforce each time-based quota
-        for (TenantSubscriptionLimitEntity limit : limits) {
-            LimitKeyEntity limitKey = limit.getLimitKeyEntity();
-
-            if (isTimeBasedUnit(limitKey.getUnit())) {
-                continue;
-            }
-
-            TenantUsageEntity usage = getOrCreateUsage(subscription, appKey, limitKey);
-
-            if (windowExpired(usage)) {
-                resetWindow(usage);
-            }
-
-            if (usage.getUsageCount() >= limit.getLimitValue()) {
-                throw new QuotaExceededException(
-                        "Quota exceeded for [" + limitKey.getLimitKey() + "]. "
-                        + "Limit: " + limit.getLimitValue() + " " + limitKey.getUnit() + ".");
-            }
-        }
-
-        return new EnforcementResult(tenant, appKey, subscription);
+        return new EnforcementResult(tenantEntity, appKeyEntity, subscriptionEntity);
     }
 
     @Override
@@ -93,20 +62,6 @@ public class UsageEnforcementServiceImpl implements UsageEnforcementService {
     public void recordUsage(EnforcementResult result, String endpoint, String method, int statusCode) {
         LofiConnectAppKeyEntity appKey = result.appKey();
         TenantSubscriptionEntity subscription = result.subscription();
-
-        List<TenantSubscriptionLimitEntity> limits = subscriptionLimitRepository
-                .findAllByTenantSubscriptionEntityAndIsActiveAndIsDeleted(subscription, true, false);
-
-        for (TenantSubscriptionLimitEntity limit : limits) {
-            LimitKeyEntity limitKey = limit.getLimitKeyEntity();
-            if (isTimeBasedUnit(limitKey.getUnit())) {
-                continue;
-            }
-            TenantUsageEntity usage = getOrCreateUsage(subscription, appKey, limitKey);
-            usage.setUsageCount(usage.getUsageCount() + 1);
-            usage.setAppKeyEntity(appKey);
-            usageRepository.save(usage);
-        }
 
         // API logging will be implemented later
     }
@@ -116,14 +71,14 @@ public class UsageEnforcementServiceImpl implements UsageEnforcementService {
     private LofiConnectAppKeyEntity resolveAppKey(String appKeyValue) {
         try {
             return appKeyService.getAppKeyEntity(appKeyValue);
-        } catch (RuntimeException e) {
+        } catch (RuntimeException ex) {
             throw new AppKeyInvalidException("Invalid or inactive app key.");
         }
     }
 
     private TenantUsageEntity getOrCreateUsage(TenantSubscriptionEntity subscription,
-                                                LofiConnectAppKeyEntity appKey,
-                                                LimitKeyEntity limitKey) {
+                                               LofiConnectAppKeyEntity appKey,
+                                               LimitKeyEntity limitKey) {
         return usageRepository
                 .findByTenantSubscriptionEntityAndLimitKeyEntity(subscription, limitKey)
                 .orElseGet(() -> {
@@ -153,10 +108,10 @@ public class UsageEnforcementServiceImpl implements UsageEnforcementService {
 
     private OffsetDateTime computeWindowEnd(String unit, OffsetDateTime from) {
         return switch (unit.toUpperCase()) {
-            case "RPM"     -> from.plusMinutes(1);
+            case "RPM" -> from.plusMinutes(1);
             case "MONTHLY" -> from.withDayOfMonth(1).plusMonths(1)
-                                  .withHour(0).withMinute(0).withSecond(0).withNano(0);
-            default        -> from.plusDays(1);
+                    .withHour(0).withMinute(0).withSecond(0).withNano(0);
+            default -> from.plusDays(1);
         };
     }
 
