@@ -1,5 +1,6 @@
 package org.example.loficonnect.commons.exception;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,38 +34,42 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<Map<String, Object>> handleFeignException(FeignException ex) {
+
         int status = ex.status();
         String message = "Feign client error";
 
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("timestamp", Instant.now().toString());
+
         try {
-            if (ex.content() != null && ex.content().length > 0) {
-                String body = new String(ex.content(), StandardCharsets.UTF_8);
-                Map<String, Object> map = new com.fasterxml.jackson.databind.ObjectMapper().readValue(body, Map.class);
+            String body = ex.contentUTF8(); // ✅ FIX
 
-                // Check for GoHighLevel specific error
-                String error = (String) map.get("error");
-                String errorDescription = (String) map.get("error_description");
+            if (body != null && !body.isBlank()) {
 
-                if ("invalid_grant".equals(error) && errorDescription != null) {
-                    message = "Authentication failed: Refresh token is invalid or expired. "
-                            + "Please re-authorize the app to generate a new token.";
-                    status = HttpStatus.UNAUTHORIZED.value();
-                } else {
-                    message = map.getOrDefault("message", message).toString();
-                    status = (int) map.getOrDefault("statusCode", status);
+                ObjectMapper mapper = new ObjectMapper();
+                Map<String, Object> map = mapper.readValue(body, Map.class);
+
+                message = String.valueOf(map.getOrDefault("message", message));
+
+                Object statusCodeObj = map.get("statusCode");
+                if (statusCodeObj instanceof Number) {
+                    status = ((Number) statusCodeObj).intValue();
                 }
+
+                responseBody.putAll(map);
+            } else {
+                responseBody.put("message", ex.getMessage());
             }
+
         } catch (Exception e) {
-            // fallback if parsing fails
             log.warn("Failed to parse Feign exception body: {}", e.getMessage());
+            responseBody.put("message", ex.getMessage());
         }
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", Instant.now().toString());
-        body.put("statusCode", status);
-        body.put("message", message);
+        responseBody.put("statusCode", status);
+        responseBody.put("message", message);
 
-        return ResponseEntity.status(status).body(body);
+        return ResponseEntity.status(status).body(responseBody);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
