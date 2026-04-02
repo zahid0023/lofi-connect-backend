@@ -42,4 +42,9 @@ public class TenantSubscriptionController {
         SubscriptionPlanEntity newPlanEntity = subscriptionPlanService.getSubscriptionPlanEntityById(request.getSubscriptionPlanId());
         return ResponseEntity.ok(tenantSubscriptionService.upgradePlan(request, userEntity, newPlanEntity));
     }
+
+    @GetMapping
+    public ResponseEntity<?> getSubscriptionPlans() {
+        return ResponseEntity.ok(subscriptionPlanService.getAllSubscriptionPlans());
+    }
 }

@@ -46,7 +46,8 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/v1/authorization/ghl/init",
                                 "/api/v1/authorization/redirect",
-                                "/api/v1/authorization/ghl/ping"
+                                "/api/v1/authorization/ghl/ping",
+                                "/api/v1/subscriptions/**"
                         ).permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
