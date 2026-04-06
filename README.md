@@ -1,4 +1,4 @@
-# How to Run Appifylab Backend
+# How to Run LofiConntect Backend
 
 This guide covers two ways to run the application:
 
