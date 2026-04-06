@@ -1,4 +1,4 @@
-# How to Run LofiConntect Backend
+# How to Run LofiConnect Backend
 
 This guide covers two ways to run the application:
 
