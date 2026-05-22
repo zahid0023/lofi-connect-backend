@@ -5,6 +5,7 @@ import org.example.loficonnect.auth.exception.CustomAuthenticationEntryPoint;
 import org.example.loficonnect.auth.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -52,6 +53,8 @@ public class SecurityConfig {
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/ghl/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/subscription-plans", "/api/v1/subscription-plans/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/currencies", "/api/v1/currencies/**").permitAll()
                         .requestMatchers("/api/v1/admins/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/users/**").hasRole("USER")
                         .anyRequest().authenticated()

@@ -12,10 +12,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class CurrencyDto {
+public class CountryDto {
     private Long id;
     private String code;
+
+    private String iso3Code;
+    private String phoneCode;
+
     private String name;
     private String description;
-    private String symbol;
+    private Integer sortOrder;
 }

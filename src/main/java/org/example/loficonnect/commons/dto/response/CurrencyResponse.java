@@ -8,9 +8,9 @@ import org.example.loficonnect.commons.model.dto.CurrencyDto;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CurrencyResponse {
-    private CurrencyDto data;
+    private final CurrencyDto currency;
 
     public CurrencyResponse(CurrencyDto currency) {
-        this.data = currency;
+        this.currency = currency;
     }
 }
