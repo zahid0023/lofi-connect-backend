@@ -2,10 +2,11 @@ package org.example.loficonnect.commons.serviceImpl;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
+import org.example.loficonnect.commons.dto.request.PaginatedRequest;
 import org.example.loficonnect.commons.dto.request.SubscriptionPlanCreateRequest;
 import org.example.loficonnect.commons.dto.request.SubscriptionPlanLimitRequest;
 import org.example.loficonnect.commons.dto.request.SubscriptionPlanUpdateRequest;
-import org.example.loficonnect.commons.dto.response.SubscriptionPlanListResponse;
+import org.example.loficonnect.commons.dto.response.PaginatedResponse;
 import org.example.loficonnect.commons.dto.response.SubscriptionPlanResponse;
 import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.example.loficonnect.commons.model.dto.SubscriptionPlanDto;
@@ -13,20 +14,29 @@ import org.example.loficonnect.commons.model.entity.CurrencyEntity;
 import org.example.loficonnect.commons.model.entity.LimitKeyEntity;
 import org.example.loficonnect.commons.model.entity.SubscriptionPlanEntity;
 import org.example.loficonnect.commons.model.entity.SubscriptionPlanLimitEntity;
+import org.example.loficonnect.commons.model.enums.SubscriptionPlanSortField;
 import org.example.loficonnect.commons.model.mapper.SubscriptionPlanMapper;
+import org.example.loficonnect.commons.model.projection.SubscriptionPlanSummary;
 import org.example.loficonnect.commons.repository.SubscriptionPlanLimitRepository;
 import org.example.loficonnect.commons.repository.SubscriptionPlanRepository;
 import org.example.loficonnect.commons.service.CurrencyService;
 import org.example.loficonnect.commons.service.LimitKeyService;
 import org.example.loficonnect.commons.service.SubscriptionPlanService;
+import org.example.loficonnect.util.Pagination;
+import org.jspecify.annotations.NonNull;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Slf4j
 public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
+
+    private static final Set<String> ALLOWED_SORT_FIELDS = SubscriptionPlanSortField.allowedFields();
+
     private final SubscriptionPlanRepository subscriptionPlanRepository;
     private final SubscriptionPlanLimitRepository subscriptionPlanLimitRepository;
     private final CurrencyService currencyService;
@@ -42,59 +52,58 @@ public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
         this.limitKeyService = limitKeyService;
     }
 
-    @Override
     @Transactional
-    public SuccessResponse createSubscriptionPlan(SubscriptionPlanCreateRequest request) {
-        CurrencyEntity currency = currencyService.getCurrencyEntityById(request.getCurrencyId());
-        SubscriptionPlanEntity plan = SubscriptionPlanMapper.fromRequest(request, currency);
-        subscriptionPlanRepository.save(plan);
-        saveLimits(plan, request.getLimits());
-        return new SuccessResponse(true, plan.getId());
+    @Override
+    public SuccessResponse create(SubscriptionPlanCreateRequest request) {
+        CurrencyEntity currency = currencyService.getEntityById(request.getCurrencyId());
+        SubscriptionPlanEntity entity = SubscriptionPlanMapper.create(request, currency);
+        subscriptionPlanRepository.save(entity);
+        saveLimits(entity, request.getLimits());
+        log.info("SubscriptionPlan created with id: {}", entity.getId());
+        return new SuccessResponse(true, entity.getId());
     }
 
     @Override
-    public SubscriptionPlanEntity getSubscriptionPlanEntityById(Long id) {
+    public SubscriptionPlanEntity getEntityById(Long id) {
         return subscriptionPlanRepository.findByIdAndIsActiveAndIsDeleted(id, true, false)
-                .orElseThrow(() -> new EntityNotFoundException("SubscriptionPlan Entity not found"));
+                .orElseThrow(() -> new EntityNotFoundException("SubscriptionPlan not found with id: " + id));
     }
 
     @Override
-    public SubscriptionPlanResponse getSubscriptionPlanById(Long id) {
-        SubscriptionPlanEntity plan = getSubscriptionPlanEntityById(id);
-        SubscriptionPlanDto dto = toDto(plan);
+    public SubscriptionPlanResponse getById(Long id) {
+        SubscriptionPlanEntity entity = getEntityById(id);
+        SubscriptionPlanDto dto = toDto(entity);
         return new SubscriptionPlanResponse(dto);
     }
 
     @Override
-    public SubscriptionPlanListResponse getAllSubscriptionPlans() {
-        List<SubscriptionPlanDto> dtos = subscriptionPlanRepository
-                .findAllByIsActiveAndIsDeleted(true, false)
-                .stream()
-                .map(this::toDto)
-                .toList();
-        return new SubscriptionPlanListResponse(dtos);
+    public PaginatedResponse<SubscriptionPlanSummary> getAll(PaginatedRequest request) {
+        Page<@NonNull SubscriptionPlanSummary> page = subscriptionPlanRepository.findAllByIsActiveAndIsDeleted(
+                true, false, request.toPageable(ALLOWED_SORT_FIELDS)
+        );
+        return Pagination.buildPaginatedResponse(page);
     }
 
-    @Override
     @Transactional
-    public SuccessResponse updateSubscriptionPlan(Long id, SubscriptionPlanUpdateRequest request) {
-        SubscriptionPlanEntity plan = getSubscriptionPlanEntityById(id);
-        CurrencyEntity currency = currencyService.getCurrencyEntityById(request.getCurrencyId());
-        SubscriptionPlanMapper.update(request, plan, currency);
-        subscriptionPlanRepository.save(plan);
-        subscriptionPlanLimitRepository.deleteAllBySubscriptionPlanEntity(plan);
-        saveLimits(plan, request.getLimits());
-        return new SuccessResponse(true, plan.getId());
+    @Override
+    public SuccessResponse update(SubscriptionPlanEntity entity, SubscriptionPlanUpdateRequest request) {
+        CurrencyEntity currency = currencyService.getEntityById(request.getCurrencyId());
+        SubscriptionPlanMapper.update(entity, request, currency);
+        subscriptionPlanRepository.save(entity);
+        subscriptionPlanLimitRepository.deleteAllBySubscriptionPlanEntity(entity);
+        saveLimits(entity, request.getLimits());
+        log.info("SubscriptionPlan updated with id: {}", entity.getId());
+        return new SuccessResponse(true, entity.getId());
     }
 
-    @Override
     @Transactional
-    public SuccessResponse deleteSubscriptionPlan(Long id) {
-        SubscriptionPlanEntity plan = getSubscriptionPlanEntityById(id);
-        plan.setIsActive(false);
-        plan.setIsDeleted(true);
-        subscriptionPlanRepository.save(plan);
-        return new SuccessResponse(true, plan.getId());
+    @Override
+    public SuccessResponse delete(SubscriptionPlanEntity entity) {
+        entity.setIsDeleted(true);
+        entity.setIsActive(false);
+        subscriptionPlanRepository.save(entity);
+        log.info("SubscriptionPlan soft-deleted with id: {}", entity.getId());
+        return new SuccessResponse(true, entity.getId());
     }
 
     private void saveLimits(SubscriptionPlanEntity plan, List<SubscriptionPlanLimitRequest> limitRequests) {
@@ -103,7 +112,7 @@ public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
         }
         List<SubscriptionPlanLimitEntity> limits = limitRequests.stream()
                 .map(req -> {
-                    LimitKeyEntity limitKey = limitKeyService.getLimitKeyEntityById(req.getLimitKeyId());
+                    LimitKeyEntity limitKey = limitKeyService.getEntityById(req.getLimitKeyId());
                     return SubscriptionPlanMapper.toLimitEntity(plan, limitKey, req.getLimitValue());
                 })
                 .toList();

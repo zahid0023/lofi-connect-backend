@@ -9,4 +9,5 @@ import lombok.EqualsAndHashCode;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class SubscriptionPlanCreateRequest extends SubscriptionPlanRequest {
+    private String code;
 }

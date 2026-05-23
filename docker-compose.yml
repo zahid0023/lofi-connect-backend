@@ -3,7 +3,6 @@ version: "3.9"
 services:
   spring_backend:
     env_file:
-      - /opt/lofi-connect.env   # <-- load environment variables from here
       - .env
     image: root00023/lofi-connect-backend:1.0.1
     build:

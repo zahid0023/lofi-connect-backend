@@ -1,49 +1,52 @@
 package org.example.loficonnect.commons.controller;
 
+import jakarta.validation.Valid;
 import org.example.loficonnect.commons.dto.request.LimitKeyCreateRequest;
 import org.example.loficonnect.commons.dto.request.LimitKeyUpdateRequest;
+import org.example.loficonnect.commons.dto.request.PaginatedRequest;
+import org.example.loficonnect.commons.model.entity.LimitKeyEntity;
 import org.example.loficonnect.commons.service.LimitKeyService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/admins/limit-keys")
+@RequestMapping("/api/v1/limit-keys")
 public class LimitKeyController {
+
     private final LimitKeyService limitKeyService;
 
     public LimitKeyController(LimitKeyService limitKeyService) {
         this.limitKeyService = limitKeyService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> createLimitKey(@RequestBody LimitKeyCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(limitKeyService.createLimitKey(request));
+    public ResponseEntity<?> create(@Valid @RequestBody LimitKeyCreateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(limitKeyService.create(request));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
-    public ResponseEntity<?> getAllLimitKeys() {
-        return ResponseEntity.ok(limitKeyService.getAllLimitKeys());
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getLimitKeyById(@PathVariable Long id) {
-        return ResponseEntity.ok(limitKeyService.getLimitKeyById(id));
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(limitKeyService.getById(id));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<?> getAll(@Valid @ParameterObject PaginatedRequest request) {
+        return ResponseEntity.ok(limitKeyService.getAll(request));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateLimitKey(@PathVariable Long id, @RequestBody LimitKeyUpdateRequest request) {
-        return ResponseEntity.ok(limitKeyService.updateLimitKey(id, request));
+    public ResponseEntity<?> update(
+            @PathVariable Long id,
+            @Valid @RequestBody LimitKeyUpdateRequest request) {
+        LimitKeyEntity entity = limitKeyService.getEntityById(id);
+        return ResponseEntity.ok(limitKeyService.update(entity, request));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteLimitKey(@PathVariable Long id) {
-        return ResponseEntity.ok(limitKeyService.deleteLimitKey(id));
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        LimitKeyEntity entity = limitKeyService.getEntityById(id);
+        return ResponseEntity.ok(limitKeyService.delete(entity));
     }
 }

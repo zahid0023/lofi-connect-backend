@@ -2,20 +2,21 @@ package org.example.loficonnect.commons.model.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-
-import java.math.BigDecimal;
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SubscriptionPlanDto {
+public class CityDto {
     private Long id;
+    private Long countryId;
+    private String code;
     private String name;
-    private BigDecimal price;
-    private List<String> description;
-    private String billingCycle;
-    private Integer durationInDays;
-    private CurrencyDto currency;
-    private List<SubscriptionPlanLimitDto> limits;
+    private String description;
+    private Integer sortOrder;
 }

@@ -2,7 +2,12 @@
 create table if not exists subscription_plans
 (
     id          bigserial primary key,
+
     currency_id bigint                                             not null references currencies (id),
+
+    code        varchar(100)                                       not null unique,
+    sort_order integer not null default 0,
+
     name        varchar(100)                                       not null,
     price       numeric(10, 2)           default 0,
     description text[]                                             not null,
@@ -23,6 +28,7 @@ create table if not exists subscription_plan_limits
 (
     id                   bigserial primary key,
     subscription_plan_id bigint                                             not null references subscription_plans (id) on delete cascade,
+
     limit_key_id         bigint                                             not null references limit_keys (id),
     limit_value          bigint                                             not null,
 

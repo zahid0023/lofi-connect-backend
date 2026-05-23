@@ -184,7 +184,7 @@ LimitKeyEntity
 
 | File                                 | Creates                                              |
 |--------------------------------------|------------------------------------------------------|
-| `V2__subscrition_model_create.sql`   | `currencies`, `subscription_models` (legacy)         |
+| `V2__create_currencies.sql`   | `currencies`, `subscription_models` (legacy)         |
 | `V3__limit_key_create.sql`           | `limit_keys`                                         |
 | `V4__subscription_plan_create.sql`   | `subscription_plans`, `subscription_plan_limits`     |
 | `V5__tenant_subscription_create.sql` | `tenant_subscriptions`, `tenant_subscription_limits` |

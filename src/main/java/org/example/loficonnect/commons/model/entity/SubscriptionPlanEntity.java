@@ -50,4 +50,14 @@ public class SubscriptionPlanEntity extends AuditableEntity {
     @Column(name = "duration_in_days", nullable = false)
     private Integer durationInDays;
 
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "code", nullable = false, length = 100)
+    private String code;
+
+    @NotNull
+    @ColumnDefault("0")
+    @Column(name = "sort_order", nullable = false)
+    private Integer sortOrder;
+
 }

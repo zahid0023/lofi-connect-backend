@@ -1,22 +1,24 @@
 package org.example.loficonnect.commons.service;
 
+import org.example.loficonnect.commons.dto.request.PaginatedRequest;
 import org.example.loficonnect.commons.dto.request.SubscriptionPlanCreateRequest;
 import org.example.loficonnect.commons.dto.request.SubscriptionPlanUpdateRequest;
-import org.example.loficonnect.commons.dto.response.SubscriptionPlanListResponse;
+import org.example.loficonnect.commons.dto.response.PaginatedResponse;
 import org.example.loficonnect.commons.dto.response.SubscriptionPlanResponse;
 import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.example.loficonnect.commons.model.entity.SubscriptionPlanEntity;
+import org.example.loficonnect.commons.model.projection.SubscriptionPlanSummary;
 
 public interface SubscriptionPlanService {
-    SuccessResponse createSubscriptionPlan(SubscriptionPlanCreateRequest request);
+    SuccessResponse create(SubscriptionPlanCreateRequest request);
 
-    SubscriptionPlanEntity getSubscriptionPlanEntityById(Long id);
+    SubscriptionPlanEntity getEntityById(Long id);
 
-    SubscriptionPlanResponse getSubscriptionPlanById(Long id);
+    SubscriptionPlanResponse getById(Long id);
 
-    SubscriptionPlanListResponse getAllSubscriptionPlans();
+    PaginatedResponse<SubscriptionPlanSummary> getAll(PaginatedRequest request);
 
-    SuccessResponse updateSubscriptionPlan(Long id, SubscriptionPlanUpdateRequest request);
+    SuccessResponse update(SubscriptionPlanEntity entity, SubscriptionPlanUpdateRequest request);
 
-    SuccessResponse deleteSubscriptionPlan(Long id);
+    SuccessResponse delete(SubscriptionPlanEntity entity);
 }

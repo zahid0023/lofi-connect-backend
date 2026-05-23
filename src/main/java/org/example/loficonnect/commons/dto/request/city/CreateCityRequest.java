@@ -1,8 +1,7 @@
-package org.example.loficonnect.commons.dto.request;
+package org.example.loficonnect.commons.dto.request.city;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,9 +9,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class LimitKeyCreateRequest extends LimitKeyRequest {
+public class CreateCityRequest extends CityRequest {
 
-    @NotBlank
-    @Size(max = 100)
+    @Size(max = 50)
     private String code;
 }

@@ -31,7 +31,7 @@ public class TenantSubscriptionController {
     @PostMapping
     public ResponseEntity<?> subscribePlan(@RequestBody TenantSubscriptionCreateRequest request) {
         UserEntity userEntity = userService.getAuthenticatedUserEntity();
-        SubscriptionPlanEntity subscriptionPlanEntity = subscriptionPlanService.getSubscriptionPlanEntityById(request.getSubscriptionPlanId());
+        SubscriptionPlanEntity subscriptionPlanEntity = null;
         return ResponseEntity.status(HttpStatus.CREATED).body(tenantSubscriptionService.subscribePlan(request, userEntity, subscriptionPlanEntity));
     }
 
@@ -39,12 +39,12 @@ public class TenantSubscriptionController {
     @PostMapping("/upgrade")
     public ResponseEntity<?> upgradePlan(@RequestBody TenantSubscriptionCreateRequest request) {
         UserEntity userEntity = userService.getAuthenticatedUserEntity();
-        SubscriptionPlanEntity newPlanEntity = subscriptionPlanService.getSubscriptionPlanEntityById(request.getSubscriptionPlanId());
+        SubscriptionPlanEntity newPlanEntity = null;
         return ResponseEntity.ok(tenantSubscriptionService.upgradePlan(request, userEntity, newPlanEntity));
     }
 
     @GetMapping
     public ResponseEntity<?> getSubscriptionPlans() {
-        return ResponseEntity.ok(subscriptionPlanService.getAllSubscriptionPlans());
+        return ResponseEntity.ok(null);
     }
 }

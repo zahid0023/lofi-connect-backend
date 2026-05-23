@@ -1,50 +1,52 @@
 package org.example.loficonnect.commons.controller;
 
+import jakarta.validation.Valid;
+import org.example.loficonnect.commons.dto.request.PaginatedRequest;
 import org.example.loficonnect.commons.dto.request.SubscriptionPlanCreateRequest;
 import org.example.loficonnect.commons.dto.request.SubscriptionPlanUpdateRequest;
+import org.example.loficonnect.commons.model.entity.SubscriptionPlanEntity;
 import org.example.loficonnect.commons.service.SubscriptionPlanService;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/admins/subscription-plans")
+@RequestMapping("/api/v1/subscription-plans")
 public class SubscriptionPlanController {
+
     private final SubscriptionPlanService subscriptionPlanService;
 
     public SubscriptionPlanController(SubscriptionPlanService subscriptionPlanService) {
         this.subscriptionPlanService = subscriptionPlanService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<?> createSubscriptionPlan(@RequestBody SubscriptionPlanCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionPlanService.createSubscriptionPlan(request));
+    public ResponseEntity<?> create(@Valid @RequestBody SubscriptionPlanCreateRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionPlanService.create(request));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
-    public ResponseEntity<?> getAllSubscriptionPlans() {
-        return ResponseEntity.ok(subscriptionPlanService.getAllSubscriptionPlans());
-    }
-
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getSubscriptionPlanById(@PathVariable Long id) {
-        return ResponseEntity.ok(subscriptionPlanService.getSubscriptionPlanById(id));
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(subscriptionPlanService.getById(id));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping
+    public ResponseEntity<?> getAll(@Valid @ParameterObject PaginatedRequest request) {
+        return ResponseEntity.ok(subscriptionPlanService.getAll(request));
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateSubscriptionPlan(@PathVariable Long id,
-                                                    @RequestBody SubscriptionPlanUpdateRequest request) {
-        return ResponseEntity.ok(subscriptionPlanService.updateSubscriptionPlan(id, request));
+    public ResponseEntity<?> update(
+            @PathVariable Long id,
+            @Valid @RequestBody SubscriptionPlanUpdateRequest request) {
+        SubscriptionPlanEntity entity = subscriptionPlanService.getEntityById(id);
+        return ResponseEntity.ok(subscriptionPlanService.update(entity, request));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSubscriptionPlan(@PathVariable Long id) {
-        return ResponseEntity.ok(subscriptionPlanService.deleteSubscriptionPlan(id));
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        SubscriptionPlanEntity entity = subscriptionPlanService.getEntityById(id);
+        return ResponseEntity.ok(subscriptionPlanService.delete(entity));
     }
 }

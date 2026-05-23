@@ -47,7 +47,7 @@ public class SubscriptionValidationServiceImpl implements SubscriptionValidation
                 .stream().toList();
 
         Optional<SubscriptionPlanLimitEntity> appKeyLimit = limits.stream()
-                .filter(l -> APP_KEY_LIMIT_KEY.equalsIgnoreCase(l.getLimitKeyEntity().getLimitKey()))
+                .filter(l -> APP_KEY_LIMIT_KEY.equalsIgnoreCase(l.getLimitKeyEntity().getCode()))
                 .findFirst();
 
         // 3. If no APP_KEY limit is configured for this plan, allow creation

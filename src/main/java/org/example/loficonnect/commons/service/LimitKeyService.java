@@ -2,21 +2,23 @@ package org.example.loficonnect.commons.service;
 
 import org.example.loficonnect.commons.dto.request.LimitKeyCreateRequest;
 import org.example.loficonnect.commons.dto.request.LimitKeyUpdateRequest;
-import org.example.loficonnect.commons.dto.response.LimitKeyListResponse;
+import org.example.loficonnect.commons.dto.request.PaginatedRequest;
 import org.example.loficonnect.commons.dto.response.LimitKeyResponse;
+import org.example.loficonnect.commons.dto.response.PaginatedResponse;
 import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.example.loficonnect.commons.model.entity.LimitKeyEntity;
+import org.example.loficonnect.commons.model.projection.LimitKeySummary;
 
 public interface LimitKeyService {
-    SuccessResponse createLimitKey(LimitKeyCreateRequest request);
+    SuccessResponse create(LimitKeyCreateRequest request);
 
-    LimitKeyEntity getLimitKeyEntityById(Long id);
+    LimitKeyEntity getEntityById(Long id);
 
-    LimitKeyResponse getLimitKeyById(Long id);
+    LimitKeyResponse getById(Long id);
 
-    LimitKeyListResponse getAllLimitKeys();
+    PaginatedResponse<LimitKeySummary> getAll(PaginatedRequest request);
 
-    SuccessResponse updateLimitKey(Long id, LimitKeyUpdateRequest request);
+    SuccessResponse update(LimitKeyEntity entity, LimitKeyUpdateRequest request);
 
-    SuccessResponse deleteLimitKey(Long id);
+    SuccessResponse delete(LimitKeyEntity entity);
 }
