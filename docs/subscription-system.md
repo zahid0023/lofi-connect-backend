@@ -184,9 +184,9 @@ LimitKeyEntity
 
 | File                                 | Creates                                              |
 |--------------------------------------|------------------------------------------------------|
-| `V2__create_currencies.sql`   | `currencies`, `subscription_models` (legacy)         |
-| `V3__limit_key_create.sql`           | `limit_keys`                                         |
-| `V4__subscription_plan_create.sql`   | `subscription_plans`, `subscription_plan_limits`     |
+| `V8__create_currencies.sql`          | `currencies`, `subscription_models` (legacy)         |
+| `V9__limit_key_create.sql`           | `limit_keys`                                         |
+| `V10__subscription_plan_create.sql`  | `subscription_plans`, `subscription_plan_limits`     |
 | `V5__tenant_subscription_create.sql` | `tenant_subscriptions`, `tenant_subscription_limits` |
 
 ### Entity-Relationship Summary
@@ -1242,7 +1242,7 @@ Trigger: POST /api/v1/subscriptions/tenant-subscriptions
 ### V3 — Limit Keys
 
 ```
-src/main/resources/db/migration/V3__limit_key_create.sql
+src/main/resources/db/migration/V9__limit_key_create.sql
 ```
 
 Creates: `limit_keys`
@@ -1250,7 +1250,7 @@ Creates: `limit_keys`
 ### V4 — Subscription Plans
 
 ```
-src/main/resources/db/migration/V4__subscription_plan_create.sql
+src/main/resources/db/migration/V10__subscription_plan_create.sql
 ```
 
 Creates: `subscription_plans`, `subscription_plan_limits`

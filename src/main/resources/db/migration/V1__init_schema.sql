@@ -1,9 +1,35 @@
+-- ============================================================
+-- Create tables (no FK constraints yet)
+-- ============================================================
+
 create table if not exists roles
 (
-    id         bigserial
-        primary key,
-    name       varchar(50)                                        not null
-        unique,
+    id         bigserial primary key,
+
+    name       varchar(50)                                        not null unique,
+
+    created_by bigint                                             not null,
+    created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
+    updated_by bigint                                             not null,
+    updated_at timestamp with time zone default CURRENT_TIMESTAMP not null,
+    version    bigint                   default 0                 not null,
+    is_active  boolean                  default true              not null,
+    is_deleted boolean                  default false             not null,
+    deleted_by bigint,
+    deleted_at timestamp with time zone
+);
+
+create table if not exists users
+(
+    id         bigserial primary key,
+
+    username   varchar(255)                                       not null unique,
+    password   varchar(255)                                       not null,
+    role_id    bigint                                             not null,
+    enabled    boolean                  default true              not null,
+    locked     boolean                  default false             not null,
+    expired    boolean                  default false             not null,
+
     created_by bigint                                             not null,
     created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
     updated_by bigint                                             not null,
@@ -17,11 +43,11 @@ create table if not exists roles
 
 create table if not exists permissions
 (
-    id          bigserial
-        primary key,
-    name        varchar(100)                                       not null
-        unique,
+    id          bigserial primary key,
+
+    name        varchar(100)                                       not null unique,
     description varchar(255),
+
     created_by  bigint                                             not null,
     created_at  timestamp with time zone default CURRENT_TIMESTAMP not null,
     updated_by  bigint                                             not null,
@@ -33,40 +59,13 @@ create table if not exists permissions
     deleted_at  timestamp with time zone
 );
 
-create table if not exists users
-(
-    id         bigserial
-        primary key,
-    username   varchar(255)                                       not null
-        unique,
-    password   varchar(255)                                       not null,
-    role_id    bigint                                             not null
-        references roles
-            on delete restrict,
-    enabled    boolean                  default true              not null,
-    locked     boolean                  default false             not null,
-    expired    boolean                  default false             not null,
-    created_by bigint                                             not null,
-    created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    updated_by bigint                                             not null,
-    updated_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    version    bigint                   default 0                 not null,
-    is_active  boolean                  default true              not null,
-    is_deleted boolean                  default false             not null,
-    deleted_by bigint,
-    deleted_at timestamp with time zone
-);
-
 create table if not exists user_permissions
 (
-    id            bigserial
-        primary key,
-    user_id       bigint                                             not null
-        references users
-            on delete cascade,
-    permission_id bigint                                             not null
-        references permissions
-            on delete cascade,
+    id            bigserial primary key,
+
+    user_id       bigint                                             not null,
+    permission_id bigint                                             not null,
+
     created_by    bigint                                             not null,
     created_at    timestamp with time zone default CURRENT_TIMESTAMP not null,
     updated_by    bigint                                             not null,
@@ -79,100 +78,103 @@ create table if not exists user_permissions
     unique (user_id, permission_id)
 );
 
-insert into roles(name, created_by, updated_by)
-values ('USER', 1, 1)
-on conflict do nothing;
+-- ============================================================
+-- Seed data — inserted before FK constraints are added,
+-- so there is no circular dependency to worry about.
+--
+-- IDs are set explicitly so we never rely on sequence order.
+--
+--   roles  id=1 → SYSTEM role
+--   users  id=1 → system user  (role_id=1, created_by=1 self-ref)
+--   roles  id=2 → USER role    (created_by=1, system user)
+-- ============================================================
 
-create table if not exists refresh_tokens
-(
-    id         bigserial
-        primary key,
-    user_id    bigint                                             not null
-        references users
-            on delete cascade,
+insert into roles (id, name, created_by, updated_by)
+values (1, 'SYSTEM', 1, 1);
 
-    token      varchar(500)                                       not null,
+insert into users (id, username, password, role_id, created_by, updated_by, enabled, locked, expired)
+values (1, 'system', 'N/A', 1, 1, 1, true, false, false);
 
-    expires_at timestamp with time zone                           not null,
-    created_by bigint                                             not null,
-    created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    updated_by bigint                                             not null,
-    updated_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    version    bigint                   default 0                 not null,
-    is_active  boolean                  default true              not null,
-    is_deleted boolean                  default false             not null,
-    deleted_by bigint,
-    deleted_at timestamp with time zone
-);
+insert into roles (id, name, created_by, updated_by)
+values (2, 'USER', 1, 1);
 
-create table if not exists lofi_connect_app_key
-(
-    id         bigserial primary key,
+insert into roles (id, name, created_by, updated_by)
+values (3, 'ADMIN', 1, 1);
 
-    app_key    text                                               not null unique,
-    name       text                                               not null default '',
-
-    created_by bigint                                             not null references users (id),
-    created_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    updated_by bigint                                             not null,
-    updated_at timestamp with time zone default CURRENT_TIMESTAMP not null,
-    version    bigint                   default 0                 not null,
-    is_active  boolean                  default true              not null,
-    is_deleted boolean                  default false             not null,
-    deleted_by bigint,
-    deleted_at timestamp with time zone,
-    unique (name, created_by)
-);
-
-create table if not exists go_high_level_tokens
-(
-    id               bigserial primary key,
-
-    app_key_id       bigint references lofi_connect_app_key (id),
-
-    access_token     text        not null,
-    token_type       varchar(50) not null,
-    expires_in       integer     not null,
-    refresh_token    text        not null,
-    refresh_token_id text        not null,
-    company_id       text        not null default '',
-    subaccount_name  text        not null default '',
-    scopes           text        not null default '',
-
-    version          bigint               default 0 not null,
-    is_active        boolean              default true not null,
-    is_deleted       boolean              default false not null
-);
-
-create table if not exists scopes
-(
-    id          bigserial primary key,
-    name        varchar(50),
-    description varchar(255),
-
-    created_by  bigint                                             not null references users (id),
-    created_at  timestamp with time zone default CURRENT_TIMESTAMP not null,
-    updated_by  bigint                                             not null references users (id),
-    updated_at  timestamp with time zone default CURRENT_TIMESTAMP not null,
-    version     bigint                   default 0                 not null,
-    is_active   boolean                  default true              not null,
-    is_deleted  boolean                  default false             not null,
-    deleted_by  bigint,
-    deleted_at  timestamp with time zone
-);
-
-insert into permissions(name, description, created_by, updated_by)
-values ('CREATE_SCOPE', 'Create a new scope', '0', '0')
+insert into permissions (name, description, created_by, updated_by)
+values ('CREATE_SCOPE', 'Create a new scope', 1, 1)
 on conflict (name) do nothing;
 
-alter table go_high_level_tokens
-    add column if not exists user_type varchar(255);
+-- Advance sequences so next auto-generated IDs start above the seeded values
+select setval(pg_get_serial_sequence('roles', 'id'), (select max(id) from roles));
+select setval(pg_get_serial_sequence('users', 'id'), (select max(id) from users));
 
-alter table go_high_level_tokens
-    add column if not exists user_id text;
+-- ============================================================
+-- FK constraints — added after seed data so PostgreSQL
+-- validates the already-inserted rows (all pass).
+-- ============================================================
 
-alter table go_high_level_tokens
-    add column if not exists created_at timestamp with time zone;
+-- Structural FKs
+alter table users
+    add constraint fk_users_role
+        foreign key (role_id) references roles (id);
 
-alter table go_high_level_tokens
-    add column if not exists location_id text not null default '0';
+alter table user_permissions
+    add constraint fk_user_permissions_user
+        foreign key (user_id) references users (id);
+
+alter table user_permissions
+    add constraint fk_user_permissions_permission
+        foreign key (permission_id) references permissions (id);
+
+-- Audit FKs — roles
+alter table roles
+    add constraint fk_roles_created_by
+        foreign key (created_by) references users (id);
+
+alter table roles
+    add constraint fk_roles_updated_by
+        foreign key (updated_by) references users (id);
+
+alter table roles
+    add constraint fk_roles_deleted_by
+        foreign key (deleted_by) references users (id);
+
+-- Audit FKs — users
+alter table users
+    add constraint fk_users_created_by
+        foreign key (created_by) references users (id);
+
+alter table users
+    add constraint fk_users_updated_by
+        foreign key (updated_by) references users (id);
+
+alter table users
+    add constraint fk_users_deleted_by
+        foreign key (deleted_by) references users (id);
+
+-- Audit FKs — permissions
+alter table permissions
+    add constraint fk_permissions_created_by
+        foreign key (created_by) references users (id);
+
+alter table permissions
+    add constraint fk_permissions_updated_by
+        foreign key (updated_by) references users (id);
+
+alter table permissions
+    add constraint fk_permissions_deleted_by
+        foreign key (deleted_by) references users (id);
+
+-- Audit FKs — user_permissions
+alter table user_permissions
+    add constraint fk_user_permissions_created_by
+        foreign key (created_by) references users (id);
+
+alter table user_permissions
+    add constraint fk_user_permissions_updated_by
+        foreign key (updated_by) references users (id);
+
+alter table user_permissions
+    add constraint fk_user_permissions_deleted_by
+        foreign key (deleted_by) references users (id);

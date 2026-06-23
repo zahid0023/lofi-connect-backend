@@ -4,16 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.FeignException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.commons.dto.response.ApiErrorResponse;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.example.loficonnect.commons.exception.ActiveSubscriptionExistsException;
-import org.example.loficonnect.commons.exception.AppKeyInvalidException;
-import org.example.loficonnect.commons.exception.NoActiveSubscriptionException;
-import org.example.loficonnect.commons.exception.QuotaExceededException;
-import org.example.loficonnect.commons.exception.SubscriptionInvalidException;
-import org.example.loficonnect.commons.exception.PlanLimitExceededException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
@@ -21,12 +16,12 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestControllerAdvice
@@ -119,20 +114,25 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
-    @ExceptionHandler(ActiveSubscriptionExistsException.class)
-    public ResponseEntity<@NonNull ApiErrorResponse> handleActiveSubscriptionExists(
-            ActiveSubscriptionExistsException ex,
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleConstraintViolation(
+            ConstraintViolationException ex,
             HttpServletRequest request
     ) {
-        return build(ex, HttpStatus.CONFLICT, "ACTIVE_SUBSCRIPTION_EXISTS", request);
-    }
+        String message = ex.getConstraintViolations().stream()
+                .map(v -> v.getPropertyPath() + ": " + v.getMessage())
+                .collect(Collectors.joining(", "));
 
-    @ExceptionHandler(NoActiveSubscriptionException.class)
-    public ResponseEntity<@NonNull ApiErrorResponse> handleNoActiveSubscription(
-            NoActiveSubscriptionException ex,
-            HttpServletRequest request
-    ) {
-        return build(ex, HttpStatus.BAD_REQUEST, "NO_ACTIVE_SUBSCRIPTION", request);
+        log.warn("Constraint violation: {}", message);
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                request.getHeader("X-Request-Id"),
+                HttpStatus.BAD_REQUEST.value(),
+                "VALIDATION_ERROR",
+                message
+        );
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(AppKeyInvalidException.class)
@@ -141,30 +141,6 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return build(ex, HttpStatus.UNAUTHORIZED, "INVALID_APP_KEY", request);
-    }
-
-    @ExceptionHandler(QuotaExceededException.class)
-    public ResponseEntity<@NonNull ApiErrorResponse> handleQuotaExceeded(
-            QuotaExceededException ex,
-            HttpServletRequest request
-    ) {
-        return build(ex, HttpStatus.TOO_MANY_REQUESTS, "QUOTA_EXCEEDED", request);
-    }
-
-    @ExceptionHandler(SubscriptionInvalidException.class)
-    public ResponseEntity<@NonNull ApiErrorResponse> handleSubscriptionInvalid(
-            SubscriptionInvalidException ex,
-            HttpServletRequest request
-    ) {
-        return build(ex, HttpStatus.FORBIDDEN, "SUBSCRIPTION_REQUIRED", request);
-    }
-
-    @ExceptionHandler(PlanLimitExceededException.class)
-    public ResponseEntity<@NonNull ApiErrorResponse> handlePlanLimitExceeded(
-            PlanLimitExceededException ex,
-            HttpServletRequest request
-    ) {
-        return build(ex, HttpStatus.PAYMENT_REQUIRED, "PLAN_LIMIT_EXCEEDED", request);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

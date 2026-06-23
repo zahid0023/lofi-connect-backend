@@ -16,17 +16,11 @@ public class AuditorAwareImpl implements AuditorAware<@NonNull Long> {
     @Override
     public @NonNull Optional<Long> getCurrentAuditor() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null || !auth.isAuthenticated()) {
-            return Optional.empty();
+        if (auth == null || !auth.isAuthenticated() || Objects.equals(auth.getPrincipal(), "anonymousUser")) {
+            return Optional.of(1L); // system user
         }
 
-        if (Objects.equals(auth.getPrincipal(), "anonymousUser")) {
-            return Optional.of(1L);
-        }
-
-        // Assume your UserDetails has the user ID
         CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-        assert userDetails != null;
         return Optional.of(userDetails.getId());
     }
 }

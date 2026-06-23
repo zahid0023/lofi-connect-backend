@@ -2,33 +2,34 @@
 
 Base URL: `/api/v1/countries`
 
-Countries represent geographic countries used across the platform. All records support soft-delete — deleted records are hidden from all responses.
+Countries represent geographic countries used across the platform. All records support soft-delete — deleted records are
+hidden from all responses.
 
 ---
 
 ## Endpoints
 
-| Method | Path                       | Description        |
-|--------|----------------------------|--------------------|
-| POST   | `/api/v1/countries`        | Create a country   |
-| GET    | `/api/v1/countries`        | List all countries |
-| GET    | `/api/v1/countries/{id}`   | Get a country      |
-| PUT    | `/api/v1/countries/{id}`   | Update a country   |
-| DELETE | `/api/v1/countries/{id}`   | Delete a country   |
+| Method | Path                     | Description        |
+|--------|--------------------------|--------------------|
+| POST   | `/api/v1/countries`      | Create a country   |
+| GET    | `/api/v1/countries`      | List all countries |
+| GET    | `/api/v1/countries/{id}` | Get a country      |
+| PUT    | `/api/v1/countries/{id}` | Update a country   |
+| DELETE | `/api/v1/countries/{id}` | Delete a country   |
 
 ---
 
 ## Data Model
 
-| Field         | Type    | Required | Constraints           | Description                                  |
-|---------------|---------|----------|-----------------------|----------------------------------------------|
-| `id`          | Long    | —        | read-only             | Auto-generated identifier                    |
-| `code`        | String  | Yes      | max 10 chars          | ISO 3166-1 alpha-2 code (e.g., `BD`, `US`)   |
-| `iso3_code`   | String  | No       | max 10 chars          | ISO 3166-1 alpha-3 code (e.g., `BGD`, `USA`) |
-| `phone_code`  | String  | No       | max 10 chars          | International dialing code (e.g., `+880`)    |
-| `name`        | String  | No       | max 255 chars         | Display name of the country                  |
-| `description` | String  | No       | unlimited             | Description of the country                   |
-| `sort_order`  | Integer | Yes      | not null, default `0` | Display order                                |
+| Field         | Type    | Required | Constraints              | Description                                  |
+|---------------|---------|----------|--------------------------|----------------------------------------------|
+| `id`          | Long    | —        | read-only                | Auto-generated identifier                    |
+| `code`        | String  | Yes      | max 10 chars             | ISO 3166-1 alpha-2 code (e.g., `BD`, `US`)   |
+| `iso3_code`   | String  | No       | max 10 chars             | ISO 3166-1 alpha-3 code (e.g., `BGD`, `USA`) |
+| `phone_code`  | String  | No       | max 10 chars             | International dialing code (e.g., `+880`)    |
+| `name`        | String  | Yes      | not blank, max 255 chars | Display name of the country                  |
+| `description` | String  | No       | unlimited                | Description of the country                   |
+| `sort_order`  | Integer | Yes      | not null, default `0`    | Display order                                |
 
 ---
 
@@ -51,14 +52,14 @@ Countries represent geographic countries used across the platform. All records s
 
 ### Request Fields
 
-| Field         | Type    | Required | Validation              |
-|---------------|---------|----------|-------------------------|
-| `code`        | String  | Yes      | Not blank, max 10 chars |
-| `iso3_code`   | String  | No       | max 10 chars            |
-| `phone_code`  | String  | No       | max 10 chars            |
-| `name`        | String  | No       | max 255 chars           |
-| `description` | String  | No       | —                       |
-| `sort_order`  | Integer | Yes      | Not null                |
+| Field         | Type    | Required | Validation               |
+|---------------|---------|----------|--------------------------|
+| `code`        | String  | Yes      | Not blank, max 10 chars  |
+| `iso3_code`   | String  | No       | max 10 chars             |
+| `phone_code`  | String  | No       | max 10 chars             |
+| `name`        | String  | Yes      | Not blank, max 255 chars |
+| `description` | String  | No       | —                        |
+| `sort_order`  | Integer | Yes      | Not null                 |
 
 ### Response `201 Created`
 
@@ -165,9 +166,9 @@ Updates all fields except `code`, which is set at creation time and cannot be ch
 
 ```json
 {
+  "name": "Bangladesh",
   "iso3_code": "BGD",
   "phone_code": "+880",
-  "name": "Bangladesh",
   "description": "Updated description.",
   "sort_order": 1
 }
@@ -175,13 +176,13 @@ Updates all fields except `code`, which is set at creation time and cannot be ch
 
 ### Request Fields
 
-| Field         | Type    | Required | Validation    |
-|---------------|---------|----------|---------------|
-| `iso3_code`   | String  | No       | max 10 chars  |
-| `phone_code`  | String  | No       | max 10 chars  |
-| `name`        | String  | No       | max 255 chars |
-| `description` | String  | No       | —             |
-| `sort_order`  | Integer | Yes      | Not null      |
+| Field         | Type    | Required | Validation               |
+|---------------|---------|----------|--------------------------|
+| `iso3_code`   | String  | No       | max 10 chars             |
+| `phone_code`  | String  | No       | max 10 chars             |
+| `name`        | String  | Yes      | Not blank, max 255 chars |
+| `description` | String  | No       | —                        |
+| `sort_order`  | Integer | Yes      | Not null                 |
 
 ### Response `200 OK`
 
@@ -230,8 +231,8 @@ All errors follow a common structure:
 }
 ```
 
-| HTTP Status | Error Code                 | Cause                                              |
-|-------------|----------------------------|----------------------------------------------------|
-| 400         | `INVALID_ARGUMENT`         | Missing required fields or invalid sort field      |
-| 404         | `ENTITY_NOT_FOUND`         | Country not found, or already soft-deleted         |
-| 409         | `DATA_INTEGRITY_VIOLATION` | Constraint violation (e.g. duplicate `code`)       |
+| HTTP Status | Error Code                 | Cause                                         |
+|-------------|----------------------------|-----------------------------------------------|
+| 400         | `INVALID_ARGUMENT`         | Missing required fields or invalid sort field |
+| 404         | `ENTITY_NOT_FOUND`         | Country not found, or already soft-deleted    |
+| 409         | `DATA_INTEGRITY_VIOLATION` | Constraint violation (e.g. duplicate `code`)  |
