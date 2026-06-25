@@ -52,7 +52,8 @@ public class AdminBootstrapRunner implements ApplicationRunner {
             "CREATE_ADMIN", "Create new admin",
             "ACTIVATE_ADMIN", "Activate admin account",
             "ASSIGN_PERMISSIONS", "Assign permissions to admin",
-            "ALL_PERMISSIONS", "All permissions"
+            "ALL_PERMISSIONS", "All permissions",
+            "VIEW_ALL_SUBSCRIPTIONS", "View all tenant subscriptions"
     );
 
     /**
@@ -90,6 +91,7 @@ public class AdminBootstrapRunner implements ApplicationRunner {
         }
 
         createAdminRole();
+        createUserRole();
         createAdminPermissions();
         createSuperAdmin();
         grantAdminPermissionsToSuperAdmin();
@@ -99,6 +101,12 @@ public class AdminBootstrapRunner implements ApplicationRunner {
     private void createAdminRole() {
         CreateRoleRequest request = new CreateRoleRequest();
         request.setName("ADMIN");
+        roleService.createRole(request);
+    }
+
+    private void createUserRole() {
+        CreateRoleRequest request = new CreateRoleRequest();
+        request.setName("USER");
         roleService.createRole(request);
     }
 

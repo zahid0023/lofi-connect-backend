@@ -9,10 +9,12 @@ import org.example.loficonnect.subscription.service.LimitKeyService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/subscriptions/limit-keys")
+@PreAuthorize("hasRole('ADMIN')")
 public class LimitKeyController {
 
     private final LimitKeyService limitKeyService;

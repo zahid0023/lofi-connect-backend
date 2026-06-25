@@ -8,10 +8,14 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.commons.dto.response.ApiErrorResponse;
+import org.example.loficonnect.subscription.exception.ActiveSubscriptionExistsException;
+import org.example.loficonnect.subscription.exception.NoActiveSubscriptionException;
+import org.example.loficonnect.subscription.exception.UsageLimitExceededException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authorization.AuthorizationDeniedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -65,6 +69,24 @@ public class GlobalExceptionHandler {
         responseBody.put("message", message);
 
         return ResponseEntity.status(status).body(responseBody);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleValidation(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request
+    ) {
+        String message = ex.getBindingResult().getFieldErrors().stream()
+                .map(fe -> fe.getField() + ": " + fe.getDefaultMessage())
+                .collect(Collectors.joining(", "));
+
+        ApiErrorResponse response = new ApiErrorResponse(
+                request.getHeader("X-Request-Id"),
+                HttpStatus.BAD_REQUEST.value(),
+                "VALIDATION_ERROR",
+                message
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -141,6 +163,30 @@ public class GlobalExceptionHandler {
             HttpServletRequest request
     ) {
         return build(ex, HttpStatus.UNAUTHORIZED, "INVALID_APP_KEY", request);
+    }
+
+    @ExceptionHandler(ActiveSubscriptionExistsException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleActiveSubscriptionExists(
+            ActiveSubscriptionExistsException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.CONFLICT, "ACTIVE_SUBSCRIPTION_EXISTS", request);
+    }
+
+    @ExceptionHandler(NoActiveSubscriptionException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleNoActiveSubscription(
+            NoActiveSubscriptionException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.UNPROCESSABLE_ENTITY, "NO_ACTIVE_SUBSCRIPTION", request);
+    }
+
+    @ExceptionHandler(UsageLimitExceededException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handleUsageLimitExceeded(
+            UsageLimitExceededException ex,
+            HttpServletRequest request
+    ) {
+        return build(ex, HttpStatus.TOO_MANY_REQUESTS, "USAGE_LIMIT_EXCEEDED", request);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

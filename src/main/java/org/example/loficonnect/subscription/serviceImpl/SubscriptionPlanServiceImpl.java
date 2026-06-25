@@ -30,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -94,12 +95,11 @@ public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
 
     @Transactional(readOnly = true)
     @Override
-    public PaginatedResponse<SubscriptionPlanSummary> getPublicPlans(PaginatedRequest request) {
-        Page<@NonNull SubscriptionPlanSummary> page = subscriptionPlanRepository
-                .findAllByIsActiveAndIsDeletedAndIsPublic(
-                        true, false, true, request.toPageable(ALLOWED_SORT_FIELDS)
-                );
-        return Pagination.buildPaginatedResponse(page);
+    public List<SubscriptionPlanDto> getPublicPlans() {
+        return subscriptionPlanRepository.findAllPublicWithLimits()
+                .stream()
+                .map(SubscriptionPlanMapper::toDto)
+                .toList();
     }
 
     @Transactional

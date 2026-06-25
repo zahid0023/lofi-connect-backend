@@ -47,9 +47,11 @@ public class SecurityConfig {
                                 "/webjars/**",
                                 "/api/v1/authorization/ghl/init",
                                 "/api/v1/authorization/redirect",
-                                "/api/v1/authorization/ghl/ping",
-                                "/api/v1/subscriptions/**"
+                                "/api/v1/authorization/ghl/ping"
                         ).permitAll()
+                        // Public plan browsing — no login required
+                        .requestMatchers(HttpMethod.GET, "/api/v1/subscriptions/plans/public").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/subscriptions/plans/*").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/ghl/**").permitAll()

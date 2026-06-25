@@ -1,5 +1,6 @@
 package org.example.loficonnect.auth.controller;
 
+import jakarta.validation.Valid;
 import org.example.loficonnect.auth.dto.request.RegistrationRequest;
 import org.example.loficonnect.auth.dto.request.permission.AssignPermissionRequest;
 import org.example.loficonnect.auth.model.enitty.UserEntity;
@@ -24,7 +25,7 @@ public class AdminController {
 
     @PostMapping()
     @PreAuthorize("hasAuthority('CREATE_ADMIN')")
-    public ResponseEntity<?> createAdmin(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<?> createAdmin(@Valid @RequestBody RegistrationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerAdmin(request));
     }
 

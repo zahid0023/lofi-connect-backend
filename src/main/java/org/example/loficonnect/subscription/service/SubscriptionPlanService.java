@@ -6,8 +6,11 @@ import org.example.loficonnect.commons.dto.response.SuccessResponse;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanCreateRequest;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanUpdateRequest;
 import org.example.loficonnect.subscription.dto.response.SubscriptionPlanResponse;
+import org.example.loficonnect.subscription.model.dto.SubscriptionPlanDto;
 import org.example.loficonnect.subscription.model.entity.SubscriptionPlanEntity;
 import org.example.loficonnect.subscription.model.projection.SubscriptionPlanSummary;
+
+import java.util.List;
 
 public interface SubscriptionPlanService {
 
@@ -19,7 +22,8 @@ public interface SubscriptionPlanService {
 
     PaginatedResponse<SubscriptionPlanSummary> getAll(PaginatedRequest request);
 
-    PaginatedResponse<SubscriptionPlanSummary> getPublicPlans(PaginatedRequest request);
+    /** Returns all public plans with their full limit details — used for the "choose a plan" page. */
+    List<SubscriptionPlanDto> getPublicPlans();
 
     SuccessResponse update(SubscriptionPlanEntity entity, SubscriptionPlanUpdateRequest request);
 

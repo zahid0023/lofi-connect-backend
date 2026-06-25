@@ -11,7 +11,7 @@ import org.example.loficonnect.commons.model.entity.AuditableEntity;
 @Getter
 @Setter
 @Entity
-@Table(name = "scopes")
+@Table(name = "go_high_level_scopes")
 public class ScopeEntity extends AuditableEntity {
     @Size(max = 50)
     @Column(name = "name", length = 50)

@@ -98,16 +98,17 @@ Even if the plan is later updated, the tenant's subscription retains the values 
 
 ## Endpoints
 
-| Method   | Path                                 | Auth  | Description                                  |
-|----------|--------------------------------------|-------|----------------------------------------------|
-| `POST`   | `/api/v1/subscriptions/plans`        | ADMIN | Create a subscription plan                   |
-| `GET`    | `/api/v1/subscriptions/plans/{id}`   | ADMIN | Get full plan details by ID                  |
-| `GET`    | `/api/v1/subscriptions/plans`        | ADMIN | List all plans (including hidden)            |
-| `GET`    | `/api/v1/subscriptions/plans/public` | ANY   | List only public, active plans (for tenants) |
-| `PUT`    | `/api/v1/subscriptions/plans/{id}`   | ADMIN | Replace all plan fields and limits           |
-| `DELETE` | `/api/v1/subscriptions/plans/{id}`   | ADMIN | Soft-delete a plan                           |
+| Method   | Path                                 | Auth          | Description                                           |
+|----------|--------------------------------------|---------------|-------------------------------------------------------|
+| `GET`    | `/api/v1/subscriptions/plans/public` | None (public) | List all public plans with full limits — pricing page |
+| `GET`    | `/api/v1/subscriptions/plans/{id}`   | None (public) | Get full plan details by ID                           |
+| `GET`    | `/api/v1/subscriptions/plans`        | ADMIN         | List all plans including hidden ones (summary)        |
+| `POST`   | `/api/v1/subscriptions/plans`        | ADMIN         | Create a subscription plan                            |
+| `PUT`    | `/api/v1/subscriptions/plans/{id}`   | ADMIN         | Replace all plan fields and limits                    |
+| `DELETE` | `/api/v1/subscriptions/plans/{id}`   | ADMIN         | Soft-delete a plan                                    |
 
-> `GET /plans/public` is the only endpoint accessible without admin role. All other endpoints require `ADMIN`.
+> `GET /plans/public` and `GET /plans/{id}` require no login — they are fully public for use on pricing pages and plan
+> detail views before a user has registered. All write operations and the admin list require `ADMIN` role.
 
 ---
 
@@ -406,68 +407,95 @@ admin view — it shows hidden plans as well.
 
 `GET /api/v1/subscriptions/plans/public`
 
-> No special role required. Available to any authenticated user.
+> No authentication required. Fully public — no login needed.
 
-Returns a paginated list of plans where `is_public = true` and `is_active = true` and `is_deleted = false`. This is the
-tenant-facing endpoint used to display available pricing tiers on a plan selection page.
-
-### Query Parameters
-
-| Parameter  | Type   | Default      | Allowed Values                                                          | Description           |
-|------------|--------|--------------|-------------------------------------------------------------------------|-----------------------|
-| `page`     | int    | `0`          | >= 0                                                                    | Zero-based page index |
-| `size`     | int    | `10`         | 1 – 50                                                                  | Items per page        |
-| `sort_by`  | String | `sort_order` | `id`, `code`, `name`, `price`, `billingCycle`, `sortOrder`, `createdAt` | Field to sort by      |
-| `sort_dir` | String | `ASC`        | `ASC`, `DESC`                                                           | Sort direction        |
+Returns all active, public plans in a single flat list, ordered by `sort_order ASC`. This is the tenant-facing endpoint
+used to render a pricing/plan-selection page. Unlike the admin list, this response includes the **full plan details** —
+`description` and the complete `limits` array — so users can compare plans before subscribing. No query parameters are
+accepted; pagination is intentionally omitted because the number of plans is always small.
 
 ### Response `200 OK`
 
 ```json
-{
-  "data": [
-    {
-      "id": 1,
-      "code": "FREE",
-      "name": "Free",
-      "price": "0.00",
-      "billing_cycle": "MONTHLY",
-      "trial_period_days": 0,
-      "sort_order": 1,
-      "is_public": true
-    },
-    {
-      "id": 3,
-      "code": "PROFESSIONAL",
-      "name": "Professional",
-      "price": "29.00",
-      "billing_cycle": "MONTHLY",
-      "trial_period_days": 14,
-      "sort_order": 2,
-      "is_public": true
-    },
-    {
-      "id": 4,
-      "code": "ENTERPRISE",
-      "name": "Enterprise",
-      "price": "99.00",
-      "billing_cycle": "ANNUAL",
-      "trial_period_days": 30,
-      "sort_order": 3,
-      "is_public": true
-    }
-  ],
-  "current_page": 0,
-  "total_pages": 1,
-  "total_elements": 3,
-  "page_size": 10,
-  "has_next": false,
-  "has_previous": false
-}
+[
+  {
+    "id": 1,
+    "currency_id": 1,
+    "code": "FREE",
+    "billing_cycle": "MONTHLY",
+    "trial_period_days": 0,
+    "sort_order": 1,
+    "name": "Free",
+    "price": "0.00",
+    "description": [
+      "2 API keys",
+      "500 API requests per month",
+      "1 CRM account"
+    ],
+    "is_public": true,
+    "limits": [
+      {
+        "id": 1,
+        "limit_key_id": 1,
+        "limit_key_code": "API_KEYS",
+        "limit_key_name": "API Key Creation Limit",
+        "limit_key_unit": "COUNT",
+        "limit_value": 2
+      },
+      {
+        "id": 2,
+        "limit_key_id": 2,
+        "limit_key_code": "API_REQUESTS",
+        "limit_key_name": "API Request Limit",
+        "limit_key_unit": "COUNT",
+        "limit_value": 500
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "currency_id": 1,
+    "code": "PROFESSIONAL",
+    "billing_cycle": "MONTHLY",
+    "trial_period_days": 14,
+    "sort_order": 2,
+    "name": "Professional",
+    "price": "29.00",
+    "description": [
+      "20 API keys",
+      "10,000 API requests per month",
+      "5 CRM accounts",
+      "Priority support",
+      "14-day free trial"
+    ],
+    "is_public": true,
+    "limits": [
+      {
+        "id": 10,
+        "limit_key_id": 1,
+        "limit_key_code": "API_KEYS",
+        "limit_key_name": "API Key Creation Limit",
+        "limit_key_unit": "COUNT",
+        "limit_value": 20
+      },
+      {
+        "id": 11,
+        "limit_key_id": 2,
+        "limit_key_code": "API_REQUESTS",
+        "limit_key_name": "API Request Limit",
+        "limit_key_unit": "COUNT",
+        "limit_value": 10000
+      }
+    ]
+  }
+]
 ```
 
-> Hidden plans (`is_public = false`) are never included. `BETA_TESTER` in the example above would not appear here even
-> though it is active. Use `GET /api/v1/subscriptions/plans/{id}` if a tenant needs to view a specific plan (e.g. via a
-> referral link that supplies the plan ID directly).
+> **Response is a flat array, not a paginated object.** Pagination is not offered here — plans are always few in number
+> and must all be visible on a single pricing page. The order is always `sort_order ASC`.
+
+> **Hidden plans are never included.** Plans with `is_public = false` do not appear. Use `GET /{id}` if a user needs to
+> view a specific plan directly (e.g. via a referral link).
 
 ---
 

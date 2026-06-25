@@ -295,11 +295,12 @@ Flyway automatically runs all database migration scripts from `src/main/resource
 
 After migrations, `AdminBootstrapRunner` checks if a user named `superadmin` exists. If not, it:
 
-1. Creates the `ADMIN` role (the `USER` role is seeded by `V1__schema.sql`)
-2. Creates three permissions: `CREATE_ADMIN`, `ACTIVATE_ADMIN`, `ASSIGN_PERMISSIONS`
-3. Creates a `superadmin` user with a randomly generated password
-4. Grants all three permissions to `superadmin`
-5. Activates the account
+1. Creates the `ADMIN` role
+2. Creates the `USER` role (required for tenant self-registration)
+3. Creates permissions: `CREATE_ADMIN`, `ACTIVATE_ADMIN`, `ASSIGN_PERMISSIONS`, `ALL_PERMISSIONS`, `VIEW_ALL_SUBSCRIPTIONS`
+4. Creates a `superadmin` user with a randomly generated password
+5. Grants all permissions to `superadmin`
+6. Activates the account
 
 The temporary password is logged as a warning — **copy it immediately**.
 
@@ -315,26 +316,91 @@ Once the application is running, the full interactive API documentation is avail
 http://localhost:8080/swagger-ui.html
 ```
 
-### Key endpoints
+### Tenant Journey (end-to-end)
 
-| Method | Endpoint | Auth Required | Description |
-|---|---|---|---|
-| `POST` | `/api/v1/auth/login` | No | Login and receive access + refresh tokens |
-| `POST` | `/api/v1/auth/registration/user` | No | Register a new user account |
-| `POST` | `/api/v1/auth/forgot-password` | No | Request an OTP for password reset |
-| `POST` | `/api/v1/auth/verify-otp` | No | Verify OTP and receive a reset token |
-| `POST` | `/api/v1/auth/reset-password` | No | Reset password using the reset token |
-| `POST` | `/api/v1/admins` | Yes — `CREATE_ADMIN` | Create a new admin account |
-| `PUT` | `/api/v1/admins/{id}/activate` | Yes — `ACTIVATE_ADMIN` | Activate an admin account |
-| `POST` | `/api/v1/admins/{id}/permissions` | Yes — `ASSIGN_PERMISSIONS` | Assign permissions to an admin |
+This is the sequence a new customer follows to go from zero to using the API gateway:
 
-### Authentication header
+```
+Step 1 — Register
+  POST /api/v1/auth/registration/user
+  Body: { "user_name": "alice", "password": "secret123", "confirm_password": "secret123" }
+  → Account created with USER role, auto-activated
 
-All protected endpoints require a Bearer token in the `Authorization` header:
+Step 2 — Login
+  POST /api/v1/auth/login
+  Body: { "user_name": "alice", "password": "secret123" }
+  → { "access_token": "eyJ...", "refresh_token": "..." }
 
+Step 3 — Browse Plans (no login required)
+  GET /api/v1/subscriptions/plans/public
+  → Full list of plans with features and limits
+
+Step 4 — Subscribe
+  POST /api/v1/subscriptions/tenant-subscriptions
+  Authorization: Bearer <access_token>
+  Body: { "plan_id": 3 }
+  → { "success": true, "id": 42 }   ← now a tenant
+
+Step 5 — Generate App Key
+  POST /api/v1/app-keys/generate
+  Authorization: Bearer <access_token>
+  Body: { "name": "Production Key" }
+  → { "app_key": { "app_key": "lc_a1b2c3...", "subscription_plan_name": "Professional" } }
+
+Step 6 — Connect GoHighLevel Account
+  PUT /api/v1/app-keys/assign-ghl
+  Authorization: Bearer <access_token>
+
+Step 7 — Use the API Gateway
+  GET /api/v1/ghl/contacts/abc123
+  X-App-Key: lc_a1b2c3...
+  → GHL API response (proxied)
+```
+
+---
+
+### Full API Reference
+
+| Group | Method | Endpoint | Auth | Description |
+|---|---|---|---|---|
+| **Auth** | `POST` | `/api/v1/auth/registration/user` | None | Register (username min 3 chars, password min 8 chars) |
+| **Auth** | `POST` | `/api/v1/auth/login` | None | Login → access + refresh tokens |
+| **Auth** | `POST` | `/api/v1/auth/forgot-password` | None | Request password reset OTP |
+| **Auth** | `POST` | `/api/v1/auth/verify-otp` | None | Verify OTP |
+| **Auth** | `POST` | `/api/v1/auth/reset-password` | None | Reset password with token |
+| **Plans** | `GET` | `/api/v1/subscriptions/plans/public` | None | Browse all public plans with full limit details |
+| **Plans** | `GET` | `/api/v1/subscriptions/plans/{id}` | None | View a single plan's full details |
+| **Plans** | `GET` | `/api/v1/subscriptions/plans` | ADMIN | List all plans including hidden ones |
+| **Plans** | `POST` | `/api/v1/subscriptions/plans` | ADMIN | Create a subscription plan |
+| **Plans** | `PUT` | `/api/v1/subscriptions/plans/{id}` | ADMIN | Update a plan |
+| **Plans** | `DELETE` | `/api/v1/subscriptions/plans/{id}` | ADMIN | Soft-delete a plan |
+| **Limit Keys** | `GET/POST/PUT/DELETE` | `/api/v1/subscriptions/limit-keys` | ADMIN | Manage limit key definitions |
+| **Subscriptions** | `POST` | `/api/v1/subscriptions/tenant-subscriptions` | Bearer | Subscribe to a plan |
+| **Subscriptions** | `POST` | `/api/v1/subscriptions/tenant-subscriptions/upgrade` | Bearer | Switch to a different plan |
+| **Subscriptions** | `GET` | `/api/v1/subscriptions/tenant-subscriptions/me` | Bearer | View my active subscription |
+| **Subscriptions** | `DELETE` | `/api/v1/subscriptions/tenant-subscriptions/cancel` | Bearer | Cancel my subscription |
+| **Subscriptions** | `GET` | `/api/v1/subscriptions/tenant-subscriptions` | ADMIN | List all tenant subscriptions |
+| **App Keys** | `POST` | `/api/v1/app-keys/generate` | Bearer | Generate an App Key (requires active subscription) |
+| **App Keys** | `GET` | `/api/v1/app-keys` | Bearer | List my App Keys |
+| **Gateway** | `*` | `/api/v1/ghl/**` | `X-App-Key` header | Proxied GoHighLevel API calls |
+| **Admin** | `POST` | `/api/v1/admins` | `CREATE_ADMIN` | Create an admin account |
+| **Admin** | `PUT` | `/api/v1/admins/{id}/activate` | `ACTIVATE_ADMIN` | Activate an admin |
+| **Admin** | `POST` | `/api/v1/admins/{id}/permissions` | `ASSIGN_PERMISSIONS` | Assign admin permissions |
+
+### Authentication
+
+**JWT (for management APIs):**
 ```
 Authorization: Bearer <access_token>
 ```
+
+**App Key (for gateway calls):**
+```
+X-App-Key: lc_a1b2c3d4e5f6a1b2c3d4e5f6
+```
+
+These two authentication mechanisms are separate and non-interchangeable. JWT is used for all account/subscription
+management. The App Key is used exclusively for gateway requests to `/api/v1/ghl/**`.
 
 ---
 

@@ -29,60 +29,86 @@
 
 ## Overview
 
-The subscription system controls what a tenant (user) can do inside the platform. It is built on three pillars:
+The subscription system controls who can access the API gateway and what they are allowed to do. It is built on four
+pillars that must be set up in order:
 
 ```
-Limit Keys  ──►  Subscription Plans  ──►  Tenant Subscriptions
-                  (defines limits)           (assigned to tenants)
+Limit Keys  ──►  Subscription Plans  ──►  Tenant Subscriptions  ──►  App Keys
+(define what       (bundle limits          (user subscribes          (API credential
+ can be limited)    into pricing tiers)     to a plan)                tied to subscription)
 ```
 
-| Concept                 | Purpose                                                                                     |
-|-------------------------|---------------------------------------------------------------------------------------------|
-| **Limit Key**           | A named, reusable limit definition (e.g. `max_api_keys`, `requests_per_minute`)             |
-| **Subscription Plan**   | A plan (FREE / PRO / ENTERPRISE) with a price, billing cycle, duration, and a set of limits |
-| **Tenant Subscription** | The record of a specific tenant subscribing to a specific plan                              |
+| Concept | Purpose |
+|---|---|
+| **Limit Key** | A named, reusable limit definition (e.g. `API_KEYS`, `API_REQUESTS`) — defines *what* can be limited |
+| **Subscription Plan** | A pricing tier (FREE / PRO / ENTERPRISE) that assigns concrete values to limit keys |
+| **Tenant Subscription** | A user's active subscription to a plan — this is what makes them a tenant |
+| **App Key** | The API credential generated against a subscription, used for every gateway call |
 
 **Core rules:**
 
-- Limits are plan-driven. Usage is app-key-driven. Limits apply at the **tenant** level, not the individual user level.
-- **Each user may have at most one active subscription at any point in time.** Attempting to subscribe while an active
-  subscription exists returns `409 Conflict`.
+- A user cannot use the API gateway without: (1) an active subscription AND (2) an App Key.
+- Each user may have at most one active subscription at any point in time.
+- An App Key is tied to a specific subscription — if the subscription is cancelled/upgraded, the key becomes invalid.
+- Limits apply at the **tenant** level. The subscription plan defines the cap; usage tracking (coming soon) enforces it.
 
 ---
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        REST Layer                           │
-│  LimitKeyController   SubscriptionPlanController            │
-│  (ADMIN only)         (ADMIN only)                          │
-│                                                             │
-│  TenantSubscriptionController  (/api/v1/subscriptions/...)  │
-│  (USER — authenticated tenant subscribes themselves)        │
-└───────────────────┬─────────────────────────────────────────┘
-                    │
-┌───────────────────▼─────────────────────────────────────────┐
-│                      Service Layer                          │
-│  LimitKeyService        SubscriptionPlanService             │
-│  TenantSubscriptionService                                  │
-│    └── enforces one-active-subscription rule                │
-└───────────────────┬─────────────────────────────────────────┘
-                    │
-┌───────────────────▼─────────────────────────────────────────┐
-│                    Repository Layer                         │
-│  LimitKeyRepository     SubscriptionPlanRepository          │
-│  SubscriptionPlanLimitRepository                            │
-│  TenantSubscriptionRepository                               │
-│    └── existsByTenantEntityAndStatusAndEndAtAfter...()      │
-└───────────────────┬─────────────────────────────────────────┘
-                    │
-┌───────────────────▼─────────────────────────────────────────┐
-│                    PostgreSQL Database                      │
-│  limit_keys   subscription_plans   subscription_plan_limits │
-│  tenant_subscriptions   tenant_subscription_limits          │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────────┐
+│                              REST Layer                                  │
+│                                                                          │
+│  PUBLIC (no auth)                                                        │
+│    GET  /api/v1/subscriptions/plans/public   → browse plans              │
+│    GET  /api/v1/subscriptions/plans/{id}     → view plan detail          │
+│                                                                          │
+│  AUTHENTICATED (Bearer JWT)                                              │
+│    TenantSubscriptionController  → subscribe / upgrade / cancel / me     │
+│    AppKeyController              → generate / list app keys              │
+│                                                                          │
+│  ADMIN only (hasRole ADMIN)                                              │
+│    LimitKeyController            → CRUD limit key definitions            │
+│    SubscriptionPlanController    → CRUD subscription plans               │
+│    TenantSubscriptionController  → GET all tenant subscriptions          │
+└───────────────────────────┬──────────────────────────────────────────────┘
+                            │
+┌───────────────────────────▼──────────────────────────────────────────────┐
+│                           Service Layer                                  │
+│  LimitKeyService          → manages limit key definitions                │
+│  SubscriptionPlanService  → manages pricing tiers                        │
+│  TenantSubscriptionService                                               │
+│    ├── subscribe()        → enforces one-active-subscription rule        │
+│    ├── upgrade()          → cancels old, creates new in one transaction  │
+│    ├── cancel()           → sets CANCELLED + is_active = false           │
+│    └── getMyActive()      → returns ACTIVE or TRIAL subscription         │
+│  AppKeyService                                                           │
+│    └── generateAppKey()   → requires active subscription, links key to it│
+└───────────────────────────┬──────────────────────────────────────────────┘
+                            │
+┌───────────────────────────▼──────────────────────────────────────────────┐
+│                         Repository Layer                                 │
+│  LimitKeyRepository              SubscriptionPlanRepository              │
+│  SubscriptionPlanLimitRepository TenantSubscriptionRepository            │
+│  LofiConnectAppKeyRepository                                             │
+└───────────────────────────┬──────────────────────────────────────────────┘
+                            │
+┌───────────────────────────▼──────────────────────────────────────────────┐
+│                         PostgreSQL Database                              │
+│  limit_keys              subscription_plans   subscription_plan_limits   │
+│  tenant_subscriptions    lofi_connect_app_key                            │
+└──────────────────────────────────────────────────────────────────────────┘
 ```
+
+### Security Model
+
+| Endpoint Group | Auth Mechanism | Guard |
+|---|---|---|
+| Plan browsing (public) | None required | `permitAll()` in SecurityConfig |
+| Tenant self-service | JWT (`Bearer` header) | `anyRequest().authenticated()` |
+| Admin operations | JWT + role check | `@PreAuthorize("hasRole('ADMIN')")` |
+| API gateway calls | App Key (`X-App-Key` header) | `AppKeyFilter` (coming in Step 5) |
 
 ---
 
@@ -91,34 +117,31 @@ Limit Keys  ──►  Subscription Plans  ──►  Tenant Subscriptions
 ### Entity Relationships
 
 ```
-CurrencyEntity
-    │ (1)
-    │ used by
+CurrencyEntity (1) ──────────────────────────► SubscriptionPlanEntity (N)
+                                                        │ (1)
+                                              has limits│
+                                                        ▼ (N)
+LimitKeyEntity (1) ◄──────────────── SubscriptionPlanLimitEntity
+      (defines what                     (assigns a concrete value per plan)
+       can be limited)
+
+UserEntity (tenant) (1)
+    │
+    │ subscribes to (max 1 ACTIVE or TRIAL at a time)
+    │
     ▼ (N)
-SubscriptionPlanEntity ──────────────────────┐
-    │ (1)                                     │
-    │ has                                     │ referenced by
-    ▼ (N)                                     │
-SubscriptionPlanLimitEntity                  │
-    │ (N)                                     │
-    │ references                              │
-    ▼ (1)                                     │
-LimitKeyEntity                               │
-                                             │
-UserEntity (tenant)                          │
-    │ (1)                                     │
-    │ subscribes to (max 1 active at a time)  │
-    ▼ (N)                              (N)   ▼
-TenantSubscriptionEntity ◄───────────────────┘
+TenantSubscriptionEntity ──────────────────────► SubscriptionPlanEntity
+    │  (userId, status, start/end date)            (the plan they're on)
     │ (1)
     │ has
     ▼ (N)
-TenantSubscriptionLimitEntity
-    │ (N)
-    │ references
-    ▼ (1)
-LimitKeyEntity
+LofiConnectAppKeyEntity
+    (the API credential for gateway calls)
 ```
+
+**Key design decision:** `TenantSubscriptionEntity` holds a live reference to `SubscriptionPlanEntity`. Limits are
+resolved from the plan at enforcement time (not snapshotted onto the subscription). This simplifies the current model
+while the usage enforcement layer is not yet implemented.
 
 ### LimitKeyEntity
 

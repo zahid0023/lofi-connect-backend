@@ -1,5 +1,6 @@
 package org.example.loficonnect.auth.controller;
 
+import jakarta.validation.Valid;
 import org.example.loficonnect.auth.dto.request.RegistrationRequest;
 import org.example.loficonnect.auth.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration/user")
-    public ResponseEntity<?> registerUser(@RequestBody RegistrationRequest request) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody RegistrationRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.registerUser(request));
     }
 }

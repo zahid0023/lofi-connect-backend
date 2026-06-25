@@ -55,8 +55,16 @@ public class UserServiceImpl implements UserService {
      * Common registration method for any role
      */
     private UserEntity registerWithRole(RegistrationRequest request, String roleName) {
+        if (!request.getPassword().equals(request.getConfirmPassword())) {
+            throw new IllegalArgumentException("Passwords do not match");
+        }
+
+        if (userRepository.findByUsername(request.getUserName()).isPresent()) {
+            throw new IllegalArgumentException("Username '" + request.getUserName() + "' is already taken");
+        }
+
         RoleEntity roleEntity = roleRepository.findByName(roleName)
-                .orElseThrow(() -> new RuntimeException(roleName + " role not found"));
+                .orElseThrow(() -> new IllegalStateException(roleName + " role not found. Contact system administrator."));
 
         UserEntity userEntity = UserMapper.fromRequest(request, roleEntity, passwordEncoder);
 
