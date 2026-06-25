@@ -7,7 +7,6 @@ import lombok.Data;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class RegistrationRequest {
-    private String fullName;
 
     private String userName;
 

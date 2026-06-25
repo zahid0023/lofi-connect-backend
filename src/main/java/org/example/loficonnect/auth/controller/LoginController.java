@@ -35,40 +35,16 @@ public class LoginController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getUserName(),
-                            request.getPassword()
-                    )
-            );
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUserName(),
+                        request.getPassword()
+                )
+        );
 
-            String accessToken = jwtTokenProvider.generateAccessToken(authentication);
-            String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
-            return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
-        } catch (BadCredentialsException ex) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body("Invalid username or password");
-        } catch (DisabledException ex) {
-            return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
-                    .body("User account is disabled");
-
-        } catch (LockedException ex) {
-            return ResponseEntity
-                    .status(HttpStatus.LOCKED)
-                    .body("User account is locked");
-        } catch (AccountExpiredException ex) {
-            return ResponseEntity
-                    .status(HttpStatus.FORBIDDEN)
-                    .body("User account is expired");
-
-        } catch (AuthenticationException ex) {
-            return ResponseEntity
-                    .status(HttpStatus.UNAUTHORIZED)
-                    .body("Authentication failed");
-        }
+        String accessToken = jwtTokenProvider.generateAccessToken(authentication);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(authentication);
+        return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
     }
 
     @PostMapping("/forgot-password")
