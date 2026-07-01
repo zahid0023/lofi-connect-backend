@@ -8,7 +8,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.commons.dto.response.ApiErrorResponse;
-import org.example.loficonnect.subscription.exception.ActiveSubscriptionExistsException;
+import org.example.loficonnect.payment.exception.PaymentException;
 import org.example.loficonnect.subscription.exception.NoActiveSubscriptionException;
 import org.example.loficonnect.subscription.exception.UsageLimitExceededException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -165,12 +165,13 @@ public class GlobalExceptionHandler {
         return build(ex, HttpStatus.UNAUTHORIZED, "INVALID_APP_KEY", request);
     }
 
-    @ExceptionHandler(ActiveSubscriptionExistsException.class)
-    public ResponseEntity<@NonNull ApiErrorResponse> handleActiveSubscriptionExists(
-            ActiveSubscriptionExistsException ex,
+    @ExceptionHandler(PaymentException.class)
+    public ResponseEntity<@NonNull ApiErrorResponse> handlePaymentException(
+            PaymentException ex,
             HttpServletRequest request
     ) {
-        return build(ex, HttpStatus.CONFLICT, "ACTIVE_SUBSCRIPTION_EXISTS", request);
+        log.error("Payment provider error: {}", ex.getMessage(), ex);
+        return build(ex, HttpStatus.BAD_GATEWAY, "PAYMENT_PROVIDER_ERROR", request);
     }
 
     @ExceptionHandler(NoActiveSubscriptionException.class)

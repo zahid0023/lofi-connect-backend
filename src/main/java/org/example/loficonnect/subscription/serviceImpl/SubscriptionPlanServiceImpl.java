@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.commons.dto.request.PaginatedRequest;
 import org.example.loficonnect.commons.dto.response.PaginatedResponse;
 import org.example.loficonnect.commons.dto.response.SuccessResponse;
-import org.example.loficonnect.currency.repository.CurrencyRepository;
+import org.example.loficonnect.currency.model.entity.CurrencyEntity;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanCreateRequest;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanLimitRequest;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanUpdateRequest;
@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -41,32 +40,32 @@ public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
     private final SubscriptionPlanRepository subscriptionPlanRepository;
     private final SubscriptionPlanLimitRepository subscriptionPlanLimitRepository;
     private final LimitKeyRepository limitKeyRepository;
-    private final CurrencyRepository currencyRepository;
 
     public SubscriptionPlanServiceImpl(
             SubscriptionPlanRepository subscriptionPlanRepository,
             SubscriptionPlanLimitRepository subscriptionPlanLimitRepository,
-            LimitKeyRepository limitKeyRepository,
-            CurrencyRepository currencyRepository) {
+            LimitKeyRepository limitKeyRepository) {
         this.subscriptionPlanRepository = subscriptionPlanRepository;
         this.subscriptionPlanLimitRepository = subscriptionPlanLimitRepository;
         this.limitKeyRepository = limitKeyRepository;
-        this.currencyRepository = currencyRepository;
     }
 
     @Transactional
     @Override
-    public SuccessResponse create(SubscriptionPlanCreateRequest request) {
+    public SuccessResponse create(SubscriptionPlanCreateRequest request,
+                                  CurrencyEntity currencyEntity,
+                                  String paddlePriceId) {
         if (subscriptionPlanRepository.existsByCodeAndIsDeleted(request.getCode(), false)) {
             throw new IllegalArgumentException("Subscription plan with code '" + request.getCode() + "' already exists");
         }
-        validateCurrencyExists(request.getCurrencyId());
 
-        SubscriptionPlanEntity entity = SubscriptionPlanMapper.create(request);
-        applyLimits(entity, request.getLimits());
-        subscriptionPlanRepository.save(entity);
-        log.info("SubscriptionPlan created with id: {}", entity.getId());
-        return new SuccessResponse(true, entity.getId());
+        SubscriptionPlanEntity subscriptionPlanEntity = SubscriptionPlanMapper.create(request, currencyEntity, paddlePriceId);
+        applyLimits(subscriptionPlanEntity, request.getLimits());
+
+        subscriptionPlanRepository.save(subscriptionPlanEntity);
+
+        log.info("SubscriptionPlan created: id={}, paddlePriceId={}", subscriptionPlanEntity.getId(), paddlePriceId);
+        return new SuccessResponse(true, subscriptionPlanEntity.getId());
     }
 
     @Transactional(readOnly = true)
@@ -105,10 +104,9 @@ public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
     @Transactional
     @Override
     public SuccessResponse update(SubscriptionPlanEntity entity, SubscriptionPlanUpdateRequest request) {
-        validateCurrencyExists(request.getCurrencyId());
 
         SubscriptionPlanEntity managed = subscriptionPlanRepository.findByIdAndIsActiveAndIsDeleted(
-                entity.getId(), true, false)
+                        entity.getId(), true, false)
                 .orElseThrow(() -> new EntityNotFoundException("SubscriptionPlan not found with id: " + entity.getId()));
 
         SubscriptionPlanMapper.update(managed, request);
@@ -131,11 +129,6 @@ public class SubscriptionPlanServiceImpl implements SubscriptionPlanService {
         subscriptionPlanRepository.save(entity);
         log.info("SubscriptionPlan soft-deleted with id: {}", entity.getId());
         return new SuccessResponse(true, entity.getId());
-    }
-
-    private void validateCurrencyExists(Long currencyId) {
-        currencyRepository.findByIdAndIsActiveAndIsDeleted(currencyId, true, false)
-                .orElseThrow(() -> new EntityNotFoundException("Currency not found with id: " + currencyId));
     }
 
     private void applyLimits(SubscriptionPlanEntity entity, List<SubscriptionPlanLimitRequest> limitRequests) {

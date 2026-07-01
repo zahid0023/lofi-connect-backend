@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.loficonnect.commons.model.entity.AuditableEntity;
+import org.example.loficonnect.payment.model.enums.ProvisioningStatus;
 import org.example.loficonnect.subscription.model.enums.TenantSubscriptionStatus;
 
 import java.time.Instant;
@@ -33,4 +34,12 @@ public class TenantSubscriptionEntity extends AuditableEntity {
 
     @Column(name = "trial_ends_at")
     private Instant trialEndsAt;
+
+    /**
+     * Whether product access has been provisioned for this subscription.
+     * Updated by the provisioning strategy after payment is confirmed.
+     */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "provisioning_status", nullable = false, length = 20)
+    private ProvisioningStatus provisioningStatus = ProvisioningStatus.PENDING;
 }

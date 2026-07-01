@@ -5,10 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.commons.dto.request.PaginatedRequest;
 import org.example.loficonnect.commons.dto.response.PaginatedResponse;
 import org.example.loficonnect.commons.dto.response.SuccessResponse;
-import org.example.loficonnect.subscription.dto.request.tenantsubscription.SubscribeRequest;
+import org.example.loficonnect.payment.model.enums.ProvisioningStatus;
 import org.example.loficonnect.subscription.dto.request.tenantsubscription.UpgradePlanRequest;
 import org.example.loficonnect.subscription.dto.response.TenantSubscriptionResponse;
-import org.example.loficonnect.subscription.exception.ActiveSubscriptionExistsException;
 import org.example.loficonnect.subscription.exception.NoActiveSubscriptionException;
 import org.example.loficonnect.subscription.model.dto.TenantSubscriptionDto;
 import org.example.loficonnect.subscription.model.entity.SubscriptionPlanEntity;
@@ -53,19 +52,21 @@ public class TenantSubscriptionServiceImpl implements TenantSubscriptionService 
 
     @Transactional
     @Override
-    public SuccessResponse subscribe(Long userId, SubscribeRequest request) {
-        if (tenantSubscriptionRepository.existsByUserIdAndStatusIn(userId, ACTIVE_STATUSES)) {
-            throw new ActiveSubscriptionExistsException(
-                    "An active subscription already exists. Use the upgrade endpoint to switch plans.");
-        }
+    public TenantSubscriptionEntity subscribeFromPayment(Long userId, Long planId, Instant startDate, Instant endDate) {
+        SubscriptionPlanEntity plan = getActivePlan(planId);
 
-        SubscriptionPlanEntity plan = getActivePlan(request.getPlanId());
-
-        TenantSubscriptionEntity subscription = buildSubscription(userId, plan);
+        TenantSubscriptionEntity subscription = new TenantSubscriptionEntity();
+        subscription.setUserId(userId);
+        subscription.setSubscriptionPlan(plan);
+        subscription.setStatus(TenantSubscriptionStatus.ACTIVE);
+        subscription.setIsActive(true);
+        subscription.setProvisioningStatus(ProvisioningStatus.PENDING);
+        subscription.setStartDate(startDate);
+        subscription.setEndDate(endDate);
         tenantSubscriptionRepository.save(subscription);
 
-        log.info("User {} subscribed to plan {} (id: {})", userId, plan.getCode(), subscription.getId());
-        return new SuccessResponse(true, subscription.getId());
+        log.info("Subscription created from payment: userId={}, planId={}, subscriptionId={}", userId, planId, subscription.getId());
+        return subscription;
     }
 
     @Transactional

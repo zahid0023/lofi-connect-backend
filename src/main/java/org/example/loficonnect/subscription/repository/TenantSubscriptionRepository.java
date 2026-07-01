@@ -17,5 +17,8 @@ public interface TenantSubscriptionRepository extends JpaRepository<TenantSubscr
 
     boolean existsByUserIdAndStatusIn(Long userId, List<TenantSubscriptionStatus> statuses);
 
+    /** Returns the most recent subscription for a user regardless of status. Used for payment status polling. */
+    Optional<TenantSubscriptionEntity> findFirstByUserIdOrderByIdDesc(Long userId);
+
     Page<@NonNull TenantSubscriptionSummary> findAllByIsActiveAndIsDeleted(Boolean isActive, Boolean isDeleted, Pageable pageable);
 }

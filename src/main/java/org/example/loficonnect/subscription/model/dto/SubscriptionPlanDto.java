@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.loficonnect.payment.model.enums.ProductType;
 import org.example.loficonnect.subscription.model.enums.BillingCycle;
 
 import java.math.BigDecimal;
@@ -27,5 +28,7 @@ public class SubscriptionPlanDto {
     private BigDecimal price;
     private String[] description;
     private Boolean isPublic;
+    private ProductType productType;
+    private String paddlePriceId;
     private List<SubscriptionPlanLimitDto> limits;
 }

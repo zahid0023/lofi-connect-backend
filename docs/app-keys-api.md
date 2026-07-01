@@ -27,22 +27,22 @@ the key implicitly carries the subscription context (plan, limits) used at enfor
 ## Concept
 
 ```
-User ──subscribes──► TenantSubscription
-                            │
-                     generates key against
-                            │
-                            ▼
-                       App Key (credential)
-                            │
-                     used in every request
-                            │
-                            ▼
-              AppKeyFilter validates key
-                            │
-                    checks subscription status
-                            │
-                   ACTIVE/TRIAL? → forward to GHL
-                   else        → 401 Unauthorized
+User ──pays via Paddle──► TenantSubscription (created by webhook)
+                                │
+                         generates key against
+                                │
+                                ▼
+                           App Key (credential)
+                                │
+                         used in every request
+                                │
+                                ▼
+                  AppKeyInterceptor validates key
+                                │
+                      checks subscription status
+                                │
+                     ACTIVE/TRIAL? → forward to GHL
+                     else        → 401 Unauthorized
 ```
 
 An App Key carries no permissions of its own. Access is governed entirely by the linked subscription's status and plan
@@ -52,17 +52,19 @@ limits. If the subscription is cancelled or expired, the key stops working.
 
 ## Prerequisites
 
-A user must have an active subscription before generating an App Key:
+A user must complete the Paddle payment flow before generating an App Key:
 
 ```
 1. Register      POST /api/v1/auth/registration/user
 2. Login         POST /api/v1/auth/login
-3. Subscribe     POST /api/v1/subscriptions/tenant-subscriptions
-4. Generate Key  POST /api/v1/app-keys/generate          ← this section
-5. Use Key       GET  /api/v1/ghl/...   X-App-Key: <key>
+3. Checkout      POST /api/v1/payments/checkout          ← initiates Paddle payment
+4.               [User completes payment on Paddle]
+5.               [Paddle webhook creates TenantSubscription automatically]
+6. Generate Key  POST /api/v1/app-keys/generate
+7. Use Key       GET  /api/v1/ghl/...   Authorization: Bearer <app_key>
 ```
 
-Attempting to generate a key without an active subscription returns `422 NO_ACTIVE_SUBSCRIPTION`.
+> Attempting to generate a key without an active subscription returns `422 NO_ACTIVE_SUBSCRIPTION`.
 
 ---
 
@@ -100,10 +102,11 @@ Attempting to generate a key without an active subscription returns `422 NO_ACTI
 
 `POST /api/v1/app-keys/generate`
 
-> Requires authentication (`Authorization: Bearer <token>`).
+> Requires authentication (`Authorization: Bearer <jwt_token>`).
 
-Creates a new App Key linked to the authenticated user's active (ACTIVE or TRIAL) subscription. The full key value is
-returned **only once** in this response. Store it immediately — subsequent list calls only return the masked version.
+Creates a new App Key linked to the authenticated user's active (ACTIVE or TRIAL) subscription. The number of keys
+allowed is enforced by the plan's `APP_KEYS` limit. The full key value is returned **only once** in this response.
+Store it immediately — subsequent list calls only return the masked version.
 
 ### Request Body
 
@@ -143,10 +146,11 @@ returned **only once** in this response. Store it immediately — subsequent lis
 
 ### Validations
 
-| Check                  | Error                        | Message                                                      |
-|------------------------|------------------------------|--------------------------------------------------------------|
-| No active subscription | `422 NO_ACTIVE_SUBSCRIPTION` | `An active subscription is required to generate an App Key.` |
-| Not authenticated      | `401`                        | —                                                            |
+| Check                    | Error                        | Message                                                      |
+|--------------------------|------------------------------|--------------------------------------------------------------|
+| No active subscription   | `422 NO_ACTIVE_SUBSCRIPTION` | `An active subscription is required to generate an App Key.` |
+| App key limit reached    | `422 PLAN_LIMIT_EXCEEDED`    | Determined by the `APP_KEYS` limit on the subscribed plan    |
+| Not authenticated        | `401`                        | —                                                            |
 
 ---
 
@@ -154,7 +158,7 @@ returned **only once** in this response. Store it immediately — subsequent lis
 
 `GET /api/v1/app-keys`
 
-> Requires authentication (`Authorization: Bearer <token>`).
+> Requires authentication (`Authorization: Bearer <jwt_token>`).
 
 Returns all App Keys belonging to the authenticated user that are active and non-deleted.
 
@@ -192,7 +196,7 @@ Returns all App Keys belonging to the authenticated user that are active and non
 
 `PUT /api/v1/app-keys/assign-ghl`
 
-> Requires authentication (`Authorization: Bearer <token>`).
+> Requires authentication (`Authorization: Bearer <jwt_token>`).
 
 Links an App Key to a GoHighLevel location/account. Once linked, API calls made with this key are forwarded to the
 associated GHL account. See the GHL Authorization docs for the full OAuth flow.
@@ -201,30 +205,30 @@ associated GHL account. See the GHL Authorization docs for the full OAuth flow.
 
 ## Using the App Key
 
-Once generated, include the key in every API gateway request using the `X-App-Key` header:
+Once generated, include the key in every API gateway request using the `Authorization: Bearer` header:
 
 ```
 GET /api/v1/ghl/contacts/abc123
-X-App-Key: lc_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4
+Authorization: Bearer lc_a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4
 ```
 
-No `Authorization: Bearer` header is needed for gateway calls — the App Key replaces JWT authentication entirely for
-the `/api/v1/ghl/**` path family.
+> **Important:** For gateway calls (`/api/v1/ghl/**`), pass the App Key as the Bearer token — not a JWT.
+> The `AppKeyInterceptor` handles these requests and validates the App Key instead of a JWT.
 
 ### What the gateway checks (order)
 
 ```
-1. X-App-Key header present?
+1. Authorization: Bearer <app_key> header present?
         No  → 401 Unauthorized
 
 2. App Key valid, active, not deleted?
         No  → 401 Invalid App Key
 
 3. Linked subscription in ACTIVE or TRIAL status?
-        No  → 401 Unauthorized (subscription cancelled/expired)
+        No  → 422 Subscription inactive/cancelled
 
-4. [Future] Usage within plan limits?
-        No  → 429 Too Many Requests
+4. Subscription end_date not expired?
+        No  → 422 Subscription expired
 
 5. Forward to GoHighLevel
 ```
@@ -239,7 +243,7 @@ Generate Key
      ▼
   ACTIVE ──────────────────────────────────────────────────────► INACTIVE
      │                                                               ▲
-     │  subscription cancelled / expired                            │
+     │  subscription cancelled / expired / past_due                 │
      └──────────────────────────────────────────────────────────────┘
 ```
 
@@ -247,11 +251,12 @@ Generate Key
 |---------------------------------|----------------------------------------------------------------------|
 | Subscription is ACTIVE or TRIAL | Key works                                                            |
 | Subscription is CANCELLED       | Key stops working (subscription check fails)                         |
-| Subscription is EXPIRED         | Key stops working                                                    |
+| Subscription is PAST_DUE        | Key stops working (only ACTIVE/TRIAL pass the interceptor)           |
+| Subscription end_date passed    | Key stops working (expiry check fails)                               |
 | User upgrades plan              | Old key stops working (old subscription cancelled); generate new key |
 
 > **After upgrading:** The old App Key is linked to the cancelled subscription and will be rejected by the gateway.
-> Generate a new App Key after every upgrade.
+> Generate a new App Key after every plan upgrade.
 
 ---
 
@@ -266,12 +271,14 @@ Generate Key
 }
 ```
 
-| HTTP Status | Error Code               | Cause                                                                |
-|-------------|--------------------------|----------------------------------------------------------------------|
-| `401`       | `INVALID_APP_KEY`        | Key does not exist, is inactive, or subscription is not ACTIVE/TRIAL |
-| `401`       | —                        | Missing `Authorization` header on generate/list endpoints            |
-| `422`       | `NO_ACTIVE_SUBSCRIPTION` | No ACTIVE or TRIAL subscription found for this user                  |
-| `500`       | `INTERNAL_SERVER_ERROR`  | Unexpected server error                                              |
+| HTTP Status | Error Code               | Cause                                                                         |
+|-------------|--------------------------|-------------------------------------------------------------------------------|
+| `401`       | `UNAUTHORIZED`           | Missing or invalid `Authorization` header on generate/list endpoints          |
+| `401`       | `INVALID_APP_KEY`        | App Key does not exist, is inactive, or subscription is not ACTIVE/TRIAL      |
+| `422`       | `NO_ACTIVE_SUBSCRIPTION` | No ACTIVE or TRIAL subscription found for this user                           |
+| `422`       | `PLAN_LIMIT_EXCEEDED`    | User has reached the maximum number of App Keys allowed by their plan         |
+| `422`       | `NO_ACTIVE_SUBSCRIPTION` | Subscription is expired or cancelled (interceptor check on gateway endpoints) |
+| `500`       | `INTERNAL_SERVER_ERROR`  | Unexpected server error                                                        |
 
 ---
 
@@ -286,11 +293,15 @@ Generate Key
 3. **Keys have no permissions of their own.** Access is determined entirely by the linked subscription's status and plan
    limits. The key is an authentication credential only.
 
-4. **Multiple keys per subscription are allowed.** A user can generate more than one App Key against the same
-   subscription (e.g. a `Production Key` and a `Staging Key`). All keys share the same subscription limits.
+4. **Multiple keys per subscription are allowed up to the plan limit.** The number of App Keys a user can generate is
+   controlled by the `APP_KEYS` limit on their subscription plan. Exceeding this returns `422 PLAN_LIMIT_EXCEEDED`.
 
 5. **Deactivated keys are never physically deleted.** `is_active = false` and `is_deleted = true` are used for
    revocation. The key record remains for audit purposes.
 
 6. **A GHL connection is optional at generation time.** A key can be generated before connecting it to a GoHighLevel
    account. Connect it later via `PUT /assign-ghl`.
+
+7. **Subscriptions are created by Paddle webhook, not by the user directly.** A user must complete the Paddle checkout
+   flow first. The `transaction.completed` webhook automatically creates the `TenantSubscription`. Only after that
+   can the user generate an App Key.

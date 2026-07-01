@@ -1,6 +1,8 @@
 package org.example.loficonnect.subscription.model.mapper;
 
 import lombok.experimental.UtilityClass;
+import org.example.loficonnect.currency.model.entity.CurrencyEntity;
+import org.example.loficonnect.payment.model.enums.ProductType;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanCreateRequest;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanRequest;
 import org.example.loficonnect.subscription.model.dto.SubscriptionPlanDto;
@@ -13,9 +15,13 @@ import java.util.List;
 @UtilityClass
 public class SubscriptionPlanMapper {
 
-    public SubscriptionPlanEntity create(SubscriptionPlanCreateRequest request) {
+    public SubscriptionPlanEntity create(SubscriptionPlanCreateRequest request,
+                                         CurrencyEntity currencyEntity,
+                                         String paddlePriceId) {
         SubscriptionPlanEntity entity = new SubscriptionPlanEntity();
         entity.setCode(request.getCode());
+        entity.setCurrencyEntity(currencyEntity);
+        entity.setPaddlePriceId(paddlePriceId);
         applyCommonFields(entity, request);
         return entity;
     }
@@ -25,7 +31,6 @@ public class SubscriptionPlanMapper {
     }
 
     private void applyCommonFields(SubscriptionPlanEntity entity, SubscriptionPlanRequest request) {
-        entity.setCurrencyId(request.getCurrencyId());
         entity.setBillingCycle(request.getBillingCycle());
         entity.setTrialPeriodDays(request.getTrialPeriodDays() != null ? request.getTrialPeriodDays() : 0);
         entity.setName(request.getName());
@@ -33,6 +38,7 @@ public class SubscriptionPlanMapper {
         entity.setDescription(request.getDescription());
         entity.setSortOrder(request.getSortOrder() != null ? request.getSortOrder() : 0);
         entity.setIsPublic(request.getIsPublic() != null ? request.getIsPublic() : Boolean.TRUE);
+        entity.setProductType(request.getProductType() != null ? request.getProductType() : ProductType.STANDALONE);
     }
 
     public SubscriptionPlanDto toDto(SubscriptionPlanEntity entity) {
@@ -42,7 +48,6 @@ public class SubscriptionPlanMapper {
 
         return SubscriptionPlanDto.builder()
                 .id(entity.getId())
-                .currencyId(entity.getCurrencyId())
                 .code(entity.getCode())
                 .billingCycle(entity.getBillingCycle())
                 .trialPeriodDays(entity.getTrialPeriodDays())
@@ -51,6 +56,8 @@ public class SubscriptionPlanMapper {
                 .price(entity.getPrice())
                 .description(entity.getDescription())
                 .isPublic(entity.getIsPublic())
+                .productType(entity.getProductType())
+                .paddlePriceId(entity.getPaddlePriceId())
                 .limits(limitDtos)
                 .build();
     }

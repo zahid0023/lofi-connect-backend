@@ -7,6 +7,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.loficonnect.commons.model.entity.AuditableEntity;
+import org.example.loficonnect.currency.model.entity.CurrencyEntity;
+import org.example.loficonnect.payment.model.enums.ProductType;
 import org.example.loficonnect.subscription.model.enums.BillingCycle;
 
 import java.math.BigDecimal;
@@ -18,9 +20,10 @@ import java.util.List;
 @Entity
 @Table(name = "subscription_plans")
 public class SubscriptionPlanEntity extends AuditableEntity {
-
-    @Column(name = "currency_id", nullable = false)
-    private Long currencyId;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "currency_id", nullable = false)
+    private CurrencyEntity currencyEntity;
 
     @NotBlank
     @Size(max = 100)
@@ -53,6 +56,22 @@ public class SubscriptionPlanEntity extends AuditableEntity {
     @Column(name = "is_public", nullable = false)
     private Boolean isPublic = Boolean.TRUE;
 
+    /**
+     * Determines automated (STANDALONE) vs manual (BUNDLED) provisioning.
+     */
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "product_type", nullable = false, length = 20)
+    private ProductType productType = ProductType.STANDALONE;
+
+    /**
+     * Paddle Price ID for this plan (e.g. "pri_01h...").
+     * Required for all paid plans. Set by admin after creating the price in Paddle.
+     */
+    @Column(name = "paddle_price_id", length = 100)
+    private String paddlePriceId;
+
     @OneToMany(mappedBy = "subscriptionPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SubscriptionPlanLimitEntity> limits = new ArrayList<>();
+
 }

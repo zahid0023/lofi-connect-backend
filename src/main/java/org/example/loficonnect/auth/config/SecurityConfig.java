@@ -49,6 +49,10 @@ public class SecurityConfig {
                                 "/api/v1/authorization/redirect",
                                 "/api/v1/authorization/ghl/ping"
                         ).permitAll()
+                        // Paddle webhook — unauthenticated (trust is via HMAC signature)
+                        .requestMatchers(HttpMethod.POST, "/api/v1/payments/webhooks/paddle").permitAll()
+                        // Paddle success redirect — browser navigation after checkout, no JWT
+                        .requestMatchers(HttpMethod.GET, "/api/v1/subscriptions/tenant-subscriptions/success").permitAll()
                         // Public plan browsing — no login required
                         .requestMatchers(HttpMethod.GET, "/api/v1/subscriptions/plans/public").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/subscriptions/plans/*").permitAll()

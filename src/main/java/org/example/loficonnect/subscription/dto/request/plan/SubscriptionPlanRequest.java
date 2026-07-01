@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.Data;
+import org.example.loficonnect.payment.model.enums.ProductType;
 import org.example.loficonnect.subscription.model.enums.BillingCycle;
 
 import java.math.BigDecimal;
@@ -39,6 +40,10 @@ public class SubscriptionPlanRequest {
     private Integer sortOrder = 0;
 
     private Boolean isPublic = Boolean.TRUE;
+
+    /** STANDALONE (automated) or BUNDLED (manual GHL provisioning). Defaults to STANDALONE. */
+    @NotNull
+    private ProductType productType = ProductType.STANDALONE;
 
     @Valid
     private List<SubscriptionPlanLimitRequest> limits = new ArrayList<>();

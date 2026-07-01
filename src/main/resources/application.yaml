@@ -42,6 +42,9 @@ jwt:
 frontend:
   url: ${FRONT_END_URL:http://localhost:3000}
 
+backend:
+  url: ${BACKEND_URL:http://localhost:8080}
+
 ghl:
   client-id: ${GHL_CLIENT_ID}
   client-secret: ${GHL_CLIENT_SECRET}
@@ -49,3 +52,9 @@ ghl:
   code-url: ${GHL_CODE_URL}
   redirect-uri: ${GHL_REDIRECT_URI}
   token-url: ${GHL_TOKEN_URL}
+
+paddle:
+  api-key: ${PADDLE_API_KEY:?PADDLE_API_KEY must be set!}
+  webhook-secret: ${PADDLE_WEBHOOK_SECRET:?PADDLE_WEBHOOK_SECRET must be set!}
+  api-base-url: ${PADDLE_API_BASE_URL:https://api.paddle.com}
+  success-url: ${PADDLE_SUCCESS_URL:${backend.url}/api/v1/subscriptions/tenant-subscriptions/success}

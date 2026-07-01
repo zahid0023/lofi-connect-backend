@@ -2,9 +2,12 @@ package org.example.loficonnect.subscription.controller;
 
 import jakarta.validation.Valid;
 import org.example.loficonnect.commons.dto.request.PaginatedRequest;
+import org.example.loficonnect.currency.model.entity.CurrencyEntity;
+import org.example.loficonnect.currency.service.CurrencyService;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanCreateRequest;
 import org.example.loficonnect.subscription.dto.request.plan.SubscriptionPlanUpdateRequest;
 import org.example.loficonnect.subscription.model.entity.SubscriptionPlanEntity;
+import org.example.loficonnect.subscription.service.PaddleProductService;
 import org.example.loficonnect.subscription.service.SubscriptionPlanService;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
@@ -17,20 +20,30 @@ import org.springframework.web.bind.annotation.*;
 public class SubscriptionPlanController {
 
     private final SubscriptionPlanService subscriptionPlanService;
+    private final CurrencyService currencyService;
+    private final PaddleProductService paddleProductService;
 
-    public SubscriptionPlanController(SubscriptionPlanService subscriptionPlanService) {
+    public SubscriptionPlanController(SubscriptionPlanService subscriptionPlanService,
+                                      CurrencyService currencyService,
+                                      PaddleProductService paddleProductService) {
         this.subscriptionPlanService = subscriptionPlanService;
+        this.currencyService = currencyService;
+        this.paddleProductService = paddleProductService;
     }
 
     // ── Public endpoints (no auth required) ──────────────────────────────────
 
-    /** Browse all public plans with full limit/feature details. */
+    /**
+     * Browse all public plans with full limit/feature details.
+     */
     @GetMapping("/public")
     public ResponseEntity<?> getPublicPlans() {
         return ResponseEntity.ok(subscriptionPlanService.getPublicPlans());
     }
 
-    /** View a single plan's details before subscribing. */
+    /**
+     * View a single plan's details before subscribing.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         return ResponseEntity.ok(subscriptionPlanService.getById(id));
@@ -47,7 +60,13 @@ public class SubscriptionPlanController {
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> create(@Valid @RequestBody SubscriptionPlanCreateRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionPlanService.create(request));
+        CurrencyEntity currencyEntity = currencyService.getEntityById(request.getCurrencyId());
+        String priceId = paddleProductService.provisionPlan(request.getName(),
+                request.getBillingCycle(),
+                request.getPrice(),
+                currencyEntity.getCode(),
+                request.getTrialPeriodDays());
+        return ResponseEntity.status(HttpStatus.CREATED).body(subscriptionPlanService.create(request, currencyEntity, priceId));
     }
 
     @PutMapping("/{id}")
