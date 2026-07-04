@@ -20,6 +20,7 @@ public class CorsConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "https://backend.loficonnect.com",
                 "http://localhost:3000",
+                "http://localhost:3001",
                 "http://localhost:8080"
         ));
 

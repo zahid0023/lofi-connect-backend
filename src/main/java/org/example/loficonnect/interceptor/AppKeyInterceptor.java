@@ -28,7 +28,8 @@ public class AppKeyInterceptor implements HandlerInterceptor {
     private static final String AUTHORIZATION_HEADER = "Authorization";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final Set<TenantSubscriptionStatus> VALID_STATUSES =
-            Set.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL);
+            Set.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL,
+                    TenantSubscriptionStatus.GRACE_PERIOD);
 
     private final AppKeyService appKeyService;
 
@@ -77,6 +78,7 @@ public class AppKeyInterceptor implements HandlerInterceptor {
             }
 
             AppKeyContext.setAppKey(appKeyValue);
+            AppKeyContext.setAppKeyId(appKeyEntity.getId());
             VersionContext.setVersion("2021-04-15");
         }
         return true;

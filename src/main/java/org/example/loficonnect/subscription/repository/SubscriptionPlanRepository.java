@@ -27,4 +27,12 @@ public interface SubscriptionPlanRepository extends JpaRepository<SubscriptionPl
             ORDER BY p.sortOrder ASC, p.id ASC
             """)
     List<SubscriptionPlanEntity> findAllPublicWithLimits();
+
+    /** Looks up a plan by its Paddle price ID — used in subscription.updated plan-change detection. */
+    Optional<SubscriptionPlanEntity> findByPaddlePriceIdAndIsActiveAndIsDeleted(
+            String paddlePriceId, Boolean isActive, Boolean isDeleted);
+
+    default Optional<SubscriptionPlanEntity> findByPaddlePriceId(String paddlePriceId) {
+        return findByPaddlePriceIdAndIsActiveAndIsDeleted(paddlePriceId, true, false);
+    }
 }

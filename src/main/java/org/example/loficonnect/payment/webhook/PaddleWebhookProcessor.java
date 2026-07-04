@@ -6,22 +6,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.example.loficonnect.auth.repository.UserRepository;
 import org.example.loficonnect.payment.dto.webhook.PaddleCustomData;
 import org.example.loficonnect.payment.dto.webhook.PaddleSubscriptionEventData;
+import org.example.loficonnect.payment.dto.webhook.PaddleSubscriptionItem;
 import org.example.loficonnect.payment.dto.webhook.PaddleTransactionEventData;
 import org.example.loficonnect.payment.dto.webhook.PaddleWebhookPayload;
+import org.example.loficonnect.payment.model.entity.CheckoutIntentEntity;
 import org.example.loficonnect.payment.model.entity.PaymentEventEntity;
 import org.example.loficonnect.payment.model.entity.SubscriptionPaymentDetailsEntity;
+import org.example.loficonnect.payment.model.enums.CheckoutIntentStatus;
 import org.example.loficonnect.payment.model.enums.PaymentProvider;
 import org.example.loficonnect.payment.model.enums.ProductType;
 import org.example.loficonnect.payment.model.enums.ProvisioningStatus;
+import org.example.loficonnect.payment.repository.CheckoutIntentRepository;
 import org.example.loficonnect.payment.repository.PaymentEventRepository;
 import org.example.loficonnect.payment.repository.SubscriptionPaymentDetailsRepository;
 import org.example.loficonnect.payment.service.provisioning.ProvisioningContext;
 import org.example.loficonnect.payment.service.provisioning.ProvisioningStrategyFactory;
 import org.example.loficonnect.subscription.model.entity.SubscriptionPlanEntity;
 import org.example.loficonnect.subscription.model.entity.TenantSubscriptionEntity;
+import org.example.loficonnect.subscription.model.enums.AuditEventType;
 import org.example.loficonnect.subscription.model.enums.TenantSubscriptionStatus;
 import org.example.loficonnect.subscription.repository.SubscriptionPlanRepository;
 import org.example.loficonnect.subscription.repository.TenantSubscriptionRepository;
+import org.example.loficonnect.subscription.service.AuditLogService;
 import org.example.loficonnect.subscription.service.TenantSubscriptionService;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -57,6 +63,8 @@ public class PaddleWebhookProcessor {
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
     private final TenantSubscriptionService tenantSubscriptionService;
+    private final AuditLogService auditLogService;
+    private final CheckoutIntentRepository checkoutIntentRepository;
 
     public PaddleWebhookProcessor(
             PaymentEventRepository paymentEventRepository,
@@ -66,7 +74,9 @@ public class PaddleWebhookProcessor {
             ProvisioningStrategyFactory provisioningStrategyFactory,
             ObjectMapper objectMapper,
             UserRepository userRepository,
-            TenantSubscriptionService tenantSubscriptionService) {
+            TenantSubscriptionService tenantSubscriptionService,
+            AuditLogService auditLogService,
+            CheckoutIntentRepository checkoutIntentRepository) {
         this.paymentEventRepository = paymentEventRepository;
         this.tenantSubscriptionRepository = tenantSubscriptionRepository;
         this.subscriptionPlanRepository = subscriptionPlanRepository;
@@ -75,6 +85,8 @@ public class PaddleWebhookProcessor {
         this.objectMapper = objectMapper;
         this.userRepository = userRepository;
         this.tenantSubscriptionService = tenantSubscriptionService;
+        this.auditLogService = auditLogService;
+        this.checkoutIntentRepository = checkoutIntentRepository;
     }
 
     @Transactional
@@ -88,13 +100,20 @@ public class PaddleWebhookProcessor {
         // ── Persist event for audit ────────────────────────────────────────────
         saveEvent(payload.getEventId(), payload.getEventType(), rawBody);
 
+        // ── Audit: record that the webhook arrived ─────────────────────────────
+        auditLogService.logPaddle(null, AuditEventType.PADDLE_WEBHOOK_RECEIVED,
+                null, payload.getEventType(), payload.getEventId());
+
         // ── Route by event type ────────────────────────────────────────────────
         switch (payload.getEventType()) {
-            case "subscription.created" -> handleSubscriptionCreated(payload);
+            case "subscription.created"   -> handleSubscriptionCreated(payload);
             case "subscription.activated" -> handleSubscriptionActivated(payload);
+            case "subscription.updated"   -> handleSubscriptionUpdated(payload);
             case "subscription.cancelled" -> handleSubscriptionCancelled(payload);
-            case "subscription.past_due" -> handleSubscriptionPastDue(payload);
-            case "transaction.completed" -> handleTransactionCompleted(payload);
+            case "subscription.past_due"  -> handleSubscriptionPastDue(payload);
+            case "subscription.paused"    -> handleSubscriptionPaused(payload);
+            case "subscription.resumed"   -> handleSubscriptionResumed(payload);
+            case "transaction.completed"  -> handleTransactionCompleted(payload);
             default -> log.debug("Unhandled Paddle event type: {}", payload.getEventType());
         }
     }
@@ -158,6 +177,9 @@ public class PaddleWebhookProcessor {
         paymentDetails.setPaddleCustomerId(data.getCustomerId());
         paymentDetailsRepository.save(paymentDetails);
 
+        // Provision immediately so trial users can generate API keys right away
+        triggerProvisioning(subscription, data.getId(), data.getCustomerId());
+
         log.info("subscription.created (trial): userId={}, planId={}, paddleSubId={}", userId, planId, data.getId());
     }
 
@@ -167,6 +189,7 @@ public class PaddleWebhookProcessor {
         TenantSubscriptionEntity sub = findSubscriptionByPaddleId(data.getId());
         if (sub == null) return;
 
+        TenantSubscriptionStatus previous = sub.getStatus();
         sub.setStatus(TenantSubscriptionStatus.ACTIVE);
         sub.setIsActive(true);
         if (data.getCurrentBillingPeriod() != null) {
@@ -174,8 +197,62 @@ public class PaddleWebhookProcessor {
         }
         tenantSubscriptionRepository.save(sub);
 
+        auditLogService.logPaddle(sub.getId(), AuditEventType.SUBSCRIPTION_STATUS_CHANGED,
+                previous.name(), TenantSubscriptionStatus.ACTIVE.name(), payload.getEventId());
+
         log.info("subscription.activated: userId={}, paddleSubId={}", sub.getUserId(), data.getId());
-        triggerProvisioning(sub, data.getId(), data.getCustomerId());
+        // Only provision if not already done by transaction.completed (race-condition guard)
+        if (sub.getProvisioningStatus() == ProvisioningStatus.PENDING) {
+            triggerProvisioning(sub, data.getId(), data.getCustomerId());
+        }
+        markCheckoutIntentCompleted(data.getCustomData());
+    }
+
+    /**
+     * Handles subscription.updated — fires when any property changes (plan, billing period, status).
+     * Key uses:
+     * - Detect plan change: compare items[0].price.id to current plan's paddlePriceId
+     * - Detect status change: map Paddle status to local status
+     */
+    private void handleSubscriptionUpdated(PaddleWebhookPayload payload) {
+        PaddleSubscriptionEventData data = parseSubscriptionData(payload);
+
+        TenantSubscriptionEntity sub = findSubscriptionByPaddleId(data.getId());
+        if (sub == null) return;
+
+        boolean changed = false;
+
+        // ── Detect plan change via items ──────────────────────────────────────
+        if (data.getItems() != null && !data.getItems().isEmpty()) {
+            PaddleSubscriptionItem firstItem = data.getItems().get(0);
+            if (firstItem.getPrice() != null && firstItem.getPrice().getId() != null) {
+                String newPriceId = firstItem.getPrice().getId();
+                String currentPriceId = sub.getSubscriptionPlan().getPaddlePriceId();
+                if (!newPriceId.equals(currentPriceId)) {
+                    subscriptionPlanRepository.findByPaddlePriceId(newPriceId).ifPresent(newPlan -> {
+                        String oldPlanName = sub.getSubscriptionPlan().getName();
+                        sub.setSubscriptionPlan(newPlan);
+                        auditLogService.logPaddle(sub.getId(), AuditEventType.PLAN_CHANGED,
+                                oldPlanName, newPlan.getName(), payload.getEventId());
+                        log.info("subscription.updated: plan changed userId={}, {} → {}",
+                                sub.getUserId(), oldPlanName, newPlan.getName());
+                    });
+                    changed = true;
+                }
+            }
+        }
+
+        // ── Sync billing period end date ──────────────────────────────────────
+        if (data.getCurrentBillingPeriod() != null && data.getCurrentBillingPeriod().getEndsAt() != null) {
+            sub.setEndDate(data.getCurrentBillingPeriod().getEndsAt());
+            changed = true;
+        }
+
+        if (changed) {
+            tenantSubscriptionRepository.save(sub);
+        }
+
+        log.info("subscription.updated: userId={}, paddleSubId={}", sub.getUserId(), data.getId());
     }
 
     private void handleSubscriptionCancelled(PaddleWebhookPayload payload) {
@@ -184,9 +261,14 @@ public class PaddleWebhookProcessor {
         TenantSubscriptionEntity sub = findSubscriptionByPaddleId(data.getId());
         if (sub == null) return;
 
+        TenantSubscriptionStatus previous = sub.getStatus();
         sub.setStatus(TenantSubscriptionStatus.CANCELLED);
         sub.setIsActive(false);
+        sub.setCancelledAt(Instant.now());
         tenantSubscriptionRepository.save(sub);
+
+        auditLogService.logPaddle(sub.getId(), AuditEventType.SUBSCRIPTION_STATUS_CHANGED,
+                previous.name(), TenantSubscriptionStatus.CANCELLED.name(), payload.getEventId());
 
         log.info("subscription.cancelled: userId={}, paddleSubId={}", sub.getUserId(), data.getId());
         triggerDeprovisioning(sub, data.getId(), data.getCustomerId());
@@ -198,10 +280,51 @@ public class PaddleWebhookProcessor {
         TenantSubscriptionEntity sub = findSubscriptionByPaddleId(data.getId());
         if (sub == null) return;
 
+        TenantSubscriptionStatus previous = sub.getStatus();
         sub.setStatus(TenantSubscriptionStatus.PAST_DUE);
         tenantSubscriptionRepository.save(sub);
 
+        auditLogService.logPaddle(sub.getId(), AuditEventType.SUBSCRIPTION_STATUS_CHANGED,
+                previous.name(), TenantSubscriptionStatus.PAST_DUE.name(), payload.getEventId());
+
         log.warn("subscription.past_due: userId={}, paddleSubId={}", sub.getUserId(), data.getId());
+    }
+
+    private void handleSubscriptionPaused(PaddleWebhookPayload payload) {
+        PaddleSubscriptionEventData data = parseSubscriptionData(payload);
+
+        TenantSubscriptionEntity sub = findSubscriptionByPaddleId(data.getId());
+        if (sub == null) return;
+
+        TenantSubscriptionStatus previous = sub.getStatus();
+        sub.setStatus(TenantSubscriptionStatus.PAUSED);
+        sub.setIsActive(false);
+        tenantSubscriptionRepository.save(sub);
+
+        auditLogService.logPaddle(sub.getId(), AuditEventType.SUBSCRIPTION_STATUS_CHANGED,
+                previous.name(), TenantSubscriptionStatus.PAUSED.name(), payload.getEventId());
+
+        log.info("subscription.paused: userId={}, paddleSubId={}", sub.getUserId(), data.getId());
+    }
+
+    private void handleSubscriptionResumed(PaddleWebhookPayload payload) {
+        PaddleSubscriptionEventData data = parseSubscriptionData(payload);
+
+        TenantSubscriptionEntity sub = findSubscriptionByPaddleId(data.getId());
+        if (sub == null) return;
+
+        TenantSubscriptionStatus previous = sub.getStatus();
+        sub.setStatus(TenantSubscriptionStatus.ACTIVE);
+        sub.setIsActive(true);
+        if (data.getCurrentBillingPeriod() != null) {
+            sub.setEndDate(data.getCurrentBillingPeriod().getEndsAt());
+        }
+        tenantSubscriptionRepository.save(sub);
+
+        auditLogService.logPaddle(sub.getId(), AuditEventType.SUBSCRIPTION_STATUS_CHANGED,
+                previous.name(), TenantSubscriptionStatus.ACTIVE.name(), payload.getEventId());
+
+        log.info("subscription.resumed: userId={}, paddleSubId={}", sub.getUserId(), data.getId());
     }
 
     /**
@@ -228,7 +351,7 @@ public class PaddleWebhookProcessor {
             // ── First payment: create the subscription ─────────────────────────
             createSubscriptionFromTransaction(data);
         } else {
-            // ── Renewal: extend end date ───────────────────────────────────────
+            // ── Renewal: use Paddle's authoritative billing period end date ─────
             TenantSubscriptionEntity sub = tenantSubscriptionRepository
                     .findById(existingDetails.get().getTenantSubscriptionId())
                     .orElseGet(() -> {
@@ -237,7 +360,11 @@ public class PaddleWebhookProcessor {
                     });
             if (sub == null) return;
 
-            Instant newEndDate = calculateRenewalEndDate(sub);
+            // Prefer Paddle's billing period over local calculation to prevent date drift
+            Instant newEndDate = (data.getBillingPeriod() != null && data.getBillingPeriod().getEndsAt() != null)
+                    ? data.getBillingPeriod().getEndsAt()
+                    : calculateRenewalEndDate(sub);
+
             sub.setEndDate(newEndDate);
             sub.setStatus(TenantSubscriptionStatus.ACTIVE);
             sub.setIsActive(true);
@@ -281,6 +408,12 @@ public class PaddleWebhookProcessor {
         paymentDetails.setPaddleSubscriptionId(data.getSubscriptionId());
         paymentDetails.setPaddleCustomerId(data.getCustomerId());
         paymentDetailsRepository.save(paymentDetails);
+
+        // Provision immediately on first payment — guards against subscription.activated
+        // arriving before transaction.completed (Paddle delivers events independently)
+        if (subscription.getProvisioningStatus() == ProvisioningStatus.PENDING) {
+            triggerProvisioning(subscription, data.getSubscriptionId(), data.getCustomerId());
+        }
 
         log.info("transaction.completed (new subscription): userId={}, planId={}, paddleSubId={}",
                 userId, planId, data.getSubscriptionId());
@@ -339,6 +472,30 @@ public class PaddleWebhookProcessor {
             return userRepository.findByUsername(userIdField)
                     .orElseThrow(() -> new EntityNotFoundException("User not found for identifier: " + userIdField))
                     .getId();
+        }
+    }
+
+    /** Marks the checkout intent COMPLETED when a subscription is successfully activated. */
+    private void markCheckoutIntentCompleted(PaddleCustomData customData) {
+        if (customData == null) return;
+        // We don't have the transaction ID here, but we can match by userId
+        // Best-effort: mark the most recent PENDING intent for this user as COMPLETED
+        try {
+            if (customData.getUserId() != null) {
+                Long userId = resolveUserId(customData.getUserId());
+                checkoutIntentRepository
+                        .findByStatusAndExpiresAtBefore(CheckoutIntentStatus.PENDING,
+                                Instant.now().plus(48, java.time.temporal.ChronoUnit.HOURS))
+                        .stream()
+                        .filter(i -> i.getUserId().equals(userId))
+                        .findFirst()
+                        .ifPresent(intent -> {
+                            intent.setStatus(CheckoutIntentStatus.COMPLETED);
+                            checkoutIntentRepository.save(intent);
+                        });
+            }
+        } catch (Exception e) {
+            log.warn("Could not mark checkout intent completed: {}", e.getMessage());
         }
     }
 

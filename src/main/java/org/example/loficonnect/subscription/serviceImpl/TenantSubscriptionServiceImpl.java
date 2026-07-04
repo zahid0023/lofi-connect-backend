@@ -21,7 +21,6 @@ import org.example.loficonnect.subscription.repository.SubscriptionPlanRepositor
 import org.example.loficonnect.subscription.repository.TenantSubscriptionRepository;
 import org.example.loficonnect.subscription.service.TenantSubscriptionService;
 import org.example.loficonnect.util.Pagination;
-import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,7 +35,9 @@ import java.util.Set;
 public class TenantSubscriptionServiceImpl implements TenantSubscriptionService {
 
     private static final List<TenantSubscriptionStatus> ACTIVE_STATUSES =
-            List.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL);
+            List.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL,
+                    TenantSubscriptionStatus.GRACE_PERIOD, TenantSubscriptionStatus.READ_ONLY,
+                    TenantSubscriptionStatus.REFUND_REQUESTED);
 
     private static final Set<String> ALLOWED_SORT_FIELDS = TenantSubscriptionSortField.allowedFields();
 
@@ -69,25 +70,26 @@ public class TenantSubscriptionServiceImpl implements TenantSubscriptionService 
         return subscription;
     }
 
+    /**
+     * Admin-only direct plan override — bypasses Paddle completely.
+     * For user-initiated upgrades, use PaymentService.upgradePlan() which goes through Paddle.
+     */
     @Transactional
     @Override
-    public SuccessResponse upgrade(Long userId, UpgradePlanRequest request) {
+    public SuccessResponse adminOverridePlan(Long userId, UpgradePlanRequest request) {
         TenantSubscriptionEntity current = tenantSubscriptionRepository
                 .findByUserIdAndStatusIn(userId, ACTIVE_STATUSES)
                 .orElseThrow(() -> new NoActiveSubscriptionException(
-                        "No active subscription found. Subscribe first before upgrading."));
+                        "No active subscription found for user: " + userId));
 
         SubscriptionPlanEntity newPlan = getActivePlan(request.getNewPlanId());
 
-        current.setStatus(TenantSubscriptionStatus.CANCELLED);
+        String oldPlanCode = current.getSubscriptionPlan().getCode();
+        current.setSubscriptionPlan(newPlan);
         tenantSubscriptionRepository.save(current);
 
-        TenantSubscriptionEntity upgraded = buildSubscription(userId, newPlan);
-        tenantSubscriptionRepository.save(upgraded);
-
-        log.info("User {} upgraded from plan {} to plan {}", userId,
-                current.getSubscriptionPlan().getCode(), newPlan.getCode());
-        return new SuccessResponse(true, upgraded.getId());
+        log.info("Admin override: userId={} plan changed {} → {}", userId, oldPlanCode, newPlan.getCode());
+        return new SuccessResponse(true, current.getId());
     }
 
     @Transactional(readOnly = true)
@@ -102,27 +104,33 @@ public class TenantSubscriptionServiceImpl implements TenantSubscriptionService 
         return new TenantSubscriptionResponse(dto);
     }
 
+    /**
+     * Admin-only direct cancel — sets CANCELLED immediately without going through Paddle.
+     * For user-initiated cancellations, use PaymentService.cancelUserSubscription()
+     * which cancels at period end via Paddle and lets the webhook drive the local status.
+     */
     @Transactional
     @Override
-    public SuccessResponse cancel(Long userId) {
+    public SuccessResponse adminCancelSubscription(Long userId) {
         TenantSubscriptionEntity subscription = tenantSubscriptionRepository
                 .findByUserIdAndStatusIn(userId, ACTIVE_STATUSES)
                 .orElseThrow(() -> new NoActiveSubscriptionException(
-                        "No active subscription found to cancel."));
+                        "No active subscription found for user: " + userId));
 
         subscription.setStatus(TenantSubscriptionStatus.CANCELLED);
         subscription.setIsActive(false);
+        subscription.setCancelledAt(java.time.Instant.now());
         tenantSubscriptionRepository.save(subscription);
 
-        log.info("User {} cancelled subscription id: {}", userId, subscription.getId());
+        log.info("Admin cancelled subscription id={} for userId={}", subscription.getId(), userId);
         return new SuccessResponse(true, subscription.getId());
     }
 
     @Transactional(readOnly = true)
     @Override
     public PaginatedResponse<TenantSubscriptionSummary> getAll(PaginatedRequest request) {
-        Page<@NonNull TenantSubscriptionSummary> page = tenantSubscriptionRepository
-                .findAllByIsActiveAndIsDeleted(true, false, request.toPageable(ALLOWED_SORT_FIELDS));
+        Page<TenantSubscriptionSummary> page = tenantSubscriptionRepository
+                .findAllByIsDeleted(false, request.toPageable(ALLOWED_SORT_FIELDS));
         return Pagination.buildPaginatedResponse(page);
     }
 

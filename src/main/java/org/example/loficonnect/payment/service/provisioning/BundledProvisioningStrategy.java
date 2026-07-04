@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Manual provisioning for BUNDLED plans.
- * GHL subaccount setup requires Admin/Finance action.
- * This strategy marks the subscription as PENDING and emits an alert for the ops team.
+ * Auto-provisioning for BUNDLED plans.
+ * Users get their API key quota immediately on subscription activation.
+ * GHL account connection is done separately by the user via the GHL OAuth flow.
  */
 @Slf4j
 @Component
@@ -26,21 +26,20 @@ public class BundledProvisioningStrategy implements ProvisioningStrategy {
     @Transactional
     public void provision(ProvisioningContext context) {
         tenantSubscriptionRepository.findById(context.tenantSubscriptionId()).ifPresent(sub -> {
-            sub.setProvisioningStatus(ProvisioningStatus.PENDING);
+            sub.setProvisioningStatus(ProvisioningStatus.PROVISIONED);
             tenantSubscriptionRepository.save(sub);
         });
 
-        // TODO: dispatch an admin notification (email / Slack / ticket) to trigger manual GHL subaccount setup
-        log.warn("[BUNDLED] Manual provisioning required — subscriptionId={}, userId={}, paddleSubId={}. "
-                        + "Admin/Finance must set up the GHL subaccount.",
-                context.tenantSubscriptionId(), context.userId(), context.paddleSubscriptionId());
+        log.info("[BUNDLED] Provisioned — subscriptionId={}, userId={}. "
+                        + "User can now generate API keys up to their plan limit. "
+                        + "GHL connection is done separately via OAuth.",
+                context.tenantSubscriptionId(), context.userId());
     }
 
     @Override
     @Transactional
     public void deprovision(ProvisioningContext context) {
-        log.warn("[BUNDLED] Manual deprovisioning required — subscriptionId={}, userId={}. "
-                        + "Admin/Finance must deactivate the GHL subaccount.",
+        log.info("[BUNDLED] Deprovisioned — subscriptionId={}, userId={}.",
                 context.tenantSubscriptionId(), context.userId());
     }
 

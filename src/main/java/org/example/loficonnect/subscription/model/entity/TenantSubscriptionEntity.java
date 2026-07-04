@@ -42,4 +42,20 @@ public class TenantSubscriptionEntity extends AuditableEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "provisioning_status", nullable = false, length = 20)
     private ProvisioningStatus provisioningStatus = ProvisioningStatus.PENDING;
+
+    /** Set when status transitions to GRACE_PERIOD after a payment failure. */
+    @Column(name = "grace_period_starts_at")
+    private Instant gracePeriodStartsAt;
+
+    /** Set when status transitions to READ_ONLY after grace period expires. */
+    @Column(name = "read_only_starts_at")
+    private Instant readOnlyStartsAt;
+
+    /** Set when status transitions to SUSPENDED after read-only period expires. */
+    @Column(name = "suspended_at")
+    private Instant suspendedAt;
+
+    /** Set when the subscription is cancelled (by user or via webhook). */
+    @Column(name = "cancelled_at")
+    private Instant cancelledAt;
 }

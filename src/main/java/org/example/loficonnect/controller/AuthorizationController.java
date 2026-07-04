@@ -54,7 +54,7 @@ public class AuthorizationController {
         LofiConnectAppKeyEntity entity = appKeyService.getAppKeyEntityById(Long.valueOf(state));
         authorizationService.saveGoHighLevelToken(entity, apiResponse);
 
-        String redirectUrl = frontendUrl + "/portal/connections";
+        String redirectUrl = frontendUrl + "/connections";
 
         return ResponseEntity.status(302)
                 .header(HttpHeaders.LOCATION, redirectUrl)

@@ -107,9 +107,14 @@ public class AuthorizationServiceImpl implements AuthorizationService {
     }
 
     private String getLocationName(String accessToken, String locationId) {
-        String version = "2021-07-28";
-        JsonNode response = subAccountClient.getLocation("Bearer " + accessToken, version, locationId);
-        return response.path("location").path("name").asText("");
+        try {
+            String version = "2021-07-28";
+            JsonNode response = subAccountClient.getLocation("Bearer " + accessToken, version, locationId);
+            return response.path("location").path("name").asText("");
+        } catch (Exception e) {
+            log.warn("Could not fetch location name for locationId {}: {}", locationId, e.getMessage());
+            return "";
+        }
     }
 
     @Transactional

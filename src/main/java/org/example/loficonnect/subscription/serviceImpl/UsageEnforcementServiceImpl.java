@@ -15,8 +15,10 @@ import java.util.List;
 @Service
 public class UsageEnforcementServiceImpl implements UsageEnforcementService {
 
+    /** Statuses where API operations are still permitted (grace period has full access). */
     private static final List<TenantSubscriptionStatus> ACTIVE_STATUSES =
-            List.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL);
+            List.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL,
+                    TenantSubscriptionStatus.GRACE_PERIOD);
 
     private final TenantSubscriptionRepository tenantSubscriptionRepository;
     private final SubscriptionPlanLimitRepository subscriptionPlanLimitRepository;

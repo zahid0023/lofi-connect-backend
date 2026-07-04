@@ -7,6 +7,18 @@ hidden from all responses.
 
 ---
 
+## Authentication
+
+All endpoints require a valid JWT bearer token.
+
+```
+Authorization: Bearer <token>
+```
+
+Requests without a valid token receive `401 Unauthorized`.
+
+---
+
 ## Endpoints
 
 | Method | Path                     | Description        |
@@ -234,5 +246,6 @@ All errors follow a common structure:
 | HTTP Status | Error Code                 | Cause                                         |
 |-------------|----------------------------|-----------------------------------------------|
 | 400         | `INVALID_ARGUMENT`         | Missing required fields or invalid sort field |
+| 401         | `UNAUTHORIZED`             | Missing or invalid JWT token                  |
 | 404         | `ENTITY_NOT_FOUND`         | Country not found, or already soft-deleted    |
 | 409         | `DATA_INTEGRITY_VIOLATION` | Constraint violation (e.g. duplicate `code`)  |

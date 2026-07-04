@@ -6,10 +6,11 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 
 import java.time.Instant;
+import java.util.List;
 
 /**
  * Paddle subscription event data, shared across:
- * subscription.created / activated / cancelled / past_due / paused
+ * subscription.created / activated / updated / cancelled / past_due / paused / resumed
  */
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -39,4 +40,19 @@ public class PaddleSubscriptionEventData {
 
     /** When the subscription was first created at Paddle. */
     private Instant createdAt;
+
+    /**
+     * Line items on the subscription — populated on subscription.updated events.
+     * Used to detect plan changes: compare items[0].price.id against local paddlePriceId.
+     */
+    private List<PaddleSubscriptionItem> items;
+
+    /**
+     * A future change scheduled for next billing period (e.g. cancellation).
+     * Present on subscription.updated when admin schedules an end-of-period action.
+     */
+    private PaddleScheduledChange scheduledChange;
+
+    /** When the next payment is due. Present on subscription.updated. */
+    private Instant nextBilledAt;
 }

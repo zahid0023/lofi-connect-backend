@@ -20,11 +20,21 @@ public interface TenantSubscriptionService {
      */
     TenantSubscriptionEntity subscribeFromPayment(Long userId, Long planId, Instant startDate, Instant endDate);
 
-    SuccessResponse upgrade(Long userId, UpgradePlanRequest request);
+    /**
+     * Admin-only direct plan override that bypasses Paddle (e.g. granting a comp plan, fixing sync errors).
+     * For user-initiated plan changes, use {@link org.example.loficonnect.payment.service.PaymentService#upgradePlan}
+     * which goes through Paddle and keeps billing in sync.
+     */
+    SuccessResponse adminOverridePlan(Long userId, UpgradePlanRequest request);
 
     TenantSubscriptionResponse getMyActiveSubscription(Long userId);
 
-    SuccessResponse cancel(Long userId);
+    /**
+     * For internal/admin use only — directly marks a subscription CANCELLED without calling Paddle.
+     * User-initiated cancellation must go through {@link org.example.loficonnect.payment.service.PaymentService#cancelUserSubscription}
+     * which schedules end-of-period cancellation via Paddle.
+     */
+    SuccessResponse adminCancelSubscription(Long userId);
 
     PaginatedResponse<TenantSubscriptionSummary> getAll(PaginatedRequest request);
 }

@@ -28,7 +28,8 @@ public class AppKeyServiceImpl implements AppKeyService {
     private final UsageEnforcementService usageEnforcementService;
 
     private static final List<TenantSubscriptionStatus> ACTIVE_STATUSES =
-            List.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL);
+            List.of(TenantSubscriptionStatus.ACTIVE, TenantSubscriptionStatus.TRIAL,
+                    TenantSubscriptionStatus.GRACE_PERIOD);
 
     public AppKeyServiceImpl(LofiConnectAppKeyRepository lofiConnectAppKeyRepository,
                              TenantSubscriptionRepository tenantSubscriptionRepository,
@@ -63,7 +64,7 @@ public class AppKeyServiceImpl implements AppKeyService {
 
     @Override
     public LofiConnectAppKeyEntity getAppKeyEntity(String appKey) {
-        return lofiConnectAppKeyRepository.findByAppKeyAndIsActiveAndIsDeleted(appKey, true, false)
+        return lofiConnectAppKeyRepository.findByAppKeyWithSubscription(appKey)
                 .orElseThrow(() -> new RuntimeException("App key not found"));
     }
 
