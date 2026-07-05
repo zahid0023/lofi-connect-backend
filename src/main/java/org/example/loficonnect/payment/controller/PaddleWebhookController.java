@@ -51,7 +51,7 @@ public class PaddleWebhookController {
         try {
             signatureVerifier.verify(signature, rawBody.getBytes(StandardCharsets.UTF_8));
             PaddleWebhookPayload payload = objectMapper.readValue(rawBody, PaddleWebhookPayload.class);
-            webhookProcessor.process(payload, rawBody);
+                webhookProcessor.process(payload, rawBody);
             return ResponseEntity.ok().build();
 
         } catch (Exception ex) {
